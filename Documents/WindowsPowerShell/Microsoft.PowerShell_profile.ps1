@@ -27,8 +27,8 @@ function ob {
     start $uri
 }
 
-function dotfiles { git --git-dir="$HOME\.dotfiles-git" --work-tree="$HOME" @args }
-dotfiles config status.showUntrackedFiles no
+function dgit { git --git-dir="$HOME\.dotfiles-git" --work-tree="$HOME" @args }
+dgit config status.showUntrackedFiles no
 
 Invoke-Expression (&starship init powershell)
 

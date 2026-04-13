@@ -1,5 +1,7 @@
 ## Windows 上的完整方案
 
+### 初始操作
+
 **第一步：在 PowerShell 里初始化**
 
 ```powershell
@@ -40,6 +42,19 @@ dgit commit -m "initial dotfiles"
 dgit remote add origin git@github.com:glance02/dotfiles.git
 dgit push -u origin main
 ```
+### 后续更新操作
+
+似乎是不能在vscode中可视化操作，所以需要用到一些`git`的命令行操作
+
+```powershell
+dgit ls-files # 列出所有被追踪的文件
+dgit status # 查看当前状态，看看有哪些文件被修改了但还没有提交
+dgit add <file> # 把修改了的文件加入暂存区
+dgit add -u # 把所有修改了的文件加入暂存区
+dgit commit -m "update dotfiles" # 提交修改
+```
+
+尤其注意不要直接使用`dgit add .`，因为这样会把所有未被追踪的文件也加入暂存区。。
 
 ---
 
