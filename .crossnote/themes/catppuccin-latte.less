@@ -1,0 +1,156 @@
+// Catppuccin Latte
+// https://github.com/catppuccin/catppuccin
+
+@rosewater: #dc8a78;
+@flamingo:  #dd7878;
+@pink:      #ea76cb;
+@mauve:     #8839ef;
+@red:       #d20f39;
+@maroon:    #e64553;
+@peach:     #fe640b;
+@yellow:    #df8e1d;
+@green:     #40a02b;
+@teal:      #179299;
+@sky:       #04a5e5;
+@sapphire:  #209fb5;
+@blue:      #1e66f5;
+@lavender:  #7287fd;
+@text:      #4c4f69;
+@subtext1:  #5c5f77;
+@subtext0:  #6c6f85;
+@overlay2:  #7c7f93;
+@overlay1:  #8c8fa1;
+@overlay0:  #9ca0b0;
+@surface2:  #acb0be;
+@surface1:  #bcc0cc;
+@surface0:  #ccd0da;
+@base:      #eff1f5;
+@mantle:    #e6e9ef;
+@crust:     #dce0e8;
+
+background-color: @base;
+color: @text;
+font-family: "Segoe UI", "Noto Sans", system-ui, sans-serif;
+font-size: 16px;
+line-height: 1.75;
+
+h1, h2, h3, h4, h5, h6 {
+  color: @lavender;
+  font-weight: 600;
+  margin-top: 1.5em;
+  margin-bottom: 0.5em;
+  border-bottom: none;
+}
+h1 { font-size: 2em;   border-bottom: 2px solid @surface1; padding-bottom: 0.3em; color: @mauve; }
+h2 { font-size: 1.5em; border-bottom: 1px solid @surface0; padding-bottom: 0.2em; }
+h3 { font-size: 1.25em; color: @sapphire; }
+h4 { color: @sky; }
+h5 { color: @teal; }
+h6 { color: @green; }
+
+a {
+  color: @blue;
+  text-decoration: none;
+  &:hover { color: @sky; text-decoration: underline; }
+}
+
+strong { color: @peach; font-weight: 700; }
+em     { color: @green; font-style: italic; }
+del    { color: @overlay1; }
+
+code {
+  background-color: @surface0;
+  color: @peach;
+  border-radius: 4px;
+  padding: 0.15em 0.4em;
+  font-size: 0.875em;
+  font-family: "JetBrains Mono", "Fira Code", "Cascadia Code", monospace;
+}
+
+pre {
+  background-color: @mantle !important;
+  border: 1px solid @surface1;
+  border-radius: 8px;
+  padding: 1em 1.2em;
+  overflow-x: auto;
+  code {
+    background: transparent;
+    color: @text;
+    padding: 0;
+    font-size: 0.875em;
+  }
+}
+
+blockquote {
+  border-left: 4px solid @mauve;
+  background-color: @mantle;
+  color: @subtext1;
+  margin: 1em 0;
+  padding: 0.6em 1.2em;
+  border-radius: 0 6px 6px 0;
+  p { margin: 0; }
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 1em 0;
+  thead tr {
+    background-color: @surface0;
+    color: @lavender;
+    font-weight: 600;
+  }
+  tbody tr {
+    background-color: @base;
+    &:nth-child(even) { background-color: @mantle; }
+    &:hover { background-color: @surface0; }
+  }
+  td, th {
+    border: 1px solid @surface1;
+    padding: 0.5em 0.9em;
+    text-align: left;
+  }
+}
+
+hr {
+  border: none;
+  border-top: 2px solid @surface1;
+  margin: 2em 0;
+}
+
+ul, ol { padding-left: 1.5em; }
+li { margin: 0.25em 0; }
+li::marker { color: @mauve; }
+
+img {
+  border-radius: 6px;
+  max-width: 100%;
+}
+
+mark {
+  background-color: @yellow;
+  color: @base;
+  border-radius: 3px;
+  padding: 0.1em 0.3em;
+}
+
+kbd {
+  background-color: @surface1;
+  color: @text;
+  border: 1px solid @surface2;
+  border-radius: 4px;
+  padding: 0.1em 0.5em;
+  font-size: 0.85em;
+  font-family: monospace;
+}
+
+input[type="checkbox"] { accent-color: @mauve; }
+
+:root {
+  --ctp-base:   #eff1f5;
+  --ctp-mantle: #e6e9ef;
+  --ctp-text:   #4c4f69;
+  --ctp-blue:   #1e66f5;
+  --ctp-sky:    #04a5e5;
+  --ctp-mauve:  #8839ef;
+}

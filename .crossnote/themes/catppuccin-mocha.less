@@ -1,0 +1,148 @@
+// Catppuccin Mocha
+// https://github.com/catppuccin/catppuccin
+
+@rosewater: #f5e0dc;
+@flamingo:  #f2cdcd;
+@pink:      #f5c2e7;
+@mauve:     #cba6f7;
+@red:       #f38ba8;
+@maroon:    #eba0ac;
+@peach:     #fab387;
+@yellow:    #f9e2af;
+@green:     #a6e3a1;
+@teal:      #94e2d5;
+@sky:       #89dceb;
+@sapphire:  #74c7ec;
+@blue:      #89b4fa;
+@lavender:  #b4befe;
+@text:      #cdd6f4;
+@subtext1:  #bac2de;
+@subtext0:  #a6adc8;
+@overlay2:  #9399b2;
+@overlay1:  #7f849c;
+@overlay0:  #6c7086;
+@surface2:  #585b70;
+@surface1:  #45475a;
+@surface0:  #313244;
+@base:      #1e1e2e;
+@mantle:    #181825;
+@crust:     #11111b;
+
+background-color: @base;
+color: @text;
+font-family: "Segoe UI", "Noto Sans", system-ui, sans-serif;
+font-size: 16px;
+line-height: 1.75;
+
+h1, h2, h3, h4, h5, h6 {
+  color: @lavender;
+  font-weight: 600;
+  margin-top: 1.5em;
+  margin-bottom: 0.5em;
+  border-bottom: none;
+}
+h1 { font-size: 2em;   border-bottom: 2px solid @surface1; padding-bottom: 0.3em; color: @mauve; }
+h2 { font-size: 1.5em; border-bottom: 1px solid @surface0; padding-bottom: 0.2em; }
+h3 { font-size: 1.25em; color: @sapphire; }
+h4 { color: @sky; }
+h5 { color: @teal; }
+h6 { color: @green; }
+
+a {
+  color: @blue;
+  text-decoration: none;
+  &:hover { color: @sky; text-decoration: underline; }
+}
+
+strong { color: @peach; font-weight: 700; }
+em     { color: @green; font-style: italic; }
+del    { color: @overlay1; }
+
+code {
+  background-color: @surface0;
+  color: @peach;
+  border-radius: 4px;
+  padding: 0.15em 0.4em;
+  font-size: 0.875em;
+  font-family: "JetBrains Mono", "Fira Code", "Cascadia Code", monospace;
+}
+
+pre {
+  background-color: @mantle !important;
+  border: 1px solid @surface1;
+  border-radius: 8px;
+  padding: 1em 1.2em;
+  overflow-x: auto;
+  code {
+    background: transparent;
+    color: @text;
+    padding: 0;
+    font-size: 0.875em;
+  }
+}
+
+blockquote {
+  border-left: 4px solid @mauve;
+  background-color: @mantle;
+  color: @subtext1;
+  margin: 1em 0;
+  padding: 0.6em 1.2em;
+  border-radius: 0 6px 6px 0;
+  p { margin: 0; }
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 1em 0;
+  thead tr {
+    background-color: @surface0;
+    color: @lavender;
+    font-weight: 600;
+  }
+  tbody tr {
+    background-color: @base;
+    &:nth-child(even) { background-color: @mantle; }
+    &:hover { background-color: @surface0; }
+  }
+  td, th {
+    border: 1px solid @surface1;
+    padding: 0.5em 0.9em;
+    text-align: left;
+  }
+}
+
+hr {
+  border: none;
+  border-top: 2px solid @surface1;
+  margin: 2em 0;
+}
+
+ul, ol { padding-left: 1.5em; }
+li { margin: 0.25em 0; }
+li::marker { color: @mauve; }
+
+img {
+  border-radius: 6px;
+  max-width: 100%;
+}
+
+mark {
+  background-color: @yellow;
+  color: @base;
+  border-radius: 3px;
+  padding: 0.1em 0.3em;
+}
+
+kbd {
+  background-color: @surface1;
+  color: @text;
+  border: 1px solid @surface2;
+  border-radius: 4px;
+  padding: 0.1em 0.5em;
+  font-size: 0.85em;
+  font-family: monospace;
+}
+
+// Checkbox (task list)
+input[type="checkbox"] { accent-color: @mauve; }
