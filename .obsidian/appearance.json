@@ -1,0 +1,12 @@
+{
+  "theme": "obsidian",
+  "cssTheme": "Everforest",
+  "showRibbon": true,
+  "interfaceFontFamily": "仿宋",
+  "textFontFamily": "华文仿宋,仿宋",
+  "baseFontSizeAction": true,
+  "baseFontSize": 22,
+  "enabledCssSnippets": [
+    "fileLine"
+  ]
+}
