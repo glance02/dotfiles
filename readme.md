@@ -64,6 +64,12 @@ dgit add -u # 把所有修改了的文件加入暂存区
 dgit commit -m "update dotfiles" # 提交修改
 ```
 
+针对添加配置文件夹的中的文件，可以使用$HOME来找到用户目录，在此以添加yazi配置文件的例子提一下：
+
+```powershell
+ dgit add $HOME/.config/yazi/  
+```
+
 尤其注意不要直接使用`dgit add .`，因为这样会把所有未被追踪的文件也加入暂存区。。
 
 ---

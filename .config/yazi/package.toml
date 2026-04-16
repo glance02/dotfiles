@@ -1,0 +1,17 @@
+[[plugin.deps]]
+use = "yazi-rs/plugins:full-border"
+rev = "442d908"
+hash = "1e13c39c1ba52ad020e6e26a2dd39ae5"
+
+[[plugin.deps]]
+use = "yazi-rs/plugins:vcs-files"
+rev = "442d908"
+hash = "d132c392ac3bd18585c8b43e654eed44"
+
+[[plugin.deps]]
+use = "Rolv-Apneseth/starship"
+rev = "a837101"
+hash = "d396365cef932fce588b80df69438f2e"
+
+[flavor]
+deps = []

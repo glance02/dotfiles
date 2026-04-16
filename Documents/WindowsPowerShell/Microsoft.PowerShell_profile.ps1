@@ -1,11 +1,11 @@
 ﻿function ya {
-    $tmp = [System.IO.Path]::GetTempFileName()
-    yazi $args --cwd-file="$tmp"
-    $cwd = Get-Content -Path $tmp -First 1   
-    if ($cwd -and $cwd -ne $PWD.Path -and (Test-Path $cwd)) {
-        Set-Location -LiteralPath $cwd
-    }
-    Remove-Item -Path $tmp
+	$tmp = (New-TemporaryFile).FullName
+	yazi.exe $args --cwd-file="$tmp"
+	$cwd = Get-Content -Path $tmp -Encoding UTF8
+	if ($cwd -and $cwd -ne $PWD.Path -and (Test-Path -LiteralPath $cwd -PathType Container)) {
+		Set-Location -LiteralPath (Resolve-Path -LiteralPath $cwd).Path
+	}
+	Remove-Item -Path $tmp
 }
 
 $myVaults = @("note", "novel","2026年") 
