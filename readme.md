@@ -1,4 +1,14 @@
-## Windows 上的完整方案
+## 个人配置文件管理
+
+### yazi 配置
+
+加了Catppuccin 主题，然后把配置文件放在了`~/.config/yazi/`里，使用 Git 管理。需要在环境变量中加入一个变量才能从该处访问配置文件。在Powershell中执行：
+
+```powershell
+[Environment]::SetEnvironmentVariable("YAZI_CONFIG_HOME", "$HOME\.config\yazi", "User")
+```
+
+## Windows 上的bare方案
 
 ### 初始操作
 
