@@ -7,7 +7,7 @@ show_hidden = true
 
 [opener]
 edit = [
-	{ run = "vim %s", desc = "vim", for = "windows", block = true },
+	{ run = "nvim %s", desc = "vim", for = "windows", block = true },
 ]
 
 [open]

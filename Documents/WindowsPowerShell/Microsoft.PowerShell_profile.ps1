@@ -1,4 +1,4 @@
-﻿function ya {
+﻿function y {
 	$tmp = (New-TemporaryFile).FullName
 	yazi.exe $args --cwd-file="$tmp"
 	$cwd = Get-Content -Path $tmp -Encoding UTF8
