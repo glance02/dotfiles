@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "4月/04.14.md",
+                "file": "4月/04.15.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "04.14"
+              "title": "04.15"
             }
           }
         ]
@@ -195,11 +195,12 @@
       "keep-the-rhythm:Word Count Stats": false
     }
   },
-  "active": "f18ca4ecb1fca998",
+  "active": "dea6fa0775fd844d",
   "lastOpenFiles": [
+    "4月/04.14.md",
+    "4月/04.15.md",
     "T/大纲.md",
     "未命名.canvas",
-    "4月/04.14.md",
     "4月/04.13.md",
     "4月/04.12.md",
     "4月/04.10.md",
@@ -226,7 +227,6 @@
     "2月/02.14.md",
     "2月/02.17.md",
     "2月/02.12.md",
-    "2月/02.01.md",
     "2月",
     "知识积累",
     "未命名.base",

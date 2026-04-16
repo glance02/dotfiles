@@ -5,7 +5,7 @@
   "interfaceFontFamily": "仿宋",
   "textFontFamily": "华文仿宋,仿宋",
   "baseFontSizeAction": true,
-  "baseFontSize": 22,
+  "baseFontSize": 23,
   "enabledCssSnippets": [
     "fileLine"
   ]
