@@ -1,10 +1,19 @@
-vim.opt.number = true
-vim.opt.relativenumber = true
+local opt = vim.opt
 
-vim.opt.cursorline = true
-vim.opt.expandtab = true
+opt.number = true
+opt.relativenumber = true
 
-vim.opt.tabstop = 4
-vim.opt.shiftwidth = 0
+opt.cursorline = true
 
+-- 缩进
+opt.tabstop = 4
+opt.shiftwidth = 4
+opt.softtabstop = 4
+opt.expandtab = true
+opt.autoindent = true
+opt.smartindent = true
 
+-- 系统剪贴板
+opt.clipboard:append("unnamedplus")
+
+opt.showmode = false

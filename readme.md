@@ -7,6 +7,21 @@
 ```powershell
 [Environment]::SetEnvironmentVariable("YAZI_CONFIG_HOME", "$HOME\.config\yazi", "User")
 ```
+### nvim配置
+
+我把nvim的配置放在了`$HOME\.config\nvim\`里，使用 Git 管理。但是nvim的默认配置文件放在`$HOME\AppData\Local\nvim\`里，所以需要在这两个文件夹中加一个软链接。如果没有对应配置文件的话就自己在对应位置创建一个。
+
+使用如下powershell命令：
+
+```powershell
+New-Item -ItemType Junction -Path "$env:LOCALAPPDATA\nvim" -Target "$HOME\.config\nvim"
+```
+
+或者使用cmd命令：
+
+```cmd
+mklink /j "%LOCALAPPDATA%\nvim" "%USERPROFILE%\.config\nvim"
+```
 
 ## Windows 上的bare方案
 
