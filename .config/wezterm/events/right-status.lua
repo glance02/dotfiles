@@ -1,16 +1,17 @@
 local wezterm = require("wezterm")
+local mocha = require("colors.catppuccin_mocha")
 local math = require("utils.math")
 local M = {}
 
 M.separator_char = " ~ "
 
 M.colors = {
-  date_fg = "#3E7FB5",
-  date_bg = "#0F2536",
-  battery_fg = "#B52F90",
-  battery_bg = "#0F2536",
-  separator_fg = "#786D22",
-  separator_bg = "#0F2536",
+  date_fg = mocha.blue,
+  date_bg = mocha.mantle,
+  battery_fg = mocha.green,
+  battery_bg = mocha.mantle,
+  separator_fg = mocha.overlay0,
+  separator_bg = mocha.mantle,
 }
 
 M.cells = {} -- wezterm FormatItems (ref: https://wezfurlong.org/wezterm/config/lua/wezterm/format.html)

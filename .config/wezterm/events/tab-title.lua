@@ -1,4 +1,5 @@
 local wezterm = require("wezterm")
+local mocha = require("colors.catppuccin_mocha")
 
 -- Inspired by https://github.com/wez/wezterm/discussions/628#discussioncomment-1874614
 
@@ -16,18 +17,19 @@ local M = {}
 M.cells = {}
 
 M.colors = {
+  bar_bg = mocha.mantle,
   default = {
-    bg = "#8C246F",
-    fg = "#0F2536",
+    bg = mocha.surface0,
+    fg = mocha.subtext1,
   },
   is_active = {
-    bg = "#3A854B",
-    fg = "#0F2536",
+    bg = mocha.mauve,
+    fg = mocha.crust,
   },
 
   hover = {
-    bg = "#8C246F",
-    fg = "#0F2536",
+    bg = mocha.surface1,
+    fg = mocha.text,
   },
 }
 
@@ -104,7 +106,7 @@ M.setup = function()
     end
 
     -- Left semi-circle
-    M.push(fg, bg, { Intensity = "Bold" }, GLYPH_SEMI_CIRCLE_LEFT)
+    M.push(M.colors.bar_bg, bg, { Intensity = "Bold" }, GLYPH_SEMI_CIRCLE_LEFT)
 
     -- Admin Icon
     if is_admin then
@@ -116,14 +118,14 @@ M.setup = function()
 
     -- Unseen output alert
     if has_unseen_output then
-      M.push(bg, "#FF3B8B", { Intensity = "Bold" }, " " .. GLYPH_CIRCLE)
+      M.push(bg, mocha.red, { Intensity = "Bold" }, " " .. GLYPH_CIRCLE)
     end
 
     -- Right padding
     M.push(bg, fg, { Intensity = "Bold" }, " ")
 
     -- Right semi-circle
-    M.push(fg, bg, { Intensity = "Bold" }, GLYPH_SEMI_CIRCLE_RIGHT)
+    M.push(M.colors.bar_bg, bg, { Intensity = "Bold" }, GLYPH_SEMI_CIRCLE_RIGHT)
 
     return M.cells
   end)

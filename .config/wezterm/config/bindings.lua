@@ -25,8 +25,6 @@ local keys = {
   -- copy/paste --
   { key = "c", mods = "CTRL|SHIFT", action = act.CopyTo("Clipboard") },
   { key = "v", mods = "CTRL|SHIFT", action = act.PasteFrom("Clipboard") },
-  -- { key = "c", mods = "CTRL", action = act.CopyTo("Clipboard") },
-  -- { key = "v", mods = "CTRL", action = act.PasteFrom("Clipboard") },
 
   -- tabs --
   -- tabs: spawn+close
@@ -147,6 +145,11 @@ local mouse_bindings = {
     event = { Up = { streak = 1, button = "Left" } },
     mods = "CTRL",
     action = act.OpenLinkAtMouseCursor,
+  },
+  {
+    event = { Up = { streak = 1, button = "Right" } },
+    mods = "NONE",
+    action = act.PasteFrom("Clipboard"),
   },
   -- Move mouse will only select text and not copy text to clipboard
   {
