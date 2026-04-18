@@ -1,32 +1,51 @@
 return {
   {
-    "nvim-tree/nvim-tree.lua", -- 文件树侧边栏插件
+    "nvim-tree/nvim-tree.lua",
     dependencies = {
-      "nvim-tree/nvim-web-devicons", -- 给文件和目录显示图标
+      "nvim-tree/nvim-web-devicons",
     },
 
     init = function()
-      vim.g.loaded_netrw = 1 -- 禁用内置 netrw，避免和 nvim-tree 功能冲突
-      vim.g.loaded_netrwPlugin = 1 -- 禁用 netrw 插件部分，确保由 nvim-tree 接管目录浏览
+      vim.g.loaded_netrw = 1
+      vim.g.loaded_netrwPlugin = 1
     end,
 
     keys = {
-      { "<leader>e", "<cmd>NvimTreeToggle<CR>", desc = "Toggle nvim-tree" }, -- <leader>e 用来打开/关闭文件树
+      { "<leader>e", "<cmd>NvimTreeToggle<CR>", desc = "Toggle nvim-tree" },
     },
 
     opts = {
       sort = {
-        sorter = "case_sensitive", -- 排序方式：区分大小写来排序文件名
+        sorter = "case_sensitive",
       },
       view = {
-        width = 30, -- 文件树窗口宽度，单位通常是字符列
+        width = 30,
       },
       renderer = {
-        group_empty = true, -- 将连续的空目录合并显示，减少层级占用
+        group_empty = true,
       },
       filters = {
-        dotfiles = false, -- 是否隐藏点文件；false 表示显示 .gitignore 这类文件
+        dotfiles = false,
       },
+
+      on_attach = function(bufnr)
+        local api = require("nvim-tree.api")
+
+        local function opts(desc)
+          return {
+            desc = "nvim-tree: " .. desc,
+            buffer = bufnr,
+            noremap = true,
+            silent = true,
+            nowait = true,
+          }
+        end
+
+        api.config.mappings.default_on_attach(bufnr)
+
+        vim.keymap.set("n", "l", api.node.open.edit, opts("Open"))
+        vim.keymap.set("n", "h", api.node.navigate.parent_close, opts("Close Directory"))
+      end,
     },
   },
 }

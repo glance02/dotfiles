@@ -17,3 +17,4 @@ opt.smartindent = true
 opt.clipboard:append("unnamedplus")
 
 opt.showmode = false
+opt.shell = "powershell"
