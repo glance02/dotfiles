@@ -1,4 +1,5 @@
-﻿function y {
+﻿# yazi的快捷方式
+function y {
 	$tmp = (New-TemporaryFile).FullName
 	yazi.exe $args --cwd-file="$tmp"
 	$cwd = Get-Content -Path $tmp -Encoding UTF8
@@ -8,6 +9,7 @@
 	Remove-Item -Path $tmp
 }
 
+# 配置终端打开obsidian
 $myVaults = @("note", "novel","2026年") 
 
 Register-ArgumentCompleter -CommandName ob -ParameterName vault -ScriptBlock {
@@ -27,13 +29,53 @@ function ob {
     start $uri
 }
 
+# 配置PSReadLine
+# 导入模块
+Import-Module Catppuccin
+
+# 选择一个风味（Latte / Frappe / Macchiato / Mocha）
+$Flavor = $Catppuccin['Mocha']
+
+# 配置 PSReadLine 语法高亮颜色
+$Colors = @{
+    # PowerShell 颜色
+    ContinuationPrompt     = $Flavor.Teal.Foreground()
+    Emphasis               = $Flavor.Red.Foreground()
+    Selection              = $Flavor.Surface0.Background()
+
+    # 自动补全预测颜色
+    InlinePrediction       = $Flavor.Overlay0.Foreground()
+    ListPrediction         = $Flavor.Mauve.Foreground()
+    ListPredictionSelected = $Flavor.Surface0.Background()
+
+    # 语法高亮
+    Command   = $Flavor.Blue.Foreground()
+    Comment   = $Flavor.Overlay0.Foreground()
+    Default   = $Flavor.Text.Foreground()
+    Error     = $Flavor.Red.Foreground()
+    Keyword   = $Flavor.Mauve.Foreground()
+    Member    = $Flavor.Rosewater.Foreground()
+    Number    = $Flavor.Peach.Foreground()
+    Operator  = $Flavor.Sky.Foreground()
+    Parameter = $Flavor.Pink.Foreground()
+    String    = $Flavor.Green.Foreground()
+    Type      = $Flavor.Yellow.Foreground()
+    Variable  = $Flavor.Lavender.Foreground()
+}
+
+Set-PSReadLineOption -Colors $Colors
+
+# bare仓库
 function dgit { git --git-dir="$HOME\.dotfiles-git" --work-tree="$HOME" @args }
 dgit config status.showUntrackedFiles no
 
+# 使用starship
 Invoke-Expression (&starship init powershell)
 
+# 走clash流量
 $env:HTTP_PROXY="http://127.0.0.1:7897"; $env:HTTPS_PROXY="http://127.0.0.1:7897"
 
+# 初始化base环境
 mamba activate base
 cls
 
