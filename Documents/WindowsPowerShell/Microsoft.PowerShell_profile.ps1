@@ -66,14 +66,20 @@ $Colors = @{
 Set-PSReadLineOption -Colors $Colors
 
 # rclone同步
-function sync {
+function pull {
     $localPath = (Get-Location).Path
     $folderName = Split-Path $localPath -Leaf
-    $filterFile = "$HOME\.config\rclone\filter.txt"
     $remotePath = "mywebdav:obsidian/$folderName"
-    
-    Write-Host "双向同步 $localPath ↔ $remotePath"
-    rclone bisync $localPath $remotePath --filter-from $filterFile -v @args
+    Write-Host "下载 $remotePath → $localPath"
+    rclone sync $remotePath $localPath -v
+}
+
+function push {
+    $localPath = (Get-Location).Path
+    $folderName = Split-Path $localPath -Leaf
+    $remotePath = "mywebdav:obsidian/$folderName"
+    Write-Host "上传 $localPath → $remotePath"
+    rclone sync $localPath $remotePath -v
 }
 
 # bare仓库
