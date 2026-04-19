@@ -65,6 +65,17 @@ $Colors = @{
 
 Set-PSReadLineOption -Colors $Colors
 
+# rclone同步
+function sync {
+    $localPath = (Get-Location).Path
+    $folderName = Split-Path $localPath -Leaf
+    $filterFile = "$HOME\.config\rclone\filter.txt"
+    $remotePath = "mywebdav:obsidian/$folderName"
+    
+    Write-Host "双向同步 $localPath ↔ $remotePath"
+    rclone bisync $localPath $remotePath --filter-from $filterFile -v
+}
+
 # bare仓库
 function dgit { git --git-dir="$HOME\.dotfiles-git" --work-tree="$HOME" @args }
 dgit config status.showUntrackedFiles no
