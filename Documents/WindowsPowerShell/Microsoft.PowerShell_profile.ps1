@@ -73,7 +73,7 @@ function sync {
     $remotePath = "mywebdav:obsidian/$folderName"
     
     Write-Host "双向同步 $localPath ↔ $remotePath"
-    rclone bisync $localPath $remotePath --filter-from $filterFile -v
+    rclone bisync $localPath $remotePath --filter-from $filterFile -v @args
 }
 
 # bare仓库
