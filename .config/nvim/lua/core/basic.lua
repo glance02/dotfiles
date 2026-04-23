@@ -18,3 +18,6 @@ opt.clipboard:append("unnamedplus")
 
 opt.showmode = false
 opt.shell = "powershell"
+
+opt.splitbelow = true
+opt.splitright = true
