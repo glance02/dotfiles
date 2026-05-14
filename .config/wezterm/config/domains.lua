@@ -1,3 +1,5 @@
+local home = os.getenv("USERPROFILE") or os.getenv("HOME")
+
 return {
   -- ref: https://wezfurlong.org/wezterm/config/lua/SshDomain.html
   ssh_domains = {
@@ -13,7 +15,7 @@ return {
       remote_address = "glacne02.xyz:6419",
       username = "root",
       ssh_option = {
-        identityfile = "C:\\Users\\86199\\.ssh\\id_ed25519.pub",
+        identityfile = home .. "\\.ssh\\id_ed25519.pub",
       },
     },
   },

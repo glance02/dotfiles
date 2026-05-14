@@ -1,4 +1,8 @@
 local platform = require("utils.platform")()
+local dotfiles = require("utils.dotfiles")
+
+local home = os.getenv("USERPROFILE") or os.getenv("HOME")
+local pwsh = home .. "\\scoop\\shims\\pwsh.exe"
 
 local options = {
   default_prog = {},
@@ -6,12 +10,13 @@ local options = {
 }
 
 if platform.is_win then
-  options.default_prog = { "C:\\Users\\86199\\scoop\\shims\\pwsh.exe" }
+  options.default_prog = { pwsh }
   options.launch_menu = {
     { label = " PowerShell v1", args = { "powershell" } },
-    { label = " PowerShell v7", args = { "C:\\Users\\86199\\scoop\\shims\\pwsh.exe" } },
+    { label = " PowerShell v7", args = { pwsh } },
     { label = " Cmd", args = { "cmd" } },
     { label = " Nushell", args = { "nu" } },
+    { label = " Dotfiles LazyGit", args = dotfiles.args() },
     {
       label = " GitBash",
       args = { "C:\\soft\\Git\\bin\\bash.exe" },

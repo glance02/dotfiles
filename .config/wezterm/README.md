@@ -196,6 +196,25 @@ SSH 示例：
 
 根据自己的发行版名称、用户名、主机地址和密钥路径修改即可。
 
+### 同步 dotfiles
+
+如果使用 bare Git 仓库同步配置，可以按 `F9` 打开 Dotfiles LazyGit，或者按 `F3` 后选择 `Dotfiles LazyGit`。
+
+这个入口会把 Git 环境设置为：
+
+```text
+GIT_DIR=%USERPROFILE%\.dotfiles-git
+GIT_WORK_TREE=%USERPROFILE%
+```
+
+然后启动 `lazygit`。在 lazygit 里可以用接近图形界面的方式完成查看 diff、stage 文件、commit、pull、push 等操作。
+
+如果还没有安装 lazygit，入口会提示安装命令：
+
+```powershell
+scoop install lazygit
+```
+
 ## 快捷键
 
 Windows / Linux 下，配置里的 `SUPER` 被映射为 `Alt`，`SUPER_REV` 被映射为 `Alt + Ctrl`。Leader 键为 `Ctrl + Shift + Space`。
@@ -206,6 +225,8 @@ Windows / Linux 下，配置里的 `SUPER` 被映射为 `Alt`，`SUPER_REV` 被�
 | `F2` | 打开命令面板 |
 | `F3` | 打开启动器 |
 | `F4` | 打开标签页导航 |
+| `F8` | 用记事本打开 `config/domains.lua` |
+| `F9` | 打开 Dotfiles LazyGit |
 | `F11` | 切换全屏 |
 | `F12` | 打开调试面板 |
 | `Ctrl + Shift + C` | 复制 |

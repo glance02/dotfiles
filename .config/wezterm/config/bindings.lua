@@ -1,6 +1,9 @@
 local wezterm = require("wezterm")
+local dotfiles = require("utils.dotfiles")
 local platform = require("utils.platform")()
 local act = wezterm.action
+
+local config_dir = wezterm.config_dir
 
 local mod = {}
 
@@ -18,6 +21,17 @@ local keys = {
   { key = "F2", mods = "NONE", action = act.ActivateCommandPalette },
   { key = "F3", mods = "NONE", action = act.ShowLauncher },
   { key = "F4", mods = "NONE", action = act.ShowTabNavigator },
+  {
+    key = "F8",
+    mods = "NONE",
+    action = wezterm.action_callback(function()
+      wezterm.run_child_process({
+        "zed.exe",
+        config_dir .. "\\config\\domains.lua",
+      })
+    end),
+  },
+  { key = "F9", mods = "NONE", action = act.SpawnCommandInNewTab({ args = dotfiles.args() }) },
   { key = "F11", mods = "NONE", action = act.ToggleFullScreen },
   { key = "F12", mods = "NONE", action = act.ShowDebugOverlay },
   { key = "f", mods = mod.SUPER, action = act.Search({ CaseInSensitiveString = "" }) },
