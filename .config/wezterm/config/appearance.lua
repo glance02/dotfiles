@@ -56,7 +56,7 @@ return {
     top = 12,
     bottom = 7,
   },
-  window_close_confirmation = "AlwaysPrompt",
+  window_close_confirmation = "NeverPrompt",
   window_frame = {
     active_titlebar_bg = mocha.mantle,
     inactive_titlebar_bg = mocha.crust,
