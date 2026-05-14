@@ -95,5 +95,3 @@ $env:HTTP_PROXY="http://127.0.0.1:7897"; $env:HTTPS_PROXY="http://127.0.0.1:7897
 # 初始化base环境
 mamba activate base
 cls
-
-

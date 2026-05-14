@@ -73,6 +73,7 @@ dgit push -u origin main
 
 ```powershell
 dgit ls-files # 列出所有被追踪的文件
+dgit rm --cached <file> # 将文件从git追踪中移除，但不删除文件本身
 dgit status # 查看当前状态，看看有哪些文件被修改了但还没有提交
 dgit add <file> # 把修改了的文件加入暂存区
 dgit add -u # 把所有修改了的文件加入暂存区
