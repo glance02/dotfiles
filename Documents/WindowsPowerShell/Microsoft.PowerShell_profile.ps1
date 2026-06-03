@@ -84,7 +84,9 @@ function push {
 
 # bare仓库
 function dgit { git --git-dir="$HOME\.dotfiles-git" --work-tree="$HOME" @args }
-dgit config status.showUntrackedFiles no
+try {
+    dgit config status.showUntrackedFiles no 2>$null
+} catch {}
 
 # 使用starship
 Invoke-Expression (&starship init powershell)
@@ -94,4 +96,3 @@ $env:HTTP_PROXY="http://127.0.0.1:7897"; $env:HTTPS_PROXY="http://127.0.0.1:7897
 
 # 初始化base环境
 mamba activate base
-cls
