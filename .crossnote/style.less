@@ -1,11 +1,11 @@
 /* Please visit the URL below for more information: */
 /*   https://shd101wyy.github.io/markdown-preview-enhanced/#/customize-css */
 
-// Theme switch:
-// 1. Toggle one import in `.markdown-preview.markdown-preview`.
-// 2. Toggle the matching chrome variables below.
+// 主题切换：
+// 1. 切换 `.markdown-preview.markdown-preview` 里的 import。
+// 2. 同步切换下面这组 MPE 外层界面变量。
 
-// mocha chrome
+// Mocha：用于预览外层界面、侧栏、工具栏。
 @mpe-base: #1e1e2e;
 @mpe-surface0: #313244;
 @mpe-surface1: #45475a;
@@ -14,7 +14,7 @@
 @mpe-blue: #89b4fa;
 @mpe-sky: #89dceb;
 
-// latte chrome
+// Latte：如果切到浅色主题，取消下面注释并注释掉 Mocha 变量。
 // @mpe-base: #eff1f5;
 // @mpe-surface0: #ccd0da;
 // @mpe-surface1: #bcc0cc;
@@ -27,9 +27,10 @@
   @import "themes/catppuccin-mocha.less";
   // @import "themes/catppuccin-latte.less";
 
+  // 正文使用宋体；代码字体在 Catppuccin 主题文件里定义。
   font-family: "宋体", "SimSun", serif;
 
-  // Prism token 颜色覆盖为 Catppuccin
+  // Prism 代码高亮：覆盖 MPE 导出 HTML 自带的默认浅色 token。
   .token.keyword              { color: @mauve; }
   .token.string               { color: @green; }
   .token.function             { color: @blue; }
@@ -48,34 +49,46 @@
   .token.selector             { color: @mauve; }
   .token.important            { color: @red; font-weight: bold; }
 
-  pre::-webkit-scrollbar {
-    width: 10px;
-    height: 14px;
-  }
-
-  pre::-webkit-scrollbar-track {
+  // 导出 HTML 时，MPE 默认会给 `pre[class*=language-]` 白底；
+  // 这里显式压回 Mocha 代码块背景。
+  pre,
+  pre[class*="language-"],
+  .highlight pre,
+  .code-chunk,
+  .code-chunk .input-div,
+  .code-chunk .output-div {
     background: @mpe-surface0 !important;
-    border-radius: 0 0 8px 8px;
+    color: @text !important;
+    border-color: @mpe-surface1 !important;
   }
 
-  pre::-webkit-scrollbar-thumb {
-    background: @mpe-surface1 !important;
-    border: 3px solid @mpe-surface0 !important;
-    border-radius: 999px;
+  pre code,
+  pre code[class*="language-"] {
+    background: transparent !important;
+    color: inherit !important;
   }
 
-  pre::-webkit-scrollbar-thumb:hover {
-    background: @mpe-subtext0 !important;
+  // 导出 HTML 里的 `html body table th { color: #000 }`
+  // 优先级较高，所以表头需要在主题内单独覆盖。
+  table {
+    border-collapse: collapse;
   }
 
-  pre::-webkit-scrollbar-corner {
-    background: @mpe-surface0 !important;
+  table thead tr,
+  table th {
+    background-color: @mpe-surface0 !important;
+    color: @lavender !important;
   }
+
+  table td,
+  table th {
+    border: 1px solid @mpe-surface1 !important;
+  }
+
 }
 
-// Catppuccin overrides for Markdown Preview Enhanced chrome.
-// Keep these outside `.markdown-preview` because the sidebar and toolbar are
-// rendered as sibling/outer preview UI, not as markdown document content.
+// MPE 外层界面：侧栏和工具栏不是 Markdown 正文的一部分，
+// 所以这些规则必须放在 `.markdown-preview` 外面。
 body,
 html,
 .preview-container,
@@ -95,7 +108,7 @@ html,
   color: @mpe-text !important;
 }
 
-// Side TOC.
+// 侧边目录。
 .md-sidebar,
 .md-sidebar-toc,
 .md-sidebar-toc.md-sidebar-toc {
@@ -119,7 +132,7 @@ html,
   }
 }
 
-// Bottom toolbar and preview action icons.
+// 底部工具栏和预览操作按钮。
 .md-preview-toolbar,
 .preview-toolbar,
 .tool-bar,
@@ -132,11 +145,23 @@ html,
   button,
   a,
   i,
-  svg,
   .icon,
   [class*="icon"] {
     color: @mpe-subtext0 !important;
+  }
+
+  svg {
+    // 空心图标不能全局填充，否则底栏 SVG 会变成实心块。
+    color: @mpe-subtext0 !important;
+    fill: none !important;
+    stroke: currentColor !important;
+  }
+
+  svg [fill]:not([fill="none"]) {
     fill: currentColor !important;
+  }
+
+  svg [stroke] {
     stroke: currentColor !important;
   }
 
@@ -166,8 +191,8 @@ html,
   background: @mpe-subtext0;
 }
 
-// VS Code webview wraps some Markdown Preview Enhanced UI in generated classes,
-// so these broad selectors intentionally cover the visible preview chrome.
+// VS Code webview 会给 MPE 外层包一些生成结构；
+// 这里用较宽的选择器兜住可见 chrome 背景。
 body > div,
 body > section,
 body > aside,
@@ -178,74 +203,7 @@ body > footer {
 }
 
 
-// Code blocks and MPE's `.scrollbar-style` need explicit scrollbar-button
-// overrides; otherwise VS Code webview may keep dark native arrow buttons.
-.markdown-preview.markdown-preview pre,
-.markdown-preview.markdown-preview .highlight pre,
-.markdown-preview.markdown-preview .code-chunk,
-.markdown-preview.markdown-preview .scrollbar-style {
-  scrollbar-color: @mpe-surface1 @mpe-surface0;
-  scrollbar-width: thin;
-}
-
-.markdown-preview.markdown-preview pre::-webkit-scrollbar,
-.markdown-preview.markdown-preview .highlight pre::-webkit-scrollbar,
-.markdown-preview.markdown-preview .code-chunk::-webkit-scrollbar,
-.markdown-preview.markdown-preview .scrollbar-style::-webkit-scrollbar {
-  width: 10px !important;
-  height: 14px !important;
-  background: @mpe-surface0 !important;
-}
-
-.markdown-preview.markdown-preview pre::-webkit-scrollbar-track,
-.markdown-preview.markdown-preview pre::-webkit-scrollbar-track-piece,
-.markdown-preview.markdown-preview .highlight pre::-webkit-scrollbar-track,
-.markdown-preview.markdown-preview .highlight pre::-webkit-scrollbar-track-piece,
-.markdown-preview.markdown-preview .code-chunk::-webkit-scrollbar-track,
-.markdown-preview.markdown-preview .code-chunk::-webkit-scrollbar-track-piece,
-.markdown-preview.markdown-preview .scrollbar-style::-webkit-scrollbar-track,
-.markdown-preview.markdown-preview .scrollbar-style::-webkit-scrollbar-track-piece {
-  background: @mpe-surface0 !important;
-  border-radius: 0 0 8px 8px !important;
-}
-
-.markdown-preview.markdown-preview pre::-webkit-scrollbar-thumb,
-.markdown-preview.markdown-preview .highlight pre::-webkit-scrollbar-thumb,
-.markdown-preview.markdown-preview .code-chunk::-webkit-scrollbar-thumb,
-.markdown-preview.markdown-preview .scrollbar-style::-webkit-scrollbar-thumb {
-  background: @mpe-surface1 !important;
-  border: 3px solid @mpe-surface0 !important;
-  border-radius: 999px !important;
-  background-clip: padding-box !important;
-}
-
-.markdown-preview.markdown-preview pre::-webkit-scrollbar-thumb:hover,
-.markdown-preview.markdown-preview .highlight pre::-webkit-scrollbar-thumb:hover,
-.markdown-preview.markdown-preview .code-chunk::-webkit-scrollbar-thumb:hover,
-.markdown-preview.markdown-preview .scrollbar-style::-webkit-scrollbar-thumb:hover {
-  background: @mpe-subtext0 !important;
-}
-
-.markdown-preview.markdown-preview pre::-webkit-scrollbar-button,
-.markdown-preview.markdown-preview .highlight pre::-webkit-scrollbar-button,
-.markdown-preview.markdown-preview .code-chunk::-webkit-scrollbar-button,
-.markdown-preview.markdown-preview .scrollbar-style::-webkit-scrollbar-button {
-  width: 0 !important;
-  height: 0 !important;
-  display: none !important;
-  background: @mpe-surface0 !important;
-}
-
-.markdown-preview.markdown-preview pre::-webkit-scrollbar-corner,
-.markdown-preview.markdown-preview .highlight pre::-webkit-scrollbar-corner,
-.markdown-preview.markdown-preview .code-chunk::-webkit-scrollbar-corner,
-.markdown-preview.markdown-preview .scrollbar-style::-webkit-scrollbar-corner {
-  background: @mpe-surface0 !important;
-}
-
-// Broad code-scrollbar override. Some MPE render paths put horizontal overflow
-// on `code`, `.hljs`, `.sourceCode`, or chunk input/output containers instead
-// of `pre`.
+// 代码块滚动条：覆盖 MPE 多种渲染路径，并隐藏原生滚动条箭头按钮。
 .markdown-preview.markdown-preview {
   pre,
   pre code,
@@ -264,154 +222,82 @@ body > footer {
   .scrollbar-style {
     scrollbar-color: @mpe-surface1 @mpe-surface0 !important;
     scrollbar-width: thin;
-  }
 
-  pre::-webkit-scrollbar,
-  pre code::-webkit-scrollbar,
-  pre .hljs::-webkit-scrollbar,
-  pre .sourceCode::-webkit-scrollbar,
-  pre [class*="language-"]::-webkit-scrollbar,
-  code[class*="language-"]::-webkit-scrollbar,
-  .hljs::-webkit-scrollbar,
-  .sourceCode::-webkit-scrollbar,
-  .highlight::-webkit-scrollbar,
-  .highlight pre::-webkit-scrollbar,
-  .highlight code::-webkit-scrollbar,
-  .code-chunk::-webkit-scrollbar,
-  .code-chunk .input-div::-webkit-scrollbar,
-  .code-chunk .output-div::-webkit-scrollbar,
-  .scrollbar-style::-webkit-scrollbar {
-    width: 10px !important;
-    height: 14px !important;
-    background-color: @mpe-surface0 !important;
-  }
+    &::-webkit-scrollbar {
+      width: 10px !important;
+      height: 14px !important;
+      background-color: @mpe-surface0 !important;
+    }
 
-  pre::-webkit-scrollbar-track,
-  pre::-webkit-scrollbar-track-piece,
-  pre code::-webkit-scrollbar-track,
-  pre code::-webkit-scrollbar-track-piece,
-  pre .hljs::-webkit-scrollbar-track,
-  pre .hljs::-webkit-scrollbar-track-piece,
-  pre .sourceCode::-webkit-scrollbar-track,
-  pre .sourceCode::-webkit-scrollbar-track-piece,
-  pre [class*="language-"]::-webkit-scrollbar-track,
-  pre [class*="language-"]::-webkit-scrollbar-track-piece,
-  code[class*="language-"]::-webkit-scrollbar-track,
-  code[class*="language-"]::-webkit-scrollbar-track-piece,
-  .hljs::-webkit-scrollbar-track,
-  .hljs::-webkit-scrollbar-track-piece,
-  .sourceCode::-webkit-scrollbar-track,
-  .sourceCode::-webkit-scrollbar-track-piece,
-  .highlight::-webkit-scrollbar-track,
-  .highlight::-webkit-scrollbar-track-piece,
-  .highlight pre::-webkit-scrollbar-track,
-  .highlight pre::-webkit-scrollbar-track-piece,
-  .highlight code::-webkit-scrollbar-track,
-  .highlight code::-webkit-scrollbar-track-piece,
-  .code-chunk::-webkit-scrollbar-track,
-  .code-chunk::-webkit-scrollbar-track-piece,
-  .code-chunk .input-div::-webkit-scrollbar-track,
-  .code-chunk .input-div::-webkit-scrollbar-track-piece,
-  .code-chunk .output-div::-webkit-scrollbar-track,
-  .code-chunk .output-div::-webkit-scrollbar-track-piece,
-  .scrollbar-style::-webkit-scrollbar-track,
-  .scrollbar-style::-webkit-scrollbar-track-piece {
-    background-color: @mpe-surface0 !important;
-  }
+    &::-webkit-scrollbar-track,
+    &::-webkit-scrollbar-track-piece {
+      background-color: @mpe-surface0 !important;
+    }
 
-  pre::-webkit-scrollbar-thumb,
-  pre code::-webkit-scrollbar-thumb,
-  pre .hljs::-webkit-scrollbar-thumb,
-  pre .sourceCode::-webkit-scrollbar-thumb,
-  pre [class*="language-"]::-webkit-scrollbar-thumb,
-  code[class*="language-"]::-webkit-scrollbar-thumb,
-  .hljs::-webkit-scrollbar-thumb,
-  .sourceCode::-webkit-scrollbar-thumb,
-  .highlight::-webkit-scrollbar-thumb,
-  .highlight pre::-webkit-scrollbar-thumb,
-  .highlight code::-webkit-scrollbar-thumb,
-  .code-chunk::-webkit-scrollbar-thumb,
-  .code-chunk .input-div::-webkit-scrollbar-thumb,
-  .code-chunk .output-div::-webkit-scrollbar-thumb,
-  .scrollbar-style::-webkit-scrollbar-thumb {
-    background-color: @mpe-surface1 !important;
-    border: 3px solid @mpe-surface0 !important;
-    border-radius: 999px !important;
-    background-clip: padding-box !important;
-  }
+    &::-webkit-scrollbar-thumb {
+      background-color: @mpe-surface1 !important;
+      border: 3px solid @mpe-surface0 !important;
+      border-radius: 999px !important;
+      background-clip: padding-box !important;
+    }
 
-  pre::-webkit-scrollbar-thumb:hover,
-  pre code::-webkit-scrollbar-thumb:hover,
-  pre .hljs::-webkit-scrollbar-thumb:hover,
-  pre .sourceCode::-webkit-scrollbar-thumb:hover,
-  pre [class*="language-"]::-webkit-scrollbar-thumb:hover,
-  code[class*="language-"]::-webkit-scrollbar-thumb:hover,
-  .hljs::-webkit-scrollbar-thumb:hover,
-  .sourceCode::-webkit-scrollbar-thumb:hover,
-  .highlight::-webkit-scrollbar-thumb:hover,
-  .highlight pre::-webkit-scrollbar-thumb:hover,
-  .highlight code::-webkit-scrollbar-thumb:hover,
-  .code-chunk::-webkit-scrollbar-thumb:hover,
-  .code-chunk .input-div::-webkit-scrollbar-thumb:hover,
-  .code-chunk .output-div::-webkit-scrollbar-thumb:hover,
-  .scrollbar-style::-webkit-scrollbar-thumb:hover {
-    background-color: @mpe-subtext0 !important;
-  }
+    &::-webkit-scrollbar-thumb:hover {
+      background-color: @mpe-subtext0 !important;
+    }
 
-  pre::-webkit-scrollbar-button,
-  pre code::-webkit-scrollbar-button,
-  pre .hljs::-webkit-scrollbar-button,
-  pre .sourceCode::-webkit-scrollbar-button,
-  pre [class*="language-"]::-webkit-scrollbar-button,
-  code[class*="language-"]::-webkit-scrollbar-button,
-  .hljs::-webkit-scrollbar-button,
-  .sourceCode::-webkit-scrollbar-button,
-  .highlight::-webkit-scrollbar-button,
-  .highlight pre::-webkit-scrollbar-button,
-  .highlight code::-webkit-scrollbar-button,
-  .code-chunk::-webkit-scrollbar-button,
-  .code-chunk .input-div::-webkit-scrollbar-button,
-  .code-chunk .output-div::-webkit-scrollbar-button,
-  .scrollbar-style::-webkit-scrollbar-button {
-    width: 0 !important;
-    height: 0 !important;
-    background-color: @mpe-surface0 !important;
-    border: none !important;
-  }
+    &::-webkit-scrollbar-button,
+    &::-webkit-scrollbar-button:horizontal:single-button:start,
+    &::-webkit-scrollbar-button:horizontal:single-button:end {
+      width: 0 !important;
+      height: 0 !important;
+      background-color: @mpe-surface0 !important;
+      border: none !important;
+      display: none !important;
+    }
 
-  pre::-webkit-scrollbar-button:horizontal:single-button:start,
-  pre::-webkit-scrollbar-button:horizontal:single-button:end,
-  pre code::-webkit-scrollbar-button:horizontal:single-button:start,
-  pre code::-webkit-scrollbar-button:horizontal:single-button:end,
-  .hljs::-webkit-scrollbar-button:horizontal:single-button:start,
-  .hljs::-webkit-scrollbar-button:horizontal:single-button:end,
-  .sourceCode::-webkit-scrollbar-button:horizontal:single-button:start,
-  .sourceCode::-webkit-scrollbar-button:horizontal:single-button:end,
-  .scrollbar-style::-webkit-scrollbar-button:horizontal:single-button:start,
-  .scrollbar-style::-webkit-scrollbar-button:horizontal:single-button:end {
-    width: 0 !important;
-    height: 0 !important;
-    background-color: @mpe-surface0 !important;
-    border: none !important;
-  }
-
-  pre::-webkit-scrollbar-corner,
-  pre code::-webkit-scrollbar-corner,
-  pre .hljs::-webkit-scrollbar-corner,
-  pre .sourceCode::-webkit-scrollbar-corner,
-  pre [class*="language-"]::-webkit-scrollbar-corner,
-  code[class*="language-"]::-webkit-scrollbar-corner,
-  .hljs::-webkit-scrollbar-corner,
-  .sourceCode::-webkit-scrollbar-corner,
-  .highlight::-webkit-scrollbar-corner,
-  .highlight pre::-webkit-scrollbar-corner,
-  .highlight code::-webkit-scrollbar-corner,
-  .code-chunk::-webkit-scrollbar-corner,
-  .code-chunk .input-div::-webkit-scrollbar-corner,
-  .code-chunk .output-div::-webkit-scrollbar-corner,
-  .scrollbar-style::-webkit-scrollbar-corner {
-    background-color: @mpe-surface0 !important;
+    &::-webkit-scrollbar-corner {
+      background-color: @mpe-surface0 !important;
+    }
   }
 }
 
+@media print {
+  // Chrome 导出 PDF 会进入 print media：
+  // HTML 保持暗色，PDF/打印切成更清晰的白底亮色版。
+  html body,
+  html body .markdown-preview {
+    background: #ffffff !important;
+    color: #1f2328 !important;
+  }
 
+  html body .markdown-preview h1,
+  html body .markdown-preview h2,
+  html body .markdown-preview h3,
+  html body .markdown-preview h4,
+  html body .markdown-preview h5,
+  html body .markdown-preview h6,
+  html body .markdown-preview strong {
+    color: #111111 !important;
+  }
+
+  html body .markdown-preview a {
+    color: #0969da !important;
+  }
+
+  html body .markdown-preview code {
+    background: #f0f0f0 !important;
+    color: #24292f !important;
+  }
+
+  html body .markdown-preview pre,
+  html body .markdown-preview pre[class*="language-"] {
+    background: #f6f8fa !important;
+    color: #24292f !important;
+    border-color: #d0d7de !important;
+  }
+
+  html body .markdown-preview pre code {
+    background: transparent !important;
+    color: inherit !important;
+  }
+}
