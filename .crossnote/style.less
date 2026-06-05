@@ -268,12 +268,26 @@ body > footer {
 }
 
 @media print {
+  // A4 PDF 页面：比 Word 默认 1 英寸略紧凑，留白更适合 Markdown 阅读。
+  @page {
+    size: A4;
+    margin: 2cm 2.2cm;
+  }
+
   // Chrome 导出 PDF 会进入 print media：
   // HTML 保持暗色，PDF/打印切成更清晰的白底亮色版。
   html body,
   html body .markdown-preview {
     background: #ffffff !important;
     color: #1f2328 !important;
+  }
+
+  html body[for="html-export"]:not([data-presentation-mode]) .markdown-preview,
+  html body .markdown-preview {
+    box-sizing: border-box !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    width: auto !important;
   }
 
   html body .markdown-preview h1,
