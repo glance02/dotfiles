@@ -280,6 +280,7 @@ body > footer {
   html body .markdown-preview {
     background: #ffffff !important;
     color: #1f2328 !important;
+    font-size: 20px !important;
   }
 
   html body[for="html-export"]:not([data-presentation-mode]) .markdown-preview,
@@ -296,17 +297,43 @@ body > footer {
   html body .markdown-preview h4,
   html body .markdown-preview h5,
   html body .markdown-preview h6,
-  html body .markdown-preview strong {
+  html body .markdown-preview p,
+  html body .markdown-preview li,
+  html body .markdown-preview blockquote,
+  html body .markdown-preview strong,
+  html body .markdown-preview em,
+  html body .markdown-preview del,
+  html body .markdown-preview table,
+  html body .markdown-preview table td {
     color: #111111 !important;
   }
 
-  html body .markdown-preview a {
-    color: #0969da !important;
+  html body .markdown-preview.markdown-preview li::marker {
+    color: #111111 !important;
   }
 
-  html body .markdown-preview code {
-    background: #f0f0f0 !important;
-    color: #24292f !important;
+  html body .markdown-preview.markdown-preview table thead tr,
+  html body .markdown-preview.markdown-preview table th {
+    background: #f6f8fa !important;
+    color: #111111 !important;
+  }
+
+  html body .markdown-preview.markdown-preview table th * {
+    color: inherit !important;
+  }
+
+  html body .markdown-preview.markdown-preview table td,
+  html body .markdown-preview.markdown-preview table th {
+    border-color: #d0d7de !important;
+  }
+
+  html body .markdown-preview.markdown-preview a {
+    color: #111111 !important;
+  }
+
+  html body .markdown-preview :not(pre) > code {
+    background: #f6f8fa !important;
+    color: #111111 !important;
   }
 
   html body .markdown-preview pre,
