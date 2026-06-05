@@ -280,7 +280,7 @@ body > footer {
   html body .markdown-preview {
     background: #ffffff !important;
     color: #1f2328 !important;
-    font-size: 20px !important;
+    font-size: 18px !important;
   }
 
   html body[for="html-export"]:not([data-presentation-mode]) .markdown-preview,
@@ -331,9 +331,10 @@ body > footer {
     color: #111111 !important;
   }
 
-  html body .markdown-preview :not(pre) > code {
-    background: #f6f8fa !important;
-    color: #111111 !important;
+  html body .markdown-preview.markdown-preview :not(pre) > code,
+  html body .markdown-preview.markdown-preview :not(pre) > code * {
+    background: #f0f0f0 !important;
+    color: #24292f !important;
   }
 
   html body .markdown-preview pre,
@@ -341,10 +342,16 @@ body > footer {
     background: #f6f8fa !important;
     color: #24292f !important;
     border-color: #d0d7de !important;
+    white-space: pre-wrap !important;
+    overflow-wrap: anywhere !important;
+    word-break: break-word !important;
   }
 
   html body .markdown-preview pre code {
     background: transparent !important;
     color: inherit !important;
+    white-space: pre-wrap !important;
+    overflow-wrap: anywhere !important;
+    word-break: break-word !important;
   }
 }
