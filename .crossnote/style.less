@@ -36,6 +36,11 @@
     padding-bottom: 0;
   }
 
+  h2 {
+    border-bottom: none !important;
+    padding-bottom: 0.2em;
+  }
+
   // Prism 代码高亮：覆盖 MPE 导出 HTML 自带的默认浅色 token。
   .token.keyword              { color: @mauve; }
   .token.string               { color: @green; }
@@ -308,6 +313,11 @@ body > footer {
     color: #111111 !important;
   }
 
+  html body .markdown-preview h2 {
+    border-bottom: none !important;
+    padding-bottom: 0.2em !important;
+  }
+
   html body .markdown-preview.markdown-preview li::marker {
     color: #111111 !important;
   }
@@ -333,15 +343,27 @@ body > footer {
 
   html body .markdown-preview.markdown-preview :not(pre) > code,
   html body .markdown-preview.markdown-preview :not(pre) > code * {
-    background: #f0f0f0 !important;
-    color: #24292f !important;
+    background: transparent !important;
+    color: #111111 !important;
+    font-family: inherit !important;
+    font-weight: 700 !important;
+    padding: 0 !important;
+    border-radius: 0 !important;
+    white-space: normal !important;
+    letter-spacing: 0 !important;
+  }
+
+  html body .markdown-preview.markdown-preview :not(pre) > code::before,
+  html body .markdown-preview.markdown-preview :not(pre) > code::after {
+    content: normal !important;
+    letter-spacing: 0 !important;
   }
 
   html body .markdown-preview pre,
   html body .markdown-preview pre[class*="language-"] {
     background: #f6f8fa !important;
-    color: #24292f !important;
-    border-color: #d0d7de !important;
+    color: #111111 !important;
+    border: 1px solid #111111 !important;
     white-space: pre-wrap !important;
     overflow-wrap: anywhere !important;
     word-break: break-word !important;
@@ -349,9 +371,21 @@ body > footer {
 
   html body .markdown-preview pre code {
     background: transparent !important;
-    color: inherit !important;
+    color: #111111 !important;
     white-space: pre-wrap !important;
     overflow-wrap: anywhere !important;
     word-break: break-word !important;
+  }
+
+  html body .markdown-preview pre code.language-bash .token.function,
+  html body .markdown-preview pre code.language-bash .token.builtin,
+  html body .markdown-preview pre code.language-bash .token.parameter,
+  html body .markdown-preview pre code.language-sh .token.function,
+  html body .markdown-preview pre code.language-sh .token.builtin,
+  html body .markdown-preview pre code.language-sh .token.parameter,
+  html body .markdown-preview pre code.language-shell .token.function,
+  html body .markdown-preview pre code.language-shell .token.builtin,
+  html body .markdown-preview pre code.language-shell .token.parameter {
+    color: #111111 !important;
   }
 }
