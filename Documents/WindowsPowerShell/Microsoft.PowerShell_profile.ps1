@@ -93,6 +93,7 @@ Invoke-Expression (&starship init powershell)
 
 # 走clash流量
 $env:HTTP_PROXY="http://127.0.0.1:7897"; $env:HTTPS_PROXY="http://127.0.0.1:7897"
+$env:TLDR_LANGUAGE="zh"
 
 # 初始化base环境
 mamba activate base
