@@ -13,3 +13,9 @@ desc = "Maximize or restore the preview pane"
 on   = "F"
 run  = "plugin smart-filter"
 desc = "Smart filter"
+
+# 在当前目录打开nvim
+[[mgr.prepend_keymap]]
+on   = [ "g", "n" ]
+run  = "shell --block -- nvim ."
+desc = "Open current directory in Neovim"
