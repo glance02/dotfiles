@@ -1,0 +1,12 @@
+config:
+  # 不限制一行的最大长度，中文文档很容易触发
+  MD013: false
+
+  # 不检查有序列表必须写成 1. 1. 1.
+  MD029: false
+
+  # 允许在 Markdown 中嵌入 HTML
+  MD033: false
+
+  # 不强制文件第一行必须是一级标题
+  MD041: false
