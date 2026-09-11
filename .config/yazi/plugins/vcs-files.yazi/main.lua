@@ -1,33 +1,103 @@
---- @since 26.1.22
+--- @since 26.8.15
+--- @sync entry
 
-local root = ya.sync(function() return cx.active.current.cwd end)
-
-local function fail(content) return ya.notify { title = "VCS Files", content = content, timeout = 5, level = "error" } end
-
-local function entry()
-	local root = root()
-	local output, err = Command("git"):cwd(tostring(root)):arg({ "diff", "--name-only", "HEAD" }):output()
+---@param args string[]
+---@return (fun(): string)?
+---@return Error?
+local function output(root, args)
+	local output, err = Command("git"):cwd(tostring(root)):arg(args):output()
 	if err then
-		return fail("Failed to run `git diff`, error: " .. err)
+		return nil, Err("Failed to run `git %s`, error: %s", table.concat(args, " "), err)
 	elseif not output.status.success then
-		return fail("Failed to run `git diff`, stderr: " .. output.stderr)
+		return nil, Err("Failed to run `git %s`, stderr: %s", table.concat(args, " "), output.stderr)
+	else
+		return output.stdout:gmatch("[^\r\n]+")
 	end
-
-	local id = ya.id("ft")
-	local cwd = root:into_search("Git changes")
-	ya.emit("cd", { Url(cwd), source = "search" })
-	ya.emit("update_files", { op = fs.op("part", { id = id, url = Url(cwd), files = {} }) })
-
-	local files = {}
-	for line in output.stdout:gmatch("[^\r\n]+") do
-		local url = cwd:join(line)
-		local cha = fs.cha(url, true)
-		if cha then
-			files[#files + 1] = File { url = url, cha = cha }
-		end
-	end
-	ya.emit("update_files", { op = fs.op("part", { id = id, url = Url(cwd), files = files }) })
-	ya.emit("update_files", { op = fs.op("done", { id = id, url = cwd, cha = Cha { mode = tonumber("100644", 8) } }) })
 end
 
-return { entry = entry }
+---@param a fun(): string
+---@param b fun(): string
+---@return fun(): string
+local function merge(a, b)
+	local seen = {}
+	local function yield(s)
+		if not seen[s] then
+			seen[s] = true
+			coroutine.yield(s)
+		end
+	end
+
+	return ya.co(function()
+		for line in a do
+			yield(line)
+		end
+		for line in b do
+			yield(line)
+		end
+	end)
+end
+
+local function file(url)
+	local file, err = fs.file(url.physical)
+	return file and File { url = url, cha = file.cha, link_to = file.link_to }, err
+end
+
+local function read_dir(job)
+	local root = job.url.physical
+
+	local tracked, err = output(root, { "diff", "--name-only", "--relative", "HEAD" })
+	if err then
+		return nil, err
+	end
+
+	local untracked, err = output(root, { "ls-files", "--others", "--exclude-standard" })
+	if err then
+		return nil, err
+	end
+
+	for line in merge(tracked, untracked) do
+		local url = job.url:join(line)
+		local cha = fs.cha(url)
+		local file = fs.file(url)
+		if cha and file then
+			coroutine.yield { cha = cha, file = file }
+		end
+	end
+end
+
+local function entry()
+	if not vf then
+		return ya.async(function() require(".old"):entry() end) -- TODO: remove
+	end
+
+	vf.vcs = {
+		default = { kind = "view", run = "vcs-files" },
+	}
+
+	ya.emit("cd", {
+		Url {
+			cx.active.current.cwd,
+			scheme = "vcs",
+			domain = "default",
+			data = { "Git changes" },
+		},
+		raw = true,
+	})
+end
+
+local function provide(_, job)
+	local op = job.op
+	if op == "Capabilities" then
+		return { file = true, read_dir = true, revalidate = true }
+	elseif op == "File" then
+		return file(job.url)
+	elseif op == "Revalidate" then
+		return file(job.file.url)
+	elseif op == "ReadDir" then
+		return ya.co(function() return read_dir(job) end)
+	else
+		return false, Err("Unsupported VCS operation: %s", op)
+	end
+end
+
+return { entry = entry, provide = provide }

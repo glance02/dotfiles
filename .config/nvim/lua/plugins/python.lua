@@ -28,7 +28,7 @@ return {
         -- altered during that expansion.
         -- Write paths with LF only; PowerShell's default CRLF would leave a
         -- carriage return in the selected path on Windows.
-        command = [[mamba env list --json | ConvertFrom-Json | Select-Object -ExpandProperty envs | ForEach-Object { Join-Path (Get-Variable -Name _ -ValueOnly) "python.exe" } | Where-Object { Test-Path -LiteralPath (Get-Variable -Name _ -ValueOnly) } | ForEach-Object { [Console]::OpenStandardOutput().Write([Text.Encoding]::UTF8.GetBytes([string](Get-Variable -Name _ -ValueOnly) + [char]10)) }]],
+        command = [[mamba env list --json | ConvertFrom-Json | Select-Object -ExpandProperty envs | ForEach-Object { Join-Path (Get-Variable -Name _ -ValueOnly) "python.exe" } | Where-Object { Test-Path -LiteralPath (Get-Variable -Name _ -ValueOnly) } | ForEach-Object { [Console]::OpenStandardO2utput().Write([Text.Encoding]::UTF8.GetBytes([string](Get-Variable -Name _ -ValueOnly) + [char]10)) }]],
 
         -- 显示 mamba 环境名，而不是完整的 python.exe 路径
         on_telescope_result_callback = function(python_path)

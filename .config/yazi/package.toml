@@ -1,17 +1,17 @@
 [[plugin.deps]]
 use = "yazi-rs/plugins:full-border"
-rev = "442d908"
-hash = "1e13c39c1ba52ad020e6e26a2dd39ae5"
+rev = "58c4f4e"
+hash = "f281261ff04ad7ec867c3f802a50835f"
 
 [[plugin.deps]]
 use = "yazi-rs/plugins:vcs-files"
-rev = "442d908"
-hash = "d132c392ac3bd18585c8b43e654eed44"
+rev = "58c4f4e"
+hash = "a42c77c4b905959fcc35f648455426f2"
 
 [[plugin.deps]]
 use = "Rolv-Apneseth/starship"
-rev = "a837101"
-hash = "d396365cef932fce588b80df69438f2e"
+rev = "ea92cf4"
+hash = "9776f378459072b6c2875eae5addc49d"
 
 [flavor]
 deps = []
