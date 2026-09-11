@@ -3,3 +3,13 @@
 on   = [ "g", "c" ]
 run  = "plugin vcs-files"
 desc = "Show Git file changes"
+
+[[mgr.prepend_keymap]]
+on   = "T"
+run  = "plugin toggle-pane max-preview"
+desc = "Maximize or restore the preview pane"
+
+[[mgr.prepend_keymap]]
+on   = "F"
+run  = "plugin smart-filter"
+desc = "Smart filter"

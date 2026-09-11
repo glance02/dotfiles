@@ -13,5 +13,20 @@ use = "Rolv-Apneseth/starship"
 rev = "ea92cf4"
 hash = "9776f378459072b6c2875eae5addc49d"
 
+[[plugin.deps]]
+use = "yazi-rs/plugins:smart-filter"
+rev = "58c4f4e"
+hash = "d6f7351ea25a43c9b5f4315fa1e23935"
+
+[[plugin.deps]]
+use = "yazi-rs/plugins:toggle-pane"
+rev = "58c4f4e"
+hash = "5b2fbef7d1513ce38ff72623a071a5e"
+
+[[plugin.deps]]
+use = "yazi-rs/plugins:piper"
+rev = "58c4f4e"
+hash = "45a533508a9840cc5a10cf6129f63e6a"
+
 [flavor]
 deps = []
