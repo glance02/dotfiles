@@ -91,6 +91,9 @@ try {
 # 使用starship
 Invoke-Expression (&starship init powershell)
 
+# 使用zoxide
+Invoke-Expression (& { (zoxide init powershell | Out-String) })
+
 # 走clash流量
 $env:HTTP_PROXY="http://127.0.0.1:7897"; $env:HTTPS_PROXY="http://127.0.0.1:7897"
 $env:TLDR_LANGUAGE="zh"
