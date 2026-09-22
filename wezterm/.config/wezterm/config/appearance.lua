@@ -1,11 +1,15 @@
 local mocha = require("colors.catppuccin_mocha")
 local fonts = require("config.fonts")
+local platform = require("utils.platform")()
 
 return {
   term = "xterm-256color",
   animation_fps = 60,
   max_fps = 60,
   front_end = "OpenGL",
+  -- The bundled WezTerm version can hit a Wayland buffer-scale protocol
+  -- error on GNOME fractional scaling. XWayland is a reliable fallback.
+  enable_wayland = not platform.is_linux,
   -- webgpu_power_preference = "HighPerformance",
 
   -- color scheme
@@ -44,10 +48,9 @@ return {
 
   -- window
   adjust_window_size_when_changing_font_size = false,
-  window_decorations = "INTEGRATED_BUTTONS|RESIZE",
-  integrated_title_button_style = "Windows",
-  integrated_title_button_color = "auto",
-  integrated_title_button_alignment = "Right",
+  -- Linux cannot embed native window controls in the tab bar in this
+  -- WezTerm build; NONE keeps the desktop title bar out of the UI.
+  window_decorations = "NONE",
   initial_cols = 120,
   initial_rows = 24,
   window_padding = {
