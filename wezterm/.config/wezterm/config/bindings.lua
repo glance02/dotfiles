@@ -1,5 +1,4 @@
 local wezterm = require("wezterm")
-local dotfiles = require("utils.dotfiles")
 local platform = require("utils.platform")()
 local act = wezterm.action
 
@@ -31,7 +30,6 @@ local keys = {
       })
     end),
   },
-  { key = "F9", mods = "NONE", action = act.SpawnCommandInNewTab({ args = dotfiles.args() }) },
   { key = "F11", mods = "NONE", action = act.ToggleFullScreen },
   { key = "F12", mods = "NONE", action = act.ShowDebugOverlay },
   { key = "f", mods = mod.SUPER, action = act.Search({ CaseInSensitiveString = "" }) },

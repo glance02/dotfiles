@@ -82,12 +82,6 @@ function push {
     rclone sync $localPath $remotePath -v
 }
 
-# bare仓库
-function dgit { git --git-dir="$HOME\.dotfiles-git" --work-tree="$HOME" @args }
-try {
-    dgit config status.showUntrackedFiles no 2>$null
-} catch {}
-
 # 使用starship
 Invoke-Expression (&starship init powershell)
 
