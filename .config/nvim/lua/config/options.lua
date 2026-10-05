@@ -10,3 +10,5 @@ if vim.fn.has("win32") == 1 then
   vim.opt.shellredir = "2>&1 | Out-File -Encoding UTF8 %s; exit $LastExitCode"
   vim.opt.shellpipe = "2>&1 | Out-File -Encoding UTF8 %s; exit $LastExitCode"
 end
+
+vim.opt.wrap = true
