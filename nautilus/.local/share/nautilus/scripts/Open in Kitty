@@ -1,0 +1,15 @@
+#!/usr/bin/env python3
+"""Open the current local Nautilus directory in Kitty."""
+
+import os
+import subprocess
+from pathlib import Path
+from urllib.parse import unquote, urlparse
+
+uri = os.environ.get("NAUTILUS_SCRIPT_CURRENT_URI", "")
+parsed = urlparse(uri)
+
+if parsed.scheme == "file":
+    directory = Path(unquote(parsed.path))
+    if directory.is_dir():
+        subprocess.Popen(["kitty", "--directory", str(directory)])

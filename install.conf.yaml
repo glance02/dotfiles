@@ -1,0 +1,16 @@
+# Dotbot configuration. Paths on the right are relative to the repository root.
+- defaults:
+    link:
+      create: true
+      force: true
+      relink: true
+      relative: false
+
+- link:
+    ~/.config/nvim: nvim/.config/nvim
+    ~/.config/yazi: yazi/.config/yazi
+    ~/.config/wezterm: wezterm/.config/wezterm
+    ~/.config/glow: glow/.config/glow
+    ~/.config/rclone: rclone/.config/rclone
+    ~/.config/starship.toml: starship/.config/starship.toml
+    ~/.config/.crossnote: crossnote/.config/.crossnote

@@ -1,134 +1,171 @@
-## 个人配置文件管理
+# Dotfiles
+
+这个仓库使用 [Dotbot](https://github.com/anishathalye/dotbot) 管理配置文件。`install.conf.yaml` 负责把仓库中的配置链接到用户目录。
+
+## 目录结构
+
+```text
+nvim/
+└── .config/nvim/                    -> ~/.config/nvim/
+
+yazi/
+└── .config/yazi/                    -> ~/.config/yazi/
+    ├── init.lua, keymap.toml, ...   # 个人配置
+    └── package.toml                  # ya 插件清单
+
+wezterm/
+└── .config/wezterm/                 -> ~/.config/wezterm/
+
+glow/
+└── .config/glow/                    -> ~/.config/glow/
+
+rclone/
+└── .config/rclone/                  -> ~/.config/rclone/
+
+starship/
+└── .config/starship.toml            -> ~/.config/starship.toml
+
+crossnote/
+└── .config/.crossnote/              -> ~/.config/.crossnote/
+
+powershell/
+└── Documents/WindowsPowerShell/      -> ~/Documents/WindowsPowerShell/
+    ├── Microsoft.PowerShell_profile.ps1
+    └── Modules/Catppuccin/
+```
+
+`.crossnote` 是 VS Code Markdown Preview Enhanced (MPE) 的用户配置目录，包含自定义 CSS、主题、解析器和 Neovide 光标脚本。当前配置将它安装到 `~/.config/.crossnote`。
+
+## 安装
+
+在仓库根目录执行：
+
+```powershell
+.\install.ps1
+```
+
+安装前可以先预览变更：
+
+```powershell
+.\install.ps1 -n
+```
+
+当前 YAML 不包含 `powershell` 配置包；如需安装它，需要另行加入链接规则。
+
+## 从旧版 bare 仓库迁移
+
+旧版配置曾使用 Git bare 仓库直接管理 `$HOME` 下的文件，典型配置如下：
+
+```powershell
+git init --bare $HOME\.dotfiles-git
+function dgit { git --git-dir="$HOME\.dotfiles-git" --work-tree="$HOME" @args }
+dgit config status.showUntrackedFiles no
+```
+
+当前版本改用普通 Git 仓库保存配置，再由 Dotbot 创建到用户目录的链接。日常修改配置文件后，在仓库目录执行普通 Git 命令即可：
+
+```powershell
+git status
+git add <package>\<path>
+git commit -m "update dotfiles"
+git push
+```
+
+不再需要 `dgit`，也不要在用户目录执行 `git add .`。安装或更新链接时执行：
+
+```powershell
+.\install.ps1
+```
+
+预览链接变化：
+
+```powershell
+.\install.ps1 -n
+```
+
+### 旧 bare 仓库中的文件
+
+如果旧仓库仍然存在，可以先使用 `dgit ls-files` 查看它管理过的文件，再将需要保留的配置移动到对应 package 目录。例如：
+
+```powershell
+dgit ls-files
+dgit status
+```
+
+确认文件已经迁移并由当前仓库管理后，再删除旧的 `$HOME\.dotfiles-git`；不要在未确认前执行 `dgit checkout`，以免旧仓库覆盖当前配置。
+
+## Linux 使用说明
+
+Linux 直接使用 `$HOME/.config` 下的配置路径。克隆仓库后，在仓库根目录执行：
+
+```bash
+./install
+```
+
+安装前可以预览变化：
+
+```bash
+./install -n
+```
+
+Dotbot 会根据 `install.conf.yaml` 创建或更新配置链接。Neovim、Yazi、WezTerm、Glow、Rclone、Starship 和 Crossnote 的配置都会按目录结构链接到 `$HOME`。
+
+## Windows 相关配置
+
+`powershell` package 保留的是 Windows PowerShell 5.1 的路径：
+
+```text
+~/Documents/WindowsPowerShell/Microsoft.PowerShell_profile.ps1
+~/Documents/WindowsPowerShell/Modules/Catppuccin/
+```
+
+PowerShell 7 通常使用 `~/Documents/PowerShell/`，如果以后迁移到 PowerShell 7，需要相应调整 package 内的目录名。
+
+Catppuccin 模块由 profile 中的 `Import-Module Catppuccin` 加载。安装后重新打开 PowerShell，或手动执行：
+
+```powershell
+. $PROFILE
+```
+
+## 其他依赖
 
 ### 字体
 
-使用了 Maple Mono NF CN 字体。安装如下：
+使用 Maple Mono NF CN 字体。在 Scoop 中安装：
 
-```shell
-# Add bucket
+```powershell
 scoop bucket add nerd-fonts
-# Maple Mono (ttf format)
-scoop install Maple-Mono
-# Maple Mono NF
-scoop install Maple-Mono-NF
-# Maple Mono NF CN
 scoop install Maple-Mono-NF-CN
 ```
 
+### yazi
 
-
-### yazi 配置
-
-加了Catppuccin 主题，然后把配置文件放在了`~/.config/yazi/`里，使用 Git 管理。需要在环境变量中加入一个变量才能从该处访问配置文件。在Powershell中执行：
+yazi 配置位于 `~/.config/yazi/`。Windows PowerShell 中如需显式指定配置目录：
 
 ```powershell
 [Environment]::SetEnvironmentVariable("YAZI_CONFIG_HOME", "$HOME\.config\yazi", "User")
 ```
 
-yazi 添加了zoxide，需要使用scoop或者其他下载zoxide，然后正常使用。写在配置文件里面。
+yazi 的目录跳转功能依赖 `zoxide`，请先安装 `zoxide`。
 
-### nvim配置
+插件由 `package.toml` 管理，不把插件源码提交到此仓库。完成 Dotbot 链接后，在 Yazi 配置目录执行：
 
-我把nvim的配置放在了`$HOME\.config\nvim\`里，使用 Git 管理。但是nvim的默认配置文件放在`$HOME\AppData\Local\nvim\`里，所以需要在这两个文件夹中加一个软链接。如果没有对应配置文件的话就自己在对应位置创建一个。
+```powershell
+ya pkg install
+```
 
-使用如下powershell命令：
+### Neovim
+
+Neovim 配置位于 `~/.config/nvim/`。Linux 上 Neovim 会直接读取这个路径；Windows 上如果使用 Neovim 默认的 `AppData/Local/nvim`，可以创建 Junction：
 
 ```powershell
 New-Item -ItemType Junction -Path "$env:LOCALAPPDATA\nvim" -Target "$HOME\.config\nvim"
 ```
 
-或者使用cmd命令：
+Linux 上 Neovim 默认读取 `~/.config/nvim`，无需额外创建 Junction。Yazi 默认读取 `~/.config/yazi`；如果环境没有自动识别该路径，可以设置：
 
-```cmd
-mklink /j "%LOCALAPPDATA%\nvim" "%USERPROFILE%\.config\nvim"
+```bash
+export YAZI_CONFIG_HOME="$HOME/.config/yazi"
 ```
 
-## Windows 上的bare方案
-
-### 初始操作
-
-**第一步：在 PowerShell 里初始化**
-
-```powershell
-git init --bare $HOME\.dotfiles-git
-
-# 设置 Function（PowerShell 里没有 alias 传参，用 Function）
-function dgit { git --git-dir="$HOME\.dotfiles-git" --work-tree="$HOME" @args }
-```
-
-**第二步：把这个 Function 加到 PowerShell 配置文件里，让它每次自动加载**
-
-```powershell
-# 查看配置文件路径
-echo $PROFILE
-
-# 用记事本打开（没有就会新建）
-notepad $PROFILE
-```
-
-在打开的文件里加入：
-
-```powershell
-function dgit { git --git-dir="$HOME\.dotfiles-git" --work-tree="$HOME" @args }
-dgit config status.showUntrackedFiles no
-```
-
-**第三步：开始追踪配置文件**
-
-```powershell
-dgit add $HOME\AppData\Local\nvim\init.lua
-dgit add $PROFILE   # PowerShell 配置文件本身也可以加进去！
-dgit commit -m "initial dotfiles"
-```
-
-**第四步：推到 GitHub**
-
-```powershell
-dgit remote add origin git@github.com:glance02/dotfiles.git
-dgit push -u origin main
-```
-### 后续更新操作
-
-似乎是不能在vscode中可视化操作，所以需要用到一些`git`的命令行操作
-
-```powershell
-dgit ls-files # 列出所有被追踪的文件
-dgit rm --cached <file> # 将文件从git追踪中移除，但不删除文件本身
-dgit status # 查看当前状态，看看有哪些文件被修改了但还没有提交
-dgit add <file> # 把修改了的文件加入暂存区
-dgit add -u # 把所有修改了的文件加入暂存区
-dgit commit -m "update dotfiles" # 提交修改
-```
-
-针对添加配置文件夹的中的文件，可以使用$HOME来找到用户目录，在此以添加yazi配置文件的例子提一下：
-
-```powershell
- dgit add $HOME/.config/yazi/  
-```
-
-尤其注意不要直接使用`dgit add .`，因为这样会把所有未被追踪的文件也加入暂存区。。
-
----
-
-## 新电脑恢复时
-
-```powershell
-git clone --bare git@github.com:glance02/dotfiles.git $HOME\.dotfiles-git
-
-function dgit { git --git-dir="$HOME\.dotfiles-git" --work-tree="$HOME" @args }
-
-dgit checkout
-dgit config status.showUntrackedFiles no
-```
-
----
-
-## Windows 常见配置文件位置参考
-
-| 软件 | 配置文件路径 |
-|------|------------|
-| PowerShell | `$PROFILE`（通常在 `Documents\PowerShell\`） |
-| Git | `~\.gitconfig` |
-| Neovim | `~\AppData\Local\nvim\` |
-| Windows Terminal | `~\AppData\Local\Packages\...\settings.json` |
-| Scoop 本身 | 可以把 `scoop install` 列表写进一个脚本一起管理 |
+如需永久生效，将这行加入使用中的 shell 配置文件，例如 `~/.bashrc` 或 `~/.zshrc`。
