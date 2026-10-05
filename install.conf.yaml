@@ -1,0 +1,22 @@
+# Dotbot configuration. Paths on the right are relative to the repository root.
+- defaults:
+    link:
+      create: true
+      force: true
+      relink: true
+      relative: false
+
+- link:
+    ~/.config/nvim: nvim/.config/nvim
+    ~/.config/yazi/Catppuccin Mocha.tmTheme: yazi/.config/yazi/Catppuccin Mocha.tmTheme
+    ~/.config/yazi/init.lua: yazi/.config/yazi/init.lua
+    ~/.config/yazi/keymap.toml: yazi/.config/yazi/keymap.toml
+    ~/.config/yazi/package.toml: yazi/.config/yazi/package.toml
+    ~/.config/yazi/theme.toml: yazi/.config/yazi/theme.toml
+    ~/.config/yazi/vfs.toml: yazi/.config/yazi/vfs.toml
+    ~/.config/yazi/yazi.toml: yazi/.config/yazi/yazi.toml
+    ~/.config/wezterm: wezterm/.config/wezterm
+    ~/.config/glow: glow/.config/glow
+    ~/.config/rclone: rclone/.config/rclone
+    ~/.config/starship.toml: starship/.config/starship.toml
+    ~/.config/.crossnote: crossnote/.config/.crossnote

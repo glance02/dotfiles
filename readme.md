@@ -1,6 +1,6 @@
 # Dotfiles
 
-这个仓库使用 [GNU Stow](https://www.gnu.org/software/stow/) 管理配置文件。每个一级目录都是一个独立的 Stow package，目录中的路径从用户主目录开始映射。可以按工具单独安装、更新或移除。
+这个仓库使用 [Dotbot](https://github.com/anishathalye/dotbot) 管理配置文件。`install.conf.yaml` 负责把仓库中的配置链接到用户目录。
 
 ## 目录结构
 
@@ -10,6 +10,8 @@ nvim/
 
 yazi/
 └── .config/yazi/                    -> ~/.config/yazi/
+    ├── init.lua, keymap.toml, ...   # 个人配置
+    └── package.toml                  # ya 插件清单
 
 wezterm/
 └── .config/wezterm/                 -> ~/.config/wezterm/
@@ -24,7 +26,7 @@ starship/
 └── .config/starship.toml            -> ~/.config/starship.toml
 
 crossnote/
-└── .crossnote/                      -> ~/.crossnote/
+└── .config/.crossnote/              -> ~/.config/.crossnote/
 
 powershell/
 └── Documents/WindowsPowerShell/      -> ~/Documents/WindowsPowerShell/
@@ -32,39 +34,23 @@ powershell/
     └── Modules/Catppuccin/
 ```
 
-`.crossnote` 是 VS Code Markdown Preview Enhanced (MPE) 的用户配置目录，包含自定义 CSS、主题、解析器和 Neovide 光标脚本。它需要直接位于用户主目录下，不能移动到 `~/.config`。
+`.crossnote` 是 VS Code Markdown Preview Enhanced (MPE) 的用户配置目录，包含自定义 CSS、主题、解析器和 Neovide 光标脚本。当前配置将它安装到 `~/.config/.crossnote`。
 
 ## 安装
 
 在仓库根目录执行：
 
-```shell
-# 按需安装工具配置
-stow --target="$HOME" nvim yazi wezterm glow rclone starship
-
-# 安装 MPE 配置
-stow --target="$HOME" crossnote
+```powershell
+.\install.ps1
 ```
 
-Windows 配置单独安装。建议在支持 GNU Stow 的环境（例如 MSYS2 或 WSL）中执行，并确认该环境中的 `$HOME` 指向 Windows 用户目录：
+安装前可以先预览变更：
 
-```shell
-stow --target="$HOME" powershell
+```powershell
+.\install.ps1 -n
 ```
 
-也可以一次安装多个 package：
-
-```shell
-stow --target="$HOME" nvim yazi wezterm glow rclone starship crossnote
-```
-
-移除链接时使用相同的 package 名称：
-
-```shell
-stow --target="$HOME" -D nvim yazi wezterm glow rclone starship crossnote
-```
-
-如果目标文件已经存在，先备份或移走它，再执行 `stow`。可以用 `stow -n -v` 预览操作而不真正创建链接。
+当前 YAML 不包含 `powershell` 配置包；如需安装它，需要另行加入链接规则。
 
 ## Windows 相关配置
 
@@ -103,6 +89,12 @@ yazi 配置位于 `~/.config/yazi/`。Windows PowerShell 中如需显式指定�
 ```
 
 yazi 的目录跳转功能依赖 `zoxide`，请先安装 `zoxide`。
+
+插件由 `package.toml` 管理，不把插件源码提交到此仓库。完成 Dotbot 链接后，在 Yazi 配置目录执行：
+
+```powershell
+ya pkg install
+```
 
 ### Neovim
 
