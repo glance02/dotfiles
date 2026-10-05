@@ -52,6 +52,64 @@ powershell/
 
 当前 YAML 不包含 `powershell` 配置包；如需安装它，需要另行加入链接规则。
 
+## 从旧版 bare 仓库迁移
+
+旧版配置曾使用 Git bare 仓库直接管理 `$HOME` 下的文件，典型配置如下：
+
+```powershell
+git init --bare $HOME\.dotfiles-git
+function dgit { git --git-dir="$HOME\.dotfiles-git" --work-tree="$HOME" @args }
+dgit config status.showUntrackedFiles no
+```
+
+当前版本改用普通 Git 仓库保存配置，再由 Dotbot 创建到用户目录的链接。日常修改配置文件后，在仓库目录执行普通 Git 命令即可：
+
+```powershell
+git status
+git add <package>\<path>
+git commit -m "update dotfiles"
+git push
+```
+
+不再需要 `dgit`，也不要在用户目录执行 `git add .`。安装或更新链接时执行：
+
+```powershell
+.\install.ps1
+```
+
+预览链接变化：
+
+```powershell
+.\install.ps1 -n
+```
+
+### 旧 bare 仓库中的文件
+
+如果旧仓库仍然存在，可以先使用 `dgit ls-files` 查看它管理过的文件，再将需要保留的配置移动到对应 package 目录。例如：
+
+```powershell
+dgit ls-files
+dgit status
+```
+
+确认文件已经迁移并由当前仓库管理后，再删除旧的 `$HOME\.dotfiles-git`；不要在未确认前执行 `dgit checkout`，以免旧仓库覆盖当前配置。
+
+## Linux 使用说明
+
+Linux 直接使用 `$HOME/.config` 下的配置路径。克隆仓库后，在仓库根目录执行：
+
+```bash
+./install
+```
+
+安装前可以预览变化：
+
+```bash
+./install -n
+```
+
+Dotbot 会根据 `install.conf.yaml` 创建或更新配置链接。Neovim、Yazi、WezTerm、Glow、Rclone、Starship 和 Crossnote 的配置都会按目录结构链接到 `$HOME`。
+
 ## Windows 相关配置
 
 `powershell` package 保留的是 Windows PowerShell 5.1 的路径：
@@ -103,3 +161,11 @@ Neovim 配置位于 `~/.config/nvim/`。Linux 上 Neovim 会直接读取这个�
 ```powershell
 New-Item -ItemType Junction -Path "$env:LOCALAPPDATA\nvim" -Target "$HOME\.config\nvim"
 ```
+
+Linux 上 Neovim 默认读取 `~/.config/nvim`，无需额外创建 Junction。Yazi 默认读取 `~/.config/yazi`；如果环境没有自动识别该路径，可以设置：
+
+```bash
+export YAZI_CONFIG_HOME="$HOME/.config/yazi"
+```
+
+如需永久生效，将这行加入使用中的 shell 配置文件，例如 `~/.bashrc` 或 `~/.zshrc`。
