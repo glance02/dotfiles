@@ -32,6 +32,8 @@ powershell/
 └── Documents/WindowsPowerShell/      -> ~/Documents/WindowsPowerShell/
     ├── Microsoft.PowerShell_profile.ps1
     └── Modules/Catppuccin/
+└── Documents/PowerShell/             -> ~/Documents/PowerShell/
+    └── Microsoft.PowerShell_profile.ps1
 ```
 
 `.crossnote` 是 VS Code Markdown Preview Enhanced (MPE) 的用户配置目录，包含自定义 CSS、主题、解析器和 Neovide 光标脚本。当前配置将它安装到 `~/.config/.crossnote`。
@@ -50,7 +52,7 @@ powershell/
 .\install.ps1 -n
 ```
 
-当前 YAML 不包含 `powershell` 配置包；如需安装它，需要另行加入链接规则。
+PowerShell 5.1 和 PowerShell 7 的 profile 都由 `install.conf.yaml` 自动链接。
 
 ## Linux 使用说明
 
@@ -77,7 +79,7 @@ Dotbot 会根据 `install.conf.yaml` 创建或更新配置链接。Neovim、Yazi
 ~/Documents/WindowsPowerShell/Modules/Catppuccin/
 ```
 
-PowerShell 7 通常使用 `~/Documents/PowerShell/`，如果以后迁移到 PowerShell 7，需要相应调整 package 内的目录名。
+PowerShell 7 使用 `~/Documents/PowerShell/`，其中的 profile 会复用 Windows PowerShell profile 的配置。
 
 Catppuccin 模块由 profile 中的 `Import-Module Catppuccin` 加载。安装后重新打开 PowerShell，或手动执行：
 

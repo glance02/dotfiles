@@ -14,3 +14,5 @@
     ~/.config/rclone: rclone/.config/rclone
     ~/.config/starship.toml: starship/.config/starship.toml
     ~/.config/.crossnote: crossnote/.config/.crossnote
+    ~/Documents/PowerShell: powershell/Documents/PowerShell
+    ~/Documents/WindowsPowerShell: powershell/Documents/PowerShell
