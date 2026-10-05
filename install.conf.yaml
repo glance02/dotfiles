@@ -8,13 +8,7 @@
 
 - link:
     ~/.config/nvim: nvim/.config/nvim
-    ~/.config/yazi/Catppuccin Mocha.tmTheme: yazi/.config/yazi/Catppuccin Mocha.tmTheme
-    ~/.config/yazi/init.lua: yazi/.config/yazi/init.lua
-    ~/.config/yazi/keymap.toml: yazi/.config/yazi/keymap.toml
-    ~/.config/yazi/package.toml: yazi/.config/yazi/package.toml
-    ~/.config/yazi/theme.toml: yazi/.config/yazi/theme.toml
-    ~/.config/yazi/vfs.toml: yazi/.config/yazi/vfs.toml
-    ~/.config/yazi/yazi.toml: yazi/.config/yazi/yazi.toml
+    ~/.config/yazi: yazi/.config/yazi
     ~/.config/wezterm: wezterm/.config/wezterm
     ~/.config/glow: glow/.config/glow
     ~/.config/rclone: rclone/.config/rclone
