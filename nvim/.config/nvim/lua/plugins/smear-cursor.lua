@@ -1,6 +1,7 @@
 return {
   {
     "sphamba/smear-cursor.nvim",
+    enabled = not vim.g.neovide,
     event = "VeryLazy",
     opts = {
       cursor_color = "#FFC0CB", -- 拖影的主颜色
