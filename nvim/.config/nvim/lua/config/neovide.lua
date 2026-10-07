@@ -114,3 +114,10 @@ vim.keymap.set("n", "<C-S-v>", '"+p', { silent = true })
 vim.keymap.set("v", "<C-S-v>", '"+p', { silent = true })
 vim.keymap.set("i", "<C-S-v>", "<C-r>+", { silent = true })
 vim.keymap.set("c", "<C-S-v>", "<C-r>+", { silent = true })
+
+-- 配置F11快捷键
+if vim.g.neovide then
+  vim.keymap.set("n", "<F11>", function()
+    vim.g.neovide_fullscreen = not vim.g.neovide_fullscreen
+  end, { desc = "Toggle Neovide Fullscreen" })
+end
