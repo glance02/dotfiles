@@ -5,21 +5,28 @@ return {
       "folke/snacks.nvim",
     },
     config = true,
+
     keys = {
       {
-        "<leader>cc",
+        "<leader>ac",
         "<cmd>Codex<cr>",
         desc = "Codex: Toggle",
       },
       {
-        "<leader>ci",
+        "<leader>af",
         "<cmd>CodexFocus<cr>",
         desc = "Codex: Focus",
       },
       {
-        "<leader>cx",
+        "<leader>am",
         "<cmd>CodexMaximizeToggle<cr>",
         desc = "Codex: Maximize",
+      },
+      {
+        "<leader>as",
+        "<cmd>CodexSend<cr>",
+        mode = "v",
+        desc = "Codex: Send selection",
       },
     },
   },
