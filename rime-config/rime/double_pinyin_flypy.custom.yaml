@@ -1,0 +1,4 @@
+patch:
+  # 显示小鹤双拼编码，而不是转换后的全拼编码
+  translator/preedit_format: []
+  ascii_composer/switch_key/Shift_L: commit_code

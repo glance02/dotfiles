@@ -1,0 +1,5 @@
+# Xime keyboard override for 雾凇拼音·小鹤双拼18键
+# 如果你已经有 xime.custom.yaml，请把下面的 keyboard.qwerty_18 段合并进去，不要直接覆盖原文件。
+keyboard:
+  qwerty_18:
+    schemas: [double_pinyin_flypy_18]

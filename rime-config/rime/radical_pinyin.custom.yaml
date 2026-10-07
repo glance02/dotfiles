@@ -1,0 +1,4 @@
+patch:
+  # 让部件反查和辅码使用小鹤双拼
+  speller/algebra:
+    __include: radical_pinyin.schema.yaml:/algebra_double_pinyin_flypy

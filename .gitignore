@@ -1,1 +1,21 @@
 yazi/.config/yazi/plugins/
+
+# Rime generated deployment output and local user databases.
+rime-config/rime/build/
+rime-config/rime/*.userdb/
+
+# Rime per-device synchronization snapshots.
+rime-config/rime/sync/
+
+# Syncthing runtime metadata.
+rime-config/rime/.stfolder/
+rime-config/rime/.stversions/
+rime-config/rime/.stignore
+
+# Rime machine-specific state.
+rime-config/rime/ChsPinyinUDL.dat
+rime-config/rime/installation.yaml
+rime-config/rime/user.yaml
+rime-config/rime/default.custom.yaml
+
+powershell\Documents\PowerShell\profile.ps1

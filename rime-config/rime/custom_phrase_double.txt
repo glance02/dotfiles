@@ -1,0 +1,12 @@
+# Rime table
+# coding: utf-8
+#@/db_name	custom_phrase_double.txt
+#@/db_type	tabledb
+
+🤔	sk	1
+哈哈哈哈哈哈哈哈哈哈	hh	1
+了	l	1
+她	taa	1
+他	tas	1
+它	tab	1
+😆😆😆😆😆	ppp 1

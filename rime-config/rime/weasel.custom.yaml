@@ -1,0 +1,64 @@
+# Weasel（小狼毫）用户自定义配置。
+# 本文件只覆盖这里列出的设置；未列出的设置继续使用 weasel.yaml 的默认值。
+customization:
+  # 以下是由设置工具记录的版本和修改信息。
+  distribution_code_name: Weasel       # 前端名称。
+  distribution_version: 0.17.4        # Weasel 发行版本记录。
+  generator: "Weasel::UIStyleSettings" # 生成此文件的设置工具记录。
+  modified_time: "Sat Sep 26 19:57:35 2026" # 设置工具记录的修改时间。
+  rime_version: 1.13.1                # 生成此文件时使用的 Rime 版本记录。
+patch:
+  # 自定义配色方案：Catppuccin Mocha。
+  "preset_color_schemes/catppuccin_mocha":
+    author: Catppuccin                 # 配色方案作者标识。
+    back_color: 0x1E1E2E               # 候选窗口背景色。
+    border_color: 0x45475A             # 候选窗口边框颜色。
+    candidate_back_color: 0x00000000   # 普通候选项背景色；末尾 00 表示透明。
+    candidate_border_color: 0x00000000 # 普通候选项边框颜色。
+    candidate_shadow_color: 0x00000000 # 普通候选项阴影颜色。
+    candidate_text_color: 0xCDD6F4     # 普通候选文字颜色。
+    color_format: rgba                 # 颜色值使用 RGBA 格式。
+    comment_text_color: 0x9399B2       # 候选注释文字颜色。
+    hilited_back_color: 0x313244       # 预编辑文本高亮背景色。
+    hilited_candidate_back_color: 0xCBA6F7 # 当前选中候选项背景色。
+    hilited_candidate_border_color: 0xCBA6F7 # 当前选中候选项边框颜色。
+    hilited_candidate_shadow_color: 0x11111B60 # 当前选中候选项阴影颜色。
+    hilited_candidate_text_color: 0x1E1E2E # 当前选中候选文字颜色。
+    hilited_comment_text_color: 0x313244 # 当前选中候选的注释颜色。
+    hilited_label_color: 0x1E1E2E      # 当前选中候选标签颜色。
+    hilited_mark_color: 0x00000000     # 当前选中候选标记颜色；透明表示不显示标记。
+    hilited_shadow_color: 0x00000000   # 预编辑文本阴影颜色。
+    hilited_text_color: 0xF5C2E7       # 预编辑文本高亮文字颜色。
+    label_color: 0xA6ADC8              # 普通候选标签颜色。
+    name: "Catppuccin Mocha"          # 配色方案显示名称。
+    nextpage_color: 0x6C7086           # “下一页”提示颜色。
+    prevpage_color: 0x6C7086           # “上一页”提示颜色。
+    shadow_color: 0x11111BCC           # 候选窗口整体阴影颜色。
+    text_color: 0xCDD6F4               # 普通预编辑文字颜色。
+  "style/color_scheme": catppuccin_mocha # 当前使用的配色方案。
+  "style/color_scheme_dark": catppuccin_mocha # 深色模式使用的配色方案。
+  "style/comment_font_face": "Source Han Serif SC" # 候选注释使用的字体。
+  "style/comment_font_point": 12       # 候选注释字号。
+  "style/font_face": "Source Han Serif SC" # 候选和预编辑文字字体。
+  "style/font_point": 11               # 候选和预编辑文字字号。
+  "style/horizontal": false            # 候选项排列方向：false 竖排，true 横排。
+  "style/inline_preedit": true         # 是否在输入框内显示预编辑内容。
+  "style/label_font_face": "Source Han Serif SC" # 候选标签字体。
+  "style/label_font_point": 10         # 候选标签字号。
+  "style/label_format": "%s"          # 候选标签格式；%s 会替换为候选序号。
+  "style/layout/border_width": 1    # 候选窗口边框宽度。
+  "style/layout/candidate_spacing": 12 # 候选项之间的间距。
+  "style/layout/corner_radius": 8    # 候选窗口外框圆角半径。
+  "style/layout/hilite_padding_x": 12 # 选中候选左右内边距。
+  "style/layout/hilite_padding_y": 6 # 选中候选上下内边距。
+  "style/layout/hilite_spacing": 6   # 候选标签与文字之间的间距。
+  "style/layout/margin_x": 12        # 候选窗口左右边距。
+  "style/layout/margin_y": 5         # 候选窗口上下边距。
+  "style/layout/max_width": 1200     # 候选窗口最大宽度。
+  "style/layout/min_width": 10       # 候选窗口最小宽度。
+  "style/layout/round_corner": 8     # 选中候选背景色块圆角半径。
+  "style/layout/shadow_offset_x": 5  # 阴影水平偏移量。
+  "style/layout/shadow_offset_y": 5  # 阴影垂直偏移量。
+  "style/layout/shadow_radius": 8    # 阴影模糊半径。
+  "style/layout/type": vertical      # 布局类型：vertical 表示候选项纵向排列。
+  "style/mark_text": ""              # 选中候选标签前的标记字符；空字符串表示不显示。

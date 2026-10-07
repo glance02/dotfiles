@@ -16,3 +16,4 @@
     ~/.config/.crossnote: crossnote/.config/.crossnote
     ~/Documents/PowerShell: powershell/Documents/PowerShell
     ~/Documents/WindowsPowerShell: powershell/Documents/PowerShell
+    ~/AppData/Roaming/Rime: rime-config\rime
