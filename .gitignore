@@ -1,3 +1,4 @@
+# yazi的插件文件
 yazi/.config/yazi/plugins/
 
 # Rime generated deployment output and local user databases.
@@ -18,4 +19,8 @@ rime-config/rime/installation.yaml
 rime-config/rime/user.yaml
 rime-config/rime/default.custom.yaml
 
+# mamba 初始化文件，不同设备路径不同，自己单独初始化即可
 powershell\Documents\PowerShell\profile.ps1
+
+# 青简词汇的仓库，这个不传上去，只当作本地检查更新与否的文件夹
+rime-config\rime-ice
