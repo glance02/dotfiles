@@ -89,6 +89,10 @@ vim.g.neovide_title_background_color = "#1a1b26"
 vim.g.neovide_title_text_color = "#a9b1d6"
 vim.g.neovide_show_border = false
 
+-- 标题栏只显示应用名称，不显示当前文件路径。
+vim.opt.title = true
+vim.opt.titlestring = "Neovide"
+
 local function sync_neovide_colors()
   local normal = vim.api.nvim_get_hl(0, { name = "Normal", link = false })
   local background = normal.bg and string.format("#%06x", normal.bg) or "#1a1b26"
