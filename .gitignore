@@ -23,4 +23,4 @@ rime-config/rime/default.custom.yaml
 powershell\Documents\PowerShell\profile.ps1
 
 # 青简词汇的仓库，这个不传上去，只当作本地检查更新与否的文件夹
-rime-config\rime-ice
+rime-config/rime-ice

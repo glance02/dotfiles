@@ -79,6 +79,7 @@ return {
             },
 
             hidden = true,
+            ignored = true,
           },
         },
       },
