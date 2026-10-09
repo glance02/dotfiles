@@ -1,8 +1,10 @@
 return {
   {
     "sphamba/smear-cursor.nvim",
-    enabled = not vim.g.neovide,
+    enabled = not vim.g.neovide and vim.env.NVIM_REMOTE_NEOVIDE ~= "1",
+
     event = "VeryLazy",
+
     opts = {
       cursor_color = "#FFC0CB", -- 拖影的主颜色
       stiffness = 0.5, -- 主光标追赶目标位置的“弹性强度”；越大越快收敛
