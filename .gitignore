@@ -11,7 +11,6 @@ rime-config/rime/sync/
 # Syncthing runtime metadata.
 rime-config/rime/.stfolder/
 rime-config/rime/.stversions/
-rime-config/rime/.stignore
 
 # Rime machine-specific state.
 rime-config/rime/ChsPinyinUDL.dat
@@ -20,7 +19,7 @@ rime-config/rime/user.yaml
 rime-config/rime/default.custom.yaml
 
 # mamba 初始化文件，不同设备路径不同，自己单独初始化即可
-powershell\Documents\PowerShell\profile.ps1
+powershell/Documents/PowerShell/profile.ps1
 
 # 青简词汇的仓库，这个不传上去，只当作本地检查更新与否的文件夹
 rime-config/rime-ice

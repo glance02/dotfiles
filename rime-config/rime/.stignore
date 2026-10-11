@@ -1,0 +1,9 @@
+# Rime deployment output and local user databases.
+(?d)/build
+(?d)/*.userdb
+(?d)/.stversions
+
+# Per-device metadata and frontend-specific settings.
+/installation.yaml
+/user.yaml
+/default.custom.yaml
