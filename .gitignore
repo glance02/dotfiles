@@ -1,6 +1,9 @@
 # yazi的插件文件
 yazi/.config/yazi/plugins/
 
+# Neovim 运行时日志，不需要同步
+/nvim.log
+
 # Rime generated deployment output and local user databases.
 rime-config/rime/build/
 rime-config/rime/*.userdb/
