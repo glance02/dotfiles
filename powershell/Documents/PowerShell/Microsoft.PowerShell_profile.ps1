@@ -82,13 +82,21 @@ function push {
     rclone sync $localPath $remotePath -v
 }
 
-# 使用starship
-Invoke-Expression (&starship init powershell)
+# Starship
+if (Get-Command starship -ErrorAction SilentlyContinue) {
+    Invoke-Expression (& starship init powershell)
+}
 
-# 使用zoxide
-Invoke-Expression (& { (zoxide init powershell | Out-String) })
+# Zoxide
+if (Get-Command zoxide -ErrorAction SilentlyContinue) {
+    $zoxideInit = (& zoxide init powershell 2>$null | Out-String)
 
-# 走clash流量
+    if ($LASTEXITCODE -eq 0 -and
+        -not [string]::IsNullOrWhiteSpace($zoxideInit)) {
+        Invoke-Expression $zoxideInit
+    }
+}# 走clash流量
+
 $env:HTTP_PROXY="http://127.0.0.1:7897"; $env:HTTPS_PROXY="http://127.0.0.1:7897"
 $env:TLDR_LANGUAGE="zh"
 
