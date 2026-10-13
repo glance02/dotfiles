@@ -1,6 +1,7 @@
 return {
   {
     "ishiooon/codex.nvim",
+    enabled = false,
     dependencies = {
       "folke/snacks.nvim",
     },

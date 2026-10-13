@@ -20,3 +20,12 @@ vim.keymap.set("n", "<leader>rp", function()
     },
   })
 end, { desc = "Run Python File" })
+
+-- Avante visual mode
+vim.keymap.set("v", "<leader>aa", "<cmd>AvanteAsk<cr>", {
+  desc = "Ask Avante",
+})
+
+vim.keymap.set("v", "<leader>ae", "<cmd>AvanteEdit<cr>", {
+  desc = "Edit Avante",
+})
