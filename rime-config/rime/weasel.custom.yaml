@@ -15,9 +15,6 @@ patch:
       inline_preedit: false           # 在候选窗口显示预编辑内容，避免 Vim 输入时闪烁。
       ascii_mode: true
       vim_mode: true
-    obsidian.exe:                     # Obsidian（使用 Vim 模式）。
-      ascii_mode: true
-      vim_mode: true
     neovide.exe:                      # Neovide 图形界面。
       inline_preedit: false
       ascii_mode: true
