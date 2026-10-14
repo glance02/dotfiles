@@ -92,5 +92,8 @@ Invoke-Expression (& { (zoxide init powershell | Out-String) })
 $env:HTTP_PROXY="http://127.0.0.1:7897"; $env:HTTPS_PROXY="http://127.0.0.1:7897"
 $env:TLDR_LANGUAGE="zh"
 
+# 给lazygit配置别名
+Set-Alias -Name lag -Value lazygit
+
 # 初始化base环境
 mamba activate base
