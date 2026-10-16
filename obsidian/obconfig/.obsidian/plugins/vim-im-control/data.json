@@ -1,0 +1,22 @@
+{
+  "macos": {
+    "pathToIMControl": "/opt/homebrew/bin",
+    "cmdOnInsertLeave": "im-select com.apple.keylayout.ABC",
+    "cmdOnInsertEnter": "im-select {{im}}",
+    "cmdGetCurrentIM": "im-select"
+  },
+  "windows": {
+    "pathToIMControl": "C:\\Program Files\\Rime\\weasel-0.17.4",
+    "cmdOnInsertLeave": "WeaselServer.exe /ascii",
+    "cmdOnInsertEnter": "WeaselServer.exe /nascii",
+    "cmdGetCurrentIM": "cmd /c echo /nascii"
+  },
+  "linux": {
+    "pathToIMControl": "/usr/bin",
+    "cmdOnInsertLeave": "fcitx5-remote -c",
+    "cmdOnInsertEnter": "fcitx5-remote {{im}}",
+    "cmdGetCurrentIM": "fcitx5-remote | sed 's/^2$/-o/;s/^1$/-c/'"
+  },
+  "isAsync": true,
+  "isStatusBarEnabled": true
+}

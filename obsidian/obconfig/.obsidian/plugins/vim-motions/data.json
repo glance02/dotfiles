@@ -1,0 +1,203 @@
+{
+  "vimEnabled": true,
+  "enableOnMobile": false,
+  "enableTextObjects": true,
+  "enableNavigation": true,
+  "enableSubwordMotions": true,
+  "enableWorkspaceNav": true,
+  "workspaceNavViewTypes": "",
+  "picker": true,
+  "pickerLeaderMappings": true,
+  "pickerMatcherEngine": "ufuzzy",
+  "pickerNonMarkdownPreview": "rendered",
+  "pickerOmnisearch": true,
+  "pickerTasks": true,
+  "pickerDataview": true,
+  "ripgrepEnabled": false,
+  "ripgrepBinaryPath": "",
+  "ripgrepArgs": "--smart-case --glob \"*.md\"",
+  "grepMode": "ripgrep",
+  "neovimRpcEnabled": false,
+  "neovimToggleInFlight": false,
+  "neovimBinaryPath": "",
+  "neovimConfigPath": "",
+  "neovimConfigExportAutoRefresh": false,
+  "neovimConfigExportFingerprint": "",
+  "configMode": "lua",
+  "enableStatusBar": true,
+  "enableChordDisplay": true,
+  "enablePowerline": false,
+  "modePrompts": {
+    "normal": "NORMAL",
+    "insert": "INSERT",
+    "visual": "VISUAL",
+    "replace": "REPLACE",
+    "visualLine": "V-LINE",
+    "visualBlock": "V-BLOCK",
+    "select": "SELECT",
+    "vreplace": "V-REPLACE",
+    "command": "COMMAND",
+    "search": "SEARCH",
+    "insertNormal": "NORMAL"
+  },
+  "enableEasyMotion": true,
+  "easyMotionDimming": true,
+  "enableFlash": true,
+  "flashMultiLine": true,
+  "flashJumpEnabled": true,
+  "flashJumpKey": "s",
+  "flashCleverF": false,
+  "flashMinPatternLength": 1,
+  "flashSearch": true,
+  "enableHardWrap": true,
+  "enableReplaceWithRegister": true,
+  "enableDial": false,
+  "listContinuationOnOpen": true,
+  "enableTableNav": true,
+  "tableWidgetMode": "native",
+  "yankHighlightMode": "solid",
+  "yankHighlightDuration": 200,
+  "signcolumn": "auto",
+  "number": false,
+  "relativenumber": false,
+  "numberwidth": 2,
+  "linenumbermode": "hybrid",
+  "statuscolumn": "",
+  "cursorline": true,
+  "cursorlineopt": "both",
+  "foldcolumn": false,
+  "enableHarpoon": true,
+  "enableYankRing": true,
+  "enableHintMode": true,
+  "hintModeLabels": "asdfghjkl",
+  "hintModeHotkey": "",
+  "scrolloffLines": 5,
+  "multilineScanLimit": 20,
+  "easyMotionLabels": "asdghklqwertyuiopzxcvbnmfj",
+  "labelFontSize": 14,
+  "labelMatchFontSize": false,
+  "cursorShapes": {
+    "normal": "block",
+    "insert": "bar",
+    "visual": "block",
+    "replace": "underline",
+    "operatorPending": "underline"
+  },
+  "clipboard": "unnamedplus",
+  "tabstop": 4,
+  "shiftwidth": 4,
+  "expandtab": true,
+  "pcre": true,
+  "insertmodeescape": "",
+  "insertmodeescapetimeout": 1000,
+  "operatorshadowtimeout": 1000,
+  "textwidth": 80,
+  "whichKeyMode": "all",
+  "whichKeyGrouping": "grouped",
+  "whichKeyDelay": 500,
+  "whichKeySortOrder": "which-key",
+  "whichKeyIcons": true,
+  "whichKeyGroupLabels": [],
+  "whichKeyCommandLabels": [],
+  "vimrcPath": "",
+  "luaConfigPath": "~\\.config\\obsidian\\init.lua",
+  "showConfigNotifications": true,
+  "globalConfigSearch": false,
+  "leaderBindings": [],
+  "foldAwareNavigation": true,
+  "foldPersistence": false,
+  "oilExplorer": true,
+  "oilShowHiddenFiles": true,
+  "oilConfirmDeleteThreshold": 1,
+  "oilDefaultSort": "name",
+  "pickerKeymap": {
+    "moveDown": [
+      "ArrowDown",
+      "C-n",
+      "C-j"
+    ],
+    "moveUp": [
+      "ArrowUp",
+      "C-p",
+      "C-k"
+    ],
+    "confirm": [
+      "Enter"
+    ],
+    "splitH": [
+      "C-x"
+    ],
+    "splitV": [
+      "C-v"
+    ],
+    "openTab": [
+      "C-t"
+    ],
+    "scrollDown": [
+      "C-d"
+    ],
+    "scrollUp": [
+      "C-u"
+    ],
+    "close": [
+      "Escape",
+      "C-c"
+    ]
+  },
+  "imEnabled": false,
+  "imPreset": "custom",
+  "imBinaryPath": "C:\\Program Files\\Rime\\weasel-0.17.4\\WeaselServer.exe",
+  "imObtainArgs": "/ascii",
+  "imSwitchArgs": "{im}",
+  "imDefaultNormalIm": "/ascii",
+  "imRestoreBehavior": "default",
+  "imDefaultInsertIm": "/nascii",
+  "persistedImState": {
+    "imw_0": "/nascii",
+    "imw_2": "/ascii",
+    "imw_4": "/ascii"
+  },
+  "enableSnippets": false,
+  "snippetBundled": true,
+  "snippetDirectory": "",
+  "snippetTriggerMode": "both",
+  "enableVimTextareas": false,
+  "conflictNoticeDismissedVersion": "1.4.0",
+  "enableUndoTree": true,
+  "undoFile": false,
+  "undoTreeMaxNodes": 1000,
+  "undoTreePosition": "right",
+  "undoTreeAutoOpen": false,
+  "persistedUndoTrees": {},
+  "animatedCursor": true,
+  "smoothCursor": true,
+  "cursorSmoothness": 0.5,
+  "smearTrail": true,
+  "smearStiffness": 0.6,
+  "smearTrailingStiffness": 0.3,
+  "smearDamping": 0.85,
+  "smearMaxLength": 400,
+  "pluginAutoFetch": false,
+  "harpoonPins": [
+    {
+      "filePath": "10月/10.16.md",
+      "row": 0,
+      "col": 0
+    }
+  ],
+  "persistedJumpList": [
+    {
+      "filePath": "10月/10.16.md",
+      "line": 3,
+      "ch": 0
+    },
+    {
+      "filePath": "10月/10.16.md",
+      "line": 4,
+      "ch": 12
+    }
+  ],
+  "configOverrides": {
+    "whichKeyMode": "all"
+  }
+}

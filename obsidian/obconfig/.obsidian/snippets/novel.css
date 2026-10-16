@@ -1,0 +1,21 @@
+/* --- 小说排版模式 --- */
+
+/* 1. 阅读模式 (Reading Mode) */
+.markdown-rendered p {
+    text-indent: 2em;      /* 首行缩进 2 个字符 */
+    margin-block-start: 0; /* 取消段落顶部的间距 */
+    margin-block-end: 0;   /* 取消段落底部的间距 */
+}
+
+/* 2. 编辑模式 
+/* 编辑模式：每行缩进 */
+.markdown-source-view.mod-cm6 .cm-line:not(.HyperMD-header):not(.HyperMD-list-line):not(.HyperMD-quote):not(.HyperMD-codeblock) {
+    text-indent: 2em !important;
+    text-align: justify;
+    /* line-height: 1.6 !important;  */
+}
+
+/* 隐藏编辑模式下的纯空行 */
+.markdown-source-view.mod-cm6 .cm-line:not(.cm-active):has(br) {
+    display: none;
+}

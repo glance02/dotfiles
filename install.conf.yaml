@@ -14,6 +14,9 @@
     ~/.config/rclone: rclone/.config/rclone
     ~/.config/starship.toml: starship/.config/starship.toml
     ~/.config/.crossnote: crossnote/.config/.crossnote
+    ~/.config/obsidian/init.lua: obsidian/.config/obsidian/init.lua
     ~/Documents/PowerShell: powershell/Documents/PowerShell
     ~/Documents/WindowsPowerShell: powershell/Documents/PowerShell
     ~/AppData/Roaming/Rime: rime-config\rime
+    "D:/0作业/文学/郁玺的日记/2026年/.obsidian": obsidian/obconfig/.obsidian
+    "D:/0作业/文学/novel/.obsidian": obsidian/obconfig/.obsidian

@@ -26,3 +26,6 @@ powershell/Documents/PowerShell/profile.ps1
 
 # 青简词汇的仓库，这个不传上去，只当作本地检查更新与否的文件夹
 rime-config/rime-ice
+
+# Obsidian remotely-save contains private connection and sync configuration.
+obsidian/obconfig/.obsidian/plugins/remotely-save/data.json

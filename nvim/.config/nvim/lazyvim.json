@@ -3,7 +3,8 @@
     "lazyvim.plugins.extras.ai.avante",
     "lazyvim.plugins.extras.ai.copilot",
     "lazyvim.plugins.extras.lang.markdown",
-    "lazyvim.plugins.extras.lang.python"
+    "lazyvim.plugins.extras.lang.python",
+    "lazyvim.plugins.extras.vscode"
   ],
   "install_version": 8,
   "news": {

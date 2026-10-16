@@ -1,0 +1,15 @@
+{
+  "theme": "moonstone",
+  "cssTheme": "Border",
+  "showRibbon": true,
+  "interfaceFontFamily": "仿宋,Maple Mono NF CN,思源宋体",
+  "textFontFamily": "华文仿宋,思源宋体,汉仪正圆,Maple Mono NF CN",
+  "baseFontSizeAction": true,
+  "baseFontSize": 23,
+  "enabledCssSnippets": [
+    "fileLine"
+  ],
+  "monospaceFontFamily": "Maple Mono NF CN",
+  "nativeMenus": false,
+  "accentColor": ""
+}

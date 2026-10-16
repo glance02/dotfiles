@@ -1,0 +1,12 @@
+{
+  "spellcheck": false,
+  "vimMode": false,
+  "readableLineLength": true,
+  "showIndentGuide": false,
+  "promptDelete": false,
+  "strictLineBreaks": true,
+  "showInlineTitle": false,
+  "showLineNumber": false,
+  "newLinkFormat": "relative",
+  "alwaysUpdateLinks": true
+}
