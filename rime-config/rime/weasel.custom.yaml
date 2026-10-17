@@ -12,19 +12,18 @@ patch:
   # vim_mode 不会在进入插入模式时自动恢复中文，需要手动切换。
   "app_options/+":
     code.exe:                         # VS Code（使用 Vim 扩展）。
-      inline_preedit: false           # 在候选窗口显示预编辑内容，避免 Vim 输入时闪烁。
+      inline_preedit: true           # 在候选窗口显示预编辑内容，避免 Vim 输入时闪烁。
       ascii_mode: true
       vim_mode: true
     neovide.exe:                      # Neovide 图形界面。
-      inline_preedit: false
+      inline_preedit: true
       ascii_mode: true
       vim_mode: true
     nvim.exe:                         # Neovim；终端运行时通常需要匹配下面的终端进程。
-      inline_preedit: false
+      inline_preedit: true
       ascii_mode: true
       vim_mode: true
     wezterm-gui.exe:                  # WezTerm 中的 Neovim；同样作用于终端内其他程序。
-      inline_preedit: false
       ascii_mode: true
       vim_mode: true
   # 其他终端中的 Neovim 需在 app_options 下添加对应的窗口进程名。

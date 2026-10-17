@@ -6,11 +6,11 @@ end
 -- Font
 -- =========================================================
 
--- Maple Mono NF CN:
---   - Maple Mono
---   - Nerd Font icons
---   - Chinese / Japanese glyphs
-vim.o.guifont = "Maple Mono NF CN:h13"
+-- JetBrainsMono NF handles Latin characters and Nerd Font icons.
+-- STFangsong (华文仿宋) h andles Chinese text.
+vim.o.guifont = "JetBrainsMono NF,STFangsong:h14"
+-- 让华文仿宋的细笔画看起来更清晰；此设置影响 Neovide 的所有文字。
+vim.g.neovide_text_contrast = 0.65
 
 -- =========================================================
 -- Cursor animation
