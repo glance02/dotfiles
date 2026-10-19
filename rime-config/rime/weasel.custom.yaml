@@ -16,11 +16,11 @@ patch:
       ascii_mode: true
       vim_mode: true
     neovide.exe:                      # Neovide 图形界面。
-      inline_preedit: true
+      inline_preedit: false
       ascii_mode: true
       vim_mode: true
     nvim.exe:                         # Neovim；终端运行时通常需要匹配下面的终端进程。
-      inline_preedit: true
+      inline_preedit: false
       ascii_mode: true
       vim_mode: true
     wezterm-gui.exe:                  # WezTerm 中的 Neovim；同样作用于终端内其他程序。
