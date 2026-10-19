@@ -116,10 +116,70 @@ local function miniforge_searches()
   return searches
 end
 
+-- 切换环境和 LSP 重连后都同步，避免当前 buffer 继续使用旧解释器。
+local function sync_python_lsp(bufnr)
+  if not vim.api.nvim_buf_is_valid(bufnr) or vim.bo[bufnr].filetype ~= "python" then
+    return 0
+  end
+  if vim.b[bufnr].venv_selector_disabled then
+    return 0
+  end
+
+  local python = vim.b[bufnr].venv_selector_last_python
+  if not python or python == "" then
+    return 0
+  end
+
+  -- Conda on Windows: env/python.exe；普通 venv: env/Scripts/python.exe。
+  local env_dir = vim.fs.dirname(python:gsub("\\", "/"))
+  local executable_dir = vim.fs.basename(env_dir):lower()
+  if executable_dir == "bin" or executable_dir == "scripts" then
+    env_dir = vim.fs.dirname(env_dir)
+  end
+
+  local count = 0
+  for _, client in ipairs(vim.lsp.get_clients({ bufnr = bufnr })) do
+    if client.name == "pyright" or client.name == "basedpyright" then
+      local settings = vim.tbl_deep_extend("force", client.settings or {}, {
+        python = {
+          pythonPath = python,
+          venvPath = vim.fs.dirname(env_dir),
+          venv = vim.fs.basename(env_dir),
+        },
+      })
+      client.settings = settings
+      client.config.settings = settings
+      client:notify("workspace/didChangeConfiguration", { settings = settings })
+      count = count + 1
+    end
+  end
+  return count
+end
+
 return {
   {
     "linux-cultist/venv-selector.nvim",
+    init = function()
+      vim.api.nvim_create_autocmd({ "LspAttach", "BufEnter" }, {
+        group = vim.api.nvim_create_augroup("PythonVenvLspSync", { clear = true }),
+        callback = function(args)
+          -- 等缓存环境恢复及 LSP 连接回调执行完，再读取 buffer 的最终环境。
+          vim.schedule(function()
+            sync_python_lsp(args.buf)
+          end)
+        end,
+      })
+    end,
     opts = {
+      hooks = {
+        function(python, env_type, bufnr)
+          -- Pyright 支持动态更新配置，无需停止服务器和重新连接 buffer。
+          if python and python ~= "" then
+            return sync_python_lsp(bufnr or vim.api.nvim_get_current_buf())
+          end
+          return 0
+        end,
+      },
       options = {
         picker = "snacks",
 

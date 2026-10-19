@@ -35,7 +35,15 @@ local function open_ipython()
     vim.cmd("botright horizontal 12new")
     repl_buf = vim.api.nvim_get_current_buf()
     vim.bo.bufhidden = "hide"
-    vim.fn.jobstart({ python, "-m", "IPython", "--no-confirm-exit" }, { term = true, cwd = cwd })
+    vim.fn.jobstart({
+      python,
+      "-m",
+      "IPython",
+      "--no-confirm-exit",
+      "--InteractiveShell.separate_in=",
+      "--InteractiveShell.separate_out=",
+      "--InteractiveShell.separate_out2=",
+    }, { term = true, cwd = cwd })
   end
 
   -- 每个 Python 文件连接到同一个持续运行的 IPython 会话。
@@ -49,8 +57,17 @@ return {
   init = function()
     vim.g.slime_target = "neovim"
     vim.g.slime_no_mappings = 1
-    vim.g.slime_python_ipython = 1
+    -- 使用 IPython 原生的括号粘贴，避免每次发送都显示 %cpaste / --。
+    vim.g.slime_python_ipython = 0
+    vim.g.slime_bracketed_paste = 1
     vim.g.slime_menu_config = 1
+    vim.cmd([[
+      function! SlimeOverride_EscapeText_python(text) abort
+        let text = substitute(a:text, '\r\n', "\n", 'g')
+        " 保留代码内部的空行和缩进，只在末尾留一次执行所需的换行。
+        return substitute(text, '\n\+$', '', '') . "\n"
+      endfunction
+    ]])
   end,
   config = function()
     vim.keymap.set("n", "<leader>ji", open_ipython, { desc = "打开/连接底部 IPython" })
