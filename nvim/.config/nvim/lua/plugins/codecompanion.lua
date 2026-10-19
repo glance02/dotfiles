@@ -5,6 +5,32 @@ return {
     dependencies = {
       "nvim-lua/plenary.nvim",
       "nvim-treesitter/nvim-treesitter",
+      {
+        "HakonHarnes/img-clip.nvim",
+        cmd = "PasteImage",
+        keys = {
+          {
+            "<leader>ai",
+            "<cmd>PasteImage<cr>",
+            ft = "codecompanion",
+            mode = "n",
+            desc = "粘贴剪贴板截图",
+          },
+        },
+        opts = {
+          filetypes = {
+            codecompanion = {
+              -- 聊天截图放入会话临时目录，避免在项目中生成 assets。
+              dir_path = function()
+                return vim.fn.tempname() .. "-images"
+              end,
+              prompt_for_file_name = false,
+              template = "[Image]($FILE_PATH)",
+              use_absolute_path = true,
+            },
+          },
+        },
+      },
     },
 
     opts = {
