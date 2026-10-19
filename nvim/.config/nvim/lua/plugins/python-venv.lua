@@ -159,6 +159,10 @@ end
 return {
   {
     "linux-cultist/venv-selector.nvim",
+    ft = { "python", "ipynb" },
+    keys = {
+      { "<leader>cv", "<cmd>VenvSelect<cr>", desc = "选择 Python 环境", ft = { "python", "ipynb" } },
+    },
     init = function()
       vim.api.nvim_create_autocmd({ "LspAttach", "BufEnter" }, {
         group = vim.api.nvim_create_augroup("PythonVenvLspSync", { clear = true }),
