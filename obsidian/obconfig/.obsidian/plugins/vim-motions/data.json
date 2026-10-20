@@ -88,7 +88,7 @@
   "shiftwidth": 4,
   "expandtab": true,
   "pcre": true,
-  "insertmodeescape": "",
+  "insertmodeescape": "jk",
   "insertmodeescapetimeout": 1000,
   "operatorshadowtimeout": 1000,
   "textwidth": 80,
