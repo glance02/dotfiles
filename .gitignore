@@ -8,6 +8,9 @@ yazi/.config/yazi/plugins/
 rime-config/rime/build/
 rime-config/rime/*.userdb/
 
+# Rime language models: download separately on each device.
+rime-config/rime/*.gram
+
 # Rime per-device synchronization snapshots.
 rime-config/rime/sync/
 
