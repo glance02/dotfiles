@@ -29,13 +29,6 @@ module.exports = __toCommonJS(main_exports);
 var import_obsidian = require("obsidian");
 var ParagraphBreakPlugin = class extends import_obsidian.Plugin {
   async onload() {
-    this.addCommand({
-      id: "insert-paragraph-break",
-      name: "Wstaw nowy akapit (Enter = nowy paragraf)",
-      editorCallback: (editor) => {
-        this.insertParagraphBreak(editor);
-      }
-    });
     this.registerDomEvent(document, "keydown", (evt) => {
       var _a;
       if (evt.key !== "Enter" || evt.shiftKey || evt.ctrlKey || evt.metaKey || evt.altKey) {
@@ -60,26 +53,43 @@ var ParagraphBreakPlugin = class extends import_obsidian.Plugin {
   insertParagraphBreak(editor) {
     const cursor = editor.getCursor();
     const line = editor.getLine(cursor.line);
-    const totalLines = editor.lineCount();
-    const listMatch = line.match(/^(\s*)([-*+]|\d+\.)\s/);
+    const listMatch = line.match(/^(\s*)([-*+]|\d+[.)])\s/);
     if (listMatch) {
-      const afterBullet = line.slice(listMatch[0].length);
-      if (afterBullet.trim() === "") {
+      const rest = line.slice(listMatch[0].length);
+      const checkboxMatch = rest.match(/^\[.\]\s/);
+      const afterMarker = checkboxMatch ? rest.slice(checkboxMatch[0].length) : rest;
+      if (afterMarker.trim() === "") {
         editor.setLine(cursor.line, "");
         editor.replaceRange("\n", { line: cursor.line, ch: 0 });
         editor.setCursor({ line: cursor.line + 1, ch: 0 });
       } else {
-        const prefix = listMatch[0];
-        const numberedMatch = line.match(/^(\s*)(\d+)(\.)\s/);
-        let newPrefix = prefix;
+        let bulletPrefix = listMatch[0];
+        const numberedMatch = line.match(/^(\s*)(\d+)([.)])\s/);
         if (numberedMatch) {
           const num = parseInt(numberedMatch[2]) + 1;
-          newPrefix = `${numberedMatch[1]}${num}${numberedMatch[3]} `;
+          bulletPrefix = `${numberedMatch[1]}${num}${numberedMatch[3]} `;
         }
+        const newPrefix = checkboxMatch ? `${bulletPrefix}[ ] ` : bulletPrefix;
         const insertPos = { line: cursor.line, ch: cursor.ch };
         editor.replaceRange(`
 ${newPrefix}`, insertPos);
         editor.setCursor({ line: cursor.line + 1, ch: newPrefix.length });
+      }
+      return;
+    }
+    const quoteMatch = line.match(/^(\s*)((?:>\s?)+)/);
+    if (quoteMatch) {
+      const afterQuote = line.slice(quoteMatch[0].length);
+      if (afterQuote.trim() === "") {
+        editor.setLine(cursor.line, "");
+        editor.replaceRange("\n", { line: cursor.line, ch: 0 });
+        editor.setCursor({ line: cursor.line + 1, ch: 0 });
+      } else {
+        const prefix = quoteMatch[0];
+        const insertPos = { line: cursor.line, ch: cursor.ch };
+        editor.replaceRange(`
+${prefix}`, insertPos);
+        editor.setCursor({ line: cursor.line + 1, ch: prefix.length });
       }
       return;
     }
@@ -94,13 +104,8 @@ ${newPrefix}`, insertPos);
       editor.setCursor({ line: cursor.line + 1, ch: 0 });
       return;
     }
-    const nextLine = cursor.line < totalLines - 1 ? editor.getLine(cursor.line + 1) : null;
-    const atLineEnd = cursor.ch >= line.length;
-    const softBreakOnly = atLineEnd && nextLine !== null && nextLine !== "";
-    editor.replaceRange(softBreakOnly ? "\n" : "\n\n", { line: cursor.line, ch: cursor.ch });
+    editor.replaceRange("\n\n", { line: cursor.line, ch: cursor.ch });
     editor.setCursor({ line: cursor.line + 2, ch: 0 });
-  }
-  onunload() {
   }
 };
 

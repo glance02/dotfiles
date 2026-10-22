@@ -1,36 +1,69 @@
 {
-  "version": null,
-  "isAnnounceUpdatesEnabled": true,
-  "isPluginActivated": true,
-  "isTypewriterScrollEnabled": true,
-  "isOnlyActivateAfterFirstInteractionEnabled": false,
-  "isOnlyMaintainTypewriterOffsetWhenReachedEnabled": true,
-  "isTypewriterOnlyUseCommandsEnabled": false,
-  "typewriterOffset": 0.4,
-  "isKeepLinesAboveAndBelowEnabled": false,
-  "linesAboveAndBelow": 5,
-  "isMaxCharsPerLineEnabled": false,
-  "maxCharsPerLine": 64,
-  "isDimUnfocusedEnabled": false,
-  "isDimHighlightListParentEnabled": false,
-  "isDimTableAsOneEnabled": true,
-  "dimUnfocusedMode": "paragraphs",
-  "dimUnfocusedEditorsBehavior": "dim",
-  "dimmedOpacity": 0.25,
-  "isPauseDimUnfocusedWhileScrollingEnabled": true,
-  "isPauseDimUnfocusedWhileSelectingEnabled": true,
-  "isHighlightCurrentLineEnabled": false,
-  "isFadeLinesEnabled": false,
-  "fadeLinesIntensity": 0.5,
-  "isHighlightCurrentLineOnlyInFocusedEditorEnabled": false,
-  "currentLineHighlightStyle": "box",
-  "currentLineHighlightUnderlineThickness": 1,
-  "currentLineHighlightColor-dark": "#444",
-  "currentLineHighlightColor-light": "#ddd",
-  "doesWritingFocusShowHeader": true,
-  "doesWritingFocusShowStatusBar": false,
-  "doesWritingFocusShowVignette": false,
-  "isWritingFocusFullscreen": true,
-  "writingFocusVignetteStyle": "box",
-  "isRestoreCursorPositionEnabled": false
+  "general": {
+    "version": "1.5.0",
+    "isAnnounceUpdatesEnabled": true,
+    "isPluginActivated": true,
+    "isOnlyActivateAfterFirstInteractionEnabled": false,
+    "enabledPlatforms": "both",
+    "enabledFilePaths": [],
+    "disabledFilePaths": []
+  },
+  "typewriter": {
+    "isTypewriterScrollEnabled": true,
+    "isOnlyMaintainTypewriterOffsetWhenReachedEnabled": true,
+    "isTypewriterOnlyUseCommandsEnabled": false,
+    "typewriterOffset": 0.4
+  },
+  "keepLinesAboveAndBelow": {
+    "isKeepLinesAboveAndBelowEnabled": false,
+    "linesAboveAndBelow": 5
+  },
+  "maxChars": {
+    "isMaxCharsPerLineEnabled": false,
+    "maxCharsPerLine": 64
+  },
+  "dimming": {
+    "isDimUnfocusedEnabled": false,
+    "isDimUnfocusedOnlyInWritingFocusModeEnabled": false,
+    "isDimHighlightListParentEnabled": false,
+    "isDimTableAsOneEnabled": true,
+    "dimUnfocusedMode": "paragraphs",
+    "dimUnfocusedEditorsBehavior": "dim",
+    "dimmedOpacity": 0.25,
+    "isPauseDimUnfocusedWhileScrollingEnabled": true,
+    "isPauseDimUnfocusedWhileSelectingEnabled": true
+  },
+  "currentLine": {
+    "isHighlightCurrentLineEnabled": false,
+    "isHighlightCurrentLineOnlyInWritingFocusModeEnabled": false,
+    "isFadeLinesEnabled": false,
+    "isFadeLinesOnlyInWritingFocusModeEnabled": false,
+    "fadeLinesIntensity": 0.5,
+    "isHighlightCurrentLineOnlyInFocusedEditorEnabled": false,
+    "isPauseCurrentLineHighlightWhileScrollingEnabled": false,
+    "isPauseCurrentLineHighlightWhileSelectingEnabled": false,
+    "currentLineHighlightStyle": "box",
+    "currentLineHighlightUnderlineThickness": 1,
+    "currentLineHighlightColor-dark": "#444",
+    "currentLineHighlightColor-light": "#ddd"
+  },
+  "writingFocus": {
+    "doesWritingFocusShowHeader": true,
+    "doesWritingFocusShowVignette": false,
+    "doesWritingFocusShowStatusBar": false,
+    "isWritingFocusFullscreen": true,
+    "writingFocusVignetteStyle": "box",
+    "writingFocusFontSize": 0
+  },
+  "restoreCursorPosition": {
+    "isRestoreCursorPositionEnabled": false,
+    "cursorPositions": {}
+  },
+  "hemingwayMode": {
+    "isHemingwayModeEnabled": false,
+    "isHemingwayModeOnlyInWritingFocusModeEnabled": false,
+    "isAllowBackspaceInHemingwayModeEnabled": false,
+    "isShowHemingwayModeStatusBarEnabled": true,
+    "hemingwayModeStatusBarText": "Hemingway"
+  }
 }

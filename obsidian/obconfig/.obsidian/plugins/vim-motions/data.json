@@ -197,6 +197,8 @@
       "ch": 12
     }
   ],
+  "persistedMarks": [],
+  "persistedFolds": {},
   "configOverrides": {
     "whichKeyMode": "all"
   }

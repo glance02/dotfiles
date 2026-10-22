@@ -47,9 +47,31 @@ local function miniforge_searches()
   if not conda_exe or conda_exe == "" then
     conda_exe = vim.fn.exepath("conda")
   end
-  if conda_exe ~= "" then
-    -- conda 通常位于安装根目录的 Scripts 或 bin 子目录下。
-    add_root(vim.fn.fnamemodify(conda_exe, ":h:h"))
+  if conda_exe and conda_exe ~= "" then
+    -- Windows 的 conda 也可能在 Library/bin；向上查找实际安装根目录。
+    local candidate = vim.fs.dirname(vim.fs.normalize(conda_exe))
+    for _ = 1, 4 do
+      if not candidate then
+        break
+      end
+      if vim.fn.isdirectory(candidate .. "/conda-meta") == 1 then
+        add_root(candidate)
+        break
+      end
+      local parent = vim.fs.dirname(candidate)
+      if parent == candidate then
+        break
+      end
+      candidate = parent
+    end
+  end
+
+  -- Conda 在本机登记的环境不依赖 PATH 或启动时是否已经激活环境。
+  local registry = home .. "/.conda/environments.txt"
+  if vim.fn.filereadable(registry) == 1 then
+    for _, prefix in ipairs(vim.fn.readfile(registry)) do
+      add_conda_prefix(prefix:gsub("\r$", ""))
+    end
   end
 
   -- 补充常见默认目录，覆盖没有设置 Conda 环境变量的安装方式。

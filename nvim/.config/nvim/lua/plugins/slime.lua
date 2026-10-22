@@ -116,8 +116,8 @@ return {
     vim.cmd([[
       function! SlimeOverride_EscapeText_python(text) abort
         let text = substitute(a:text, '\r\n', "\n", 'g')
-        " 保留代码内部的空行和缩进，只在末尾留一次执行所需的换行。
-        return substitute(text, '\n\+$', '', '') . "\n"
+        " 保留代码内部的空行和缩进；末尾一个换行结束代码块，另一个在粘贴结束后提交。
+        return substitute(text, '\n\+$', '', '') . "\n\n"
       endfunction
     ]])
   end,

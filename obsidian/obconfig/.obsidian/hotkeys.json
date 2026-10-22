@@ -77,5 +77,15 @@
       ],
       "key": "H"
     }
+  ],
+  "easy-typing-obsidian:easy-typing-format-selection": [],
+  "agent-client:open-chat-view": [
+    {
+      "modifiers": [
+        "Mod",
+        "Shift"
+      ],
+      "key": "L"
+    }
   ]
 }

@@ -15,7 +15,12 @@
       "apiKeySecretId": "",
       "command": "C:\\Users\\86199\\scoop\\shims\\codex-acp.exe",
       "args": [],
-      "env": [],
+      "env": [
+        {
+          "key": "CODEX_PATH",
+          "value": "C:\\nvm4w\\nodejs\\codex.cmd"
+        }
+      ],
       "enabled": true
     },
     "gemini-cli": {
@@ -130,12 +135,50 @@
     "maxNoteLength": 10000,
     "maxSelectionLength": 10000,
     "showEmojis": true,
-    "fontSize": null
+    "fontSize": 19
   },
-  "savedSessions": [],
+  "savedSessions": [
+    {
+      "sessionId": "01a15e86-4722-75f3-8fb7-6accec9fcdc8",
+      "agentId": "codex-acp",
+      "cwd": "D:\\0作业\\文学\\郁玺的日记\\2026年",
+      "title": "泥嚎",
+      "createdAt": "2026-10-21T12:53:51.804Z",
+      "updatedAt": "2026-10-21T12:53:51.810Z"
+    },
+    {
+      "sessionId": "01a1587d-59a4-7ea0-8fcc-29f74e37a287",
+      "agentId": "codex-acp",
+      "cwd": "D:\\0作业\\文学\\novel",
+      "title": "我现在在obsidian写小说，想找找有没有插件可以记录我的写作的一些情况，比如每天写了多少字...",
+      "createdAt": "2026-10-20T08:47:59.778Z",
+      "updatedAt": "2026-10-21T13:58:21.599Z"
+    },
+    {
+      "sessionId": "01a15834-300f-7450-9080-e0941e61f475",
+      "agentId": "codex-acp",
+      "cwd": "D:\\0作业\\文学\\novel",
+      "title": "这篇小说我有点不知道该怎么往下写了，你觉得我应该怎么写",
+      "createdAt": "2026-10-20T07:29:53.837Z",
+      "updatedAt": "2026-10-20T08:43:40.464Z"
+    },
+    {
+      "sessionId": "01a1582d-8793-7991-aa7b-d4b0ef49ae33",
+      "agentId": "codex-acp",
+      "cwd": "D:\\0作业\\文学\\郁玺的日记\\2026年",
+      "title": "泥嚎",
+      "createdAt": "2026-10-20T07:19:18.043Z",
+      "updatedAt": "2026-10-20T07:23:15.020Z"
+    }
+  ],
   "lastUsedModels": {},
   "lastUsedModes": {},
-  "lastUsedConfigOptions": {},
+  "lastUsedConfigOptions": {
+    "codex-acp": {
+      "reasoning_effort": "high",
+      "fast-mode": "on"
+    }
+  },
   "sessionHistoryFilters": {
     "currentVaultOnly": true,
     "hideNonLocal": false
@@ -146,6 +189,12 @@
     "width": 400,
     "height": 500
   },
-  "floatingWindowPosition": null,
-  "floatingButtonPosition": null
+  "floatingWindowPosition": {
+    "x": 990,
+    "y": 350
+  },
+  "floatingButtonPosition": {
+    "x": 976,
+    "y": 752
+  }
 }

@@ -1,0 +1,34 @@
+{
+  "version": 1,
+  "sessionId": "01a15e86-4722-75f3-8fb7-6accec9fcdc8",
+  "agentId": "codex-acp",
+  "cwd": "D:\\0作业\\文学\\郁玺的日记\\2026年",
+  "title": "泥嚎",
+  "createdAt": "2026-10-21T12:53:51.804Z",
+  "updatedAt": "2026-10-21T12:53:51.804Z",
+  "messages": [
+    {
+      "id": "49535069-7a16-48e0-b423-e5a1734dbd31",
+      "role": "user",
+      "content": [
+        {
+          "type": "text",
+          "text": "泥嚎"
+        }
+      ],
+      "timestamp": "2026-10-21T12:53:46.721Z"
+    },
+    {
+      "id": "ad8830ab-9392-46aa-accf-fcc802286d56",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "text",
+          "text": "泥嚎！👋 今天想聊点什么？"
+        }
+      ],
+      "timestamp": "2026-10-21T12:53:51.288Z"
+    }
+  ],
+  "savedAt": "2026-10-21T12:53:51.836Z"
+}

@@ -6,5 +6,7 @@
   "paragraph-break",
   "vim-motions",
   "vim-im-control",
-  "agent-client"
+  "agent-client",
+  "obsidian-git",
+  "word-count-calendar"
 ]

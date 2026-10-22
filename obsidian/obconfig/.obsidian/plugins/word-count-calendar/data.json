@@ -1,0 +1,421 @@
+{
+  "dailyGoal": 1000,
+  "includeFolders": [],
+  "excludeFolders": [],
+  "dailyNotesFolder": "写作记录/",
+  "wordCountCache": {
+    "10月/10.21.md": {
+      "lastCount": 643,
+      "lastUpdateDate": "2026-10-21"
+    },
+    "T/T.md": {
+      "lastCount": 3045,
+      "lastUpdateDate": "2026-10-21"
+    },
+    "虫/浴室墙壁不知名的虫.md": {
+      "lastCount": 5841,
+      "lastUpdateDate": "2026-10-21"
+    },
+    "10月/10.01.md": {
+      "lastCount": 0,
+      "lastUpdateDate": "2026-10-21"
+    },
+    "10月/10.13.md": {
+      "lastCount": 0,
+      "lastUpdateDate": "2026-10-21"
+    },
+    "10月/10.15.md": {
+      "lastCount": 0,
+      "lastUpdateDate": "2026-10-21"
+    },
+    "10月/10.14.md": {
+      "lastCount": 0,
+      "lastUpdateDate": "2026-10-21"
+    },
+    "10月/10.16.md": {
+      "lastCount": 0,
+      "lastUpdateDate": "2026-10-21"
+    },
+    "10月/10.17.md": {
+      "lastCount": 0,
+      "lastUpdateDate": "2026-10-21"
+    },
+    "10月/10.19.md": {
+      "lastCount": 0,
+      "lastUpdateDate": "2026-10-21"
+    },
+    "1月/01.06.md": {
+      "lastCount": 0,
+      "lastUpdateDate": "2026-10-21"
+    },
+    "10月/10.20.md": {
+      "lastCount": 0,
+      "lastUpdateDate": "2026-10-21"
+    },
+    "1月/01.13.md": {
+      "lastCount": 0,
+      "lastUpdateDate": "2026-10-21"
+    },
+    "1月/01.10.md": {
+      "lastCount": 0,
+      "lastUpdateDate": "2026-10-21"
+    },
+    "1月/01.15.md": {
+      "lastCount": 0,
+      "lastUpdateDate": "2026-10-21"
+    },
+    "1月/01.21.md": {
+      "lastCount": 0,
+      "lastUpdateDate": "2026-10-21"
+    },
+    "1月/01.23.md": {
+      "lastCount": 0,
+      "lastUpdateDate": "2026-10-21"
+    },
+    "1月/01.25.md": {
+      "lastCount": 0,
+      "lastUpdateDate": "2026-10-21"
+    },
+    "1月/01.24.md": {
+      "lastCount": 0,
+      "lastUpdateDate": "2026-10-21"
+    },
+    "1月/01.28.md": {
+      "lastCount": 0,
+      "lastUpdateDate": "2026-10-21"
+    },
+    "1月/01.30.md": {
+      "lastCount": 0,
+      "lastUpdateDate": "2026-10-21"
+    },
+    "1月/01.31.md": {
+      "lastCount": 0,
+      "lastUpdateDate": "2026-10-21"
+    },
+    "2月/02.01.md": {
+      "lastCount": 0,
+      "lastUpdateDate": "2026-10-21"
+    },
+    "2月/02.04.md": {
+      "lastCount": 0,
+      "lastUpdateDate": "2026-10-21"
+    },
+    "2月/02.03.md": {
+      "lastCount": 0,
+      "lastUpdateDate": "2026-10-21"
+    },
+    "2月/02.05.md": {
+      "lastCount": 0,
+      "lastUpdateDate": "2026-10-21"
+    },
+    "2月/02.06.md": {
+      "lastCount": 0,
+      "lastUpdateDate": "2026-10-21"
+    },
+    "2月/02.09.md": {
+      "lastCount": 0,
+      "lastUpdateDate": "2026-10-21"
+    },
+    "2月/02.07.md": {
+      "lastCount": 0,
+      "lastUpdateDate": "2026-10-21"
+    },
+    "2月/02.08.md": {
+      "lastCount": 0,
+      "lastUpdateDate": "2026-10-21"
+    },
+    "2月/02.11.md": {
+      "lastCount": 0,
+      "lastUpdateDate": "2026-10-21"
+    },
+    "2月/02.12.md": {
+      "lastCount": 0,
+      "lastUpdateDate": "2026-10-21"
+    },
+    "2月/02.14.md": {
+      "lastCount": 0,
+      "lastUpdateDate": "2026-10-21"
+    },
+    "2月/02.17.md": {
+      "lastCount": 0,
+      "lastUpdateDate": "2026-10-21"
+    },
+    "3月/03.07.md": {
+      "lastCount": 0,
+      "lastUpdateDate": "2026-10-21"
+    },
+    "3月/03.04.md": {
+      "lastCount": 0,
+      "lastUpdateDate": "2026-10-21"
+    },
+    "3月/03.09.md": {
+      "lastCount": 0,
+      "lastUpdateDate": "2026-10-21"
+    },
+    "3月/03.10.md": {
+      "lastCount": 0,
+      "lastUpdateDate": "2026-10-21"
+    },
+    "3月/03.16.md": {
+      "lastCount": 0,
+      "lastUpdateDate": "2026-10-21"
+    },
+    "3月/03.09 1.md": {
+      "lastCount": 0,
+      "lastUpdateDate": "2026-10-21"
+    },
+    "3月/03.25.md": {
+      "lastCount": 0,
+      "lastUpdateDate": "2026-10-21"
+    },
+    "3月/03.26.md": {
+      "lastCount": 0,
+      "lastUpdateDate": "2026-10-21"
+    },
+    "3月/03.31.md": {
+      "lastCount": 0,
+      "lastUpdateDate": "2026-10-21"
+    },
+    "5月/05.04.md": {
+      "lastCount": 0,
+      "lastUpdateDate": "2026-10-21"
+    },
+    "5月/05.11.md": {
+      "lastCount": 0,
+      "lastUpdateDate": "2026-10-21"
+    },
+    "2月/02.22.md": {
+      "lastCount": 0,
+      "lastUpdateDate": "2026-10-21"
+    },
+    "2月/02.19.md": {
+      "lastCount": 0,
+      "lastUpdateDate": "2026-10-21"
+    },
+    "5月/05.21.md": {
+      "lastCount": 0,
+      "lastUpdateDate": "2026-10-21"
+    },
+    "5月/05.15.md": {
+      "lastCount": 0,
+      "lastUpdateDate": "2026-10-21"
+    },
+    "6月/06.01.md": {
+      "lastCount": 0,
+      "lastUpdateDate": "2026-10-21"
+    },
+    "8月/08.10.md": {
+      "lastCount": 0,
+      "lastUpdateDate": "2026-10-21"
+    },
+    "8月/08.21.md": {
+      "lastCount": 0,
+      "lastUpdateDate": "2026-10-21"
+    },
+    "6月/06.02.md": {
+      "lastCount": 0,
+      "lastUpdateDate": "2026-10-21"
+    },
+    "6月/06.03.md": {
+      "lastCount": 0,
+      "lastUpdateDate": "2026-10-21"
+    },
+    "8月/08.14.md": {
+      "lastCount": 0,
+      "lastUpdateDate": "2026-10-21"
+    },
+    "9月/09.06.md": {
+      "lastCount": 0,
+      "lastUpdateDate": "2026-10-21"
+    },
+    "6月/06.10.md": {
+      "lastCount": 0,
+      "lastUpdateDate": "2026-10-21"
+    },
+    "6月/06.07.md": {
+      "lastCount": 0,
+      "lastUpdateDate": "2026-10-21"
+    },
+    "9月/09.10.md": {
+      "lastCount": 0,
+      "lastUpdateDate": "2026-10-21"
+    },
+    "9月/09.07.md": {
+      "lastCount": 0,
+      "lastUpdateDate": "2026-10-21"
+    },
+    "9月/09.12.md": {
+      "lastCount": 0,
+      "lastUpdateDate": "2026-10-21"
+    },
+    "9月/09.15.md": {
+      "lastCount": 0,
+      "lastUpdateDate": "2026-10-21"
+    },
+    "9月/09.16.md": {
+      "lastCount": 0,
+      "lastUpdateDate": "2026-10-21"
+    },
+    "9月/09.17.md": {
+      "lastCount": 0,
+      "lastUpdateDate": "2026-10-21"
+    },
+    "9月/09.18.md": {
+      "lastCount": 0,
+      "lastUpdateDate": "2026-10-21"
+    },
+    "9月/09.23.md": {
+      "lastCount": 0,
+      "lastUpdateDate": "2026-10-21"
+    },
+    "4月/04.02.md": {
+      "lastCount": 0,
+      "lastUpdateDate": "2026-10-21"
+    },
+    "4月/04.03.md": {
+      "lastCount": 0,
+      "lastUpdateDate": "2026-10-21"
+    },
+    "4月/04.04.md": {
+      "lastCount": 0,
+      "lastUpdateDate": "2026-10-21"
+    },
+    "4月/04.06.md": {
+      "lastCount": 0,
+      "lastUpdateDate": "2026-10-21"
+    },
+    "4月/04.07.md": {
+      "lastCount": 0,
+      "lastUpdateDate": "2026-10-21"
+    },
+    "9月/09.25.md": {
+      "lastCount": 0,
+      "lastUpdateDate": "2026-10-21"
+    },
+    "4月/04.10.md": {
+      "lastCount": 0,
+      "lastUpdateDate": "2026-10-21"
+    },
+    "9月/09.26.md": {
+      "lastCount": 0,
+      "lastUpdateDate": "2026-10-21"
+    },
+    "4月/04.12.md": {
+      "lastCount": 0,
+      "lastUpdateDate": "2026-10-21"
+    },
+    "9月/09.29.md": {
+      "lastCount": 0,
+      "lastUpdateDate": "2026-10-21"
+    },
+    "4月/04.14.md": {
+      "lastCount": 0,
+      "lastUpdateDate": "2026-10-21"
+    },
+    "4月/04.15.md": {
+      "lastCount": 0,
+      "lastUpdateDate": "2026-10-21"
+    },
+    "4月/04.18.md": {
+      "lastCount": 0,
+      "lastUpdateDate": "2026-10-21"
+    },
+    "4月/04.13.md": {
+      "lastCount": 0,
+      "lastUpdateDate": "2026-10-21"
+    },
+    "4月/04.24.md": {
+      "lastCount": 0,
+      "lastUpdateDate": "2026-10-21"
+    },
+    "4月/04.21.md": {
+      "lastCount": 0,
+      "lastUpdateDate": "2026-10-21"
+    },
+    "7月/07.06.md": {
+      "lastCount": 0,
+      "lastUpdateDate": "2026-10-21"
+    },
+    "7月/07.08.md": {
+      "lastCount": 0,
+      "lastUpdateDate": "2026-10-21"
+    },
+    "4月/04.20.md": {
+      "lastCount": 0,
+      "lastUpdateDate": "2026-10-21"
+    },
+    "7月/07.10.md": {
+      "lastCount": 0,
+      "lastUpdateDate": "2026-10-21"
+    },
+    "7月/07.16.md": {
+      "lastCount": 0,
+      "lastUpdateDate": "2026-10-21"
+    },
+    "4月/04.25.md": {
+      "lastCount": 0,
+      "lastUpdateDate": "2026-10-21"
+    },
+    "7月/07.24.md": {
+      "lastCount": 0,
+      "lastUpdateDate": "2026-10-21"
+    },
+    "7月/07.19.md": {
+      "lastCount": 0,
+      "lastUpdateDate": "2026-10-21"
+    },
+    "7月/07.26.md": {
+      "lastCount": 0,
+      "lastUpdateDate": "2026-10-21"
+    },
+    "7月/07.25.md": {
+      "lastCount": 0,
+      "lastUpdateDate": "2026-10-21"
+    },
+    "7月/07.31.md": {
+      "lastCount": 0,
+      "lastUpdateDate": "2026-10-21"
+    },
+    "7月/07.27.md": {
+      "lastCount": 0,
+      "lastUpdateDate": "2026-10-21"
+    },
+    "写作记录/2026-10-21.md": {
+      "lastCount": 0,
+      "lastUpdateDate": "2026-10-21"
+    },
+    "写作记录/2026-10-22.md": {
+      "lastCount": 0,
+      "lastUpdateDate": "2026-10-21"
+    }
+  },
+  "dailyNotePaths": {
+    "2026-10-20": "写作记录/2026-10-20.md",
+    "2026-10-21": "写作记录/2026-10-21.md"
+  },
+  "emptyCellColor": {
+    "color": "#ebedf0",
+    "opacity": 100
+  },
+  "level1Color": {
+    "color": "#9be9a8",
+    "opacity": 100
+  },
+  "level2Color": {
+    "color": "#40c463",
+    "opacity": 100
+  },
+  "level3Color": {
+    "color": "#30a14e",
+    "opacity": 100
+  },
+  "level4Color": {
+    "color": "#216e39",
+    "opacity": 100
+  },
+  "cellSize": 45,
+  "dailyNoteTemplate": "",
+  "focusTrackingEnabled": true,
+  "focusStrictMode": true,
+  "focusWriteProperties": false
+}
