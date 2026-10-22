@@ -171,7 +171,7 @@
   "persistedUndoTrees": {},
   "animatedCursor": true,
   "smoothCursor": true,
-  "cursorSmoothness": 0.5,
+  "cursorSmoothness": 0.75,
   "smearTrail": true,
   "smearStiffness": 0.6,
   "smearTrailingStiffness": 0.3,

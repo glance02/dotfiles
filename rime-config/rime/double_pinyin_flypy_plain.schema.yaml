@@ -1,0 +1,15 @@
+# Rime schema
+# 小鹤双拼普通模式：__include 自动包含原方案的用户补丁，共用词库和 prism。
+# 修改双拼或语法设置仍写入 double_pinyin_flypy.custom.yaml。
+# 部署器在展开 __include 前读取 schema_id，因此这里也必须声明。
+schema:
+  schema_id: double_pinyin_flypy_plain
+__include: double_pinyin_flypy.schema:/
+__patch:
+  schema/schema_id: double_pinyin_flypy_plain
+  schema/name: 小鹤双拼·译关
+  switches/@6/reset: 0  # dict_comment；原方案默认开启，本方案默认关闭。
+  dict_layout/target_schema: double_pinyin_flypy
+  menu/page_size: 5
+  style/horizontal: true
+  style/layout/type: horizontal

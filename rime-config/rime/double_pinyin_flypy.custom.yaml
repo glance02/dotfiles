@@ -3,6 +3,14 @@ patch:
   translator/preedit_format: []
   ascii_composer/switch_key/Shift_L: commit_code
 
+  # Ctrl+Shift+E 同时切换词典释义、候选排列和每页数量。
+  # 小狼毫 0.17.4 仅在切换方案时重载布局，因此普通模式使用派生方案。
+  "engine/processors/@before 0": lua_processor@*dict_layout_processor
+  dict_layout/target_schema: double_pinyin_flypy_plain
+  menu/page_size: 5
+  style/horizontal: false
+  style/layout/type: vertical
+
   # 万象语法模型：使用雾凇官方参数
   grammar:
     language: wanxiang-lts-zh-hans
