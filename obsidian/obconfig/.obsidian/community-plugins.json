@@ -1,12 +1,11 @@
 [
   "remotely-save",
   "typewriter-mode",
-  "easy-typing-obsidian",
   "custom-font-loader",
   "paragraph-break",
-  "vim-motions",
-  "vim-im-control",
   "agent-client",
   "obsidian-git",
-  "word-count-calendar"
+  "word-count-calendar",
+  "easy-typing-obsidian",
+  "cursor-smith"
 ]

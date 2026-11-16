@@ -1,5 +1,5 @@
 {
-  "vimEnabled": true,
+  "vimEnabled": false,
   "enableOnMobile": false,
   "enableTextObjects": true,
   "enableNavigation": true,

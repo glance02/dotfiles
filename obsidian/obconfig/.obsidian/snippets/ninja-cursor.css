@@ -1,0 +1,30 @@
+/* Ninja Cursor - Minimal Smear Style */
+
+/* 1. 颜色：跟随 Obsidian 主题强调色 */
+.cursorWrapper {
+  --text-normal: var(--interactive-accent);
+}
+
+/* 2. 光标本体：由 8px 改为 2px */
+.cursorWrapper .x-cursor {
+  width: 2px !important;
+  border-radius: 2px;
+}
+
+/* 3. 拖尾：减少厚度和不透明度 */
+.cursorWrapper .x-cursor::after {
+  opacity: 0.35;
+  border-radius: 999px;
+  transform:
+    rotate(var(--cursor-drag-angle))
+    scaleY(0.45);
+  transform-origin: 1px center;
+}
+
+/* 4. 动画：稍慢、更加平滑 */
+.cursorWrapper .x-cursor0,
+.cursorWrapper .x-cursor1 {
+  animation-duration: 130ms !important;
+  animation-timing-function:
+    cubic-bezier(0.2, 0.8, 0.2, 1) !important;
+}

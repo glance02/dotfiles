@@ -13,14 +13,9 @@
       "id": "codex-acp",
       "displayName": "Codex",
       "apiKeySecretId": "",
-      "command": "C:\\Users\\86199\\scoop\\shims\\codex-acp.exe",
+      "command": "C:\\nvm4w\\nodejs\\codex-acp",
       "args": [],
-      "env": [
-        {
-          "key": "CODEX_PATH",
-          "value": "C:\\nvm4w\\nodejs\\codex.cmd"
-        }
-      ],
+      "env": [],
       "enabled": true
     },
     "gemini-cli": {
@@ -138,6 +133,30 @@
     "fontSize": 19
   },
   "savedSessions": [
+    {
+      "sessionId": "01a1bb50-3a34-7cb2-9c27-7245901e9f7e",
+      "agentId": "codex-acp",
+      "cwd": "D:\\0作业\\文学\\novel",
+      "title": "这篇小说完成了，你帮我看看有没有哪里不合理",
+      "createdAt": "2026-11-08T13:21:05.902Z",
+      "updatedAt": "2026-11-08T14:01:25.042Z"
+    },
+    {
+      "sessionId": "01a1920d-4821-7b43-9072-863e3330ff2e",
+      "agentId": "codex-acp",
+      "cwd": "D:\\0作业\\文学\\novel",
+      "title": "我的第二部分的内容是不是可以删掉？",
+      "createdAt": "2026-10-31T13:02:19.826Z",
+      "updatedAt": "2026-11-08T13:17:13.019Z"
+    },
+    {
+      "sessionId": "01a187bf-d2af-7c71-a638-572c4a8d5d8d",
+      "agentId": "codex-acp",
+      "cwd": "D:\\0作业\\文学\\novel",
+      "title": "“我总是感觉他们会吵架是因为我。”沈宁跨出一大步，停顿一会，又跨出一大步，停顿之间仿佛在思考什...",
+      "createdAt": "2026-10-29T13:01:53.786Z",
+      "updatedAt": "2026-10-29T13:19:36.230Z"
+    },
     {
       "sessionId": "01a15e86-4722-75f3-8fb7-6accec9fcdc8",
       "agentId": "codex-acp",

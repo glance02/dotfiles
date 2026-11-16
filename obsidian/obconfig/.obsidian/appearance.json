@@ -1,13 +1,14 @@
 {
-  "theme": "moonstone",
+  "theme": "obsidian",
   "cssTheme": "Border",
-  "showRibbon": true,
+  "showRibbon": false,
   "interfaceFontFamily": "仿宋,Maple Mono NF CN,思源宋体",
   "textFontFamily": "华文仿宋,思源宋体,汉仪正圆,Maple Mono NF CN",
   "baseFontSizeAction": true,
   "baseFontSize": 23,
   "enabledCssSnippets": [
-    "fileLine"
+    "fileLine",
+    "ninja-cursor"
   ],
   "monospaceFontFamily": "Maple Mono NF CN",
   "nativeMenus": false,

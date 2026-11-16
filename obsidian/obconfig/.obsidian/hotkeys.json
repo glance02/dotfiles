@@ -87,5 +87,13 @@
       ],
       "key": "L"
     }
+  ],
+  "app:switch-vault": [
+    {
+      "modifiers": [
+        "Mod"
+      ],
+      "key": "R"
+    }
   ]
 }

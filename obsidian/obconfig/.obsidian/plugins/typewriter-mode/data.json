@@ -50,10 +50,10 @@
   "writingFocus": {
     "doesWritingFocusShowHeader": true,
     "doesWritingFocusShowVignette": false,
-    "doesWritingFocusShowStatusBar": false,
+    "doesWritingFocusShowStatusBar": true,
     "isWritingFocusFullscreen": true,
     "writingFocusVignetteStyle": "box",
-    "writingFocusFontSize": 0
+    "writingFocusFontSize": 17
   },
   "restoreCursorPosition": {
     "isRestoreCursorPositionEnabled": false,

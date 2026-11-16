@@ -1,0 +1,1190 @@
+/* --- Settings panel: the sections ------------------------------------------
+   The panel is built from Obsidian 1.13's setting definitions (see
+   getSettingDefinitions in settings-tab.ts): each named group of settings
+   - General, Presets, Appearance, Blinking, Smooth movement, Effects, and
+   Vim's - is one of Obsidian's setting groups, shown one at a time behind
+   the tab strip in the first card. Obsidian draws a group as a card: a
+   heading over a shaded, rounded, bordered box of rows. This plugin's
+   sections opt out of the card and keep the flat look - rows separated by
+   a hairline, sub-options stepped in behind a guide line. Every rule here
+   is scoped to the plugin's own groups (.cursor-smith-section, and the
+   first card, .cursor-smith-global); Obsidian's cards elsewhere are
+   untouched. */
+.cursor-smith-section,
+.cursor-smith-global {
+  margin-bottom: 0.5em;
+  padding-bottom: 0.3em;
+  border-bottom: 1px solid var(--background-modifier-border);
+}
+.cursor-smith-section + .cursor-smith-section,
+.cursor-smith-global + .cursor-smith-section {
+  margin-top: 0.4em;
+}
+/* No card: no box, no shading, no rounding. */
+.cursor-smith-section > .setting-items,
+.cursor-smith-global > .setting-items {
+  background-color: transparent;
+  border: none;
+  border-radius: 0;
+  padding: 0;
+}
+/* Rows flush with the heading, a hairline between them. Obsidian rounds a
+   card's first and last row to match the card; those rules outrank a plain
+   row selector, so the corners are squared off at the same specificity - a
+   rounded last row bends the guide line of a sub-option sitting there. */
+.cursor-smith-section .setting-item:not(.setting-item-heading),
+.cursor-smith-global .setting-item:not(.setting-item-heading) {
+  padding: 0.6em 0;
+}
+.cursor-smith-section .setting-item:not(.setting-item-heading),
+.cursor-smith-global .setting-item:not(.setting-item-heading),
+.cursor-smith-section .setting-item:not(.setting-item-heading):first-child,
+.cursor-smith-section .setting-item:not(.setting-item-heading):last-child,
+.cursor-smith-global .setting-item:not(.setting-item-heading):first-child,
+.cursor-smith-global .setting-item:not(.setting-item-heading):last-child {
+  border-radius: 0;
+}
+.cursor-smith-section .setting-item:not(.setting-item-heading)::before,
+.cursor-smith-global .setting-item:not(.setting-item-heading)::before {
+  left: 0;
+  right: 0;
+}
+
+/* A card inside one of the pages: its own heading is not shown (the page's
+   title is it). */
+.cursor-smith-section.cursor-smith-in-page > .setting-item-heading {
+  display: none;
+}
+.cursor-smith-section.cursor-smith-in-page {
+  border-bottom: none;
+  margin-bottom: 0;
+}
+
+/* The first card's heading is the plugin's name and version: a small muted
+   line, as it was, not a section title. */
+.cursor-smith-global > .setting-item-heading {
+  padding: 0;
+  margin: 0 0 0.4em;
+}
+.cursor-smith-global > .setting-item-heading .setting-item-name {
+  font-size: var(--font-smaller);
+  font-weight: normal;
+  color: var(--text-muted);
+}
+
+/* Small all-caps label splitting a section into sub-groups (Torch
+   spotlight's "Spotlight" vs "Environment") without a section of its own.
+   It is a row with only a name, so the name is what gets styled. */
+.cursor-smith-section .setting-item.cursor-smith-subsection-row {
+  padding: 0.9em 0 0.2em;
+}
+.cursor-smith-section .setting-item.cursor-smith-subsection-row .setting-item-name {
+  font-size: var(--font-ui-smaller);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--text-muted);
+}
+.cursor-smith-section .setting-item.cursor-smith-subsection-row::before {
+  content: none;
+}
+
+/* Sub-options nested under a parent toggle (or the style dropdown), so
+   conditional groups - Torch spotlight's Follow/Light size/etc., or the Box
+   style's Hollow -> Outline width - read as a visual hierarchy instead of a
+   flat list: 26px in per level, with a 1px guide line. The line was 2px,
+   and a nested row drew its parents' too (::after), so it showed two; the
+   user asked for them thinner and single (2026-09-27). The step is the old
+   one, so the text sits where it did (and Word-Smith's .ws-settings-sub
+   still lines up). */
+.cursor-smith-section .setting-item.cursor-smith-sub {
+  margin-left: 12px;
+  border-left: 1px solid var(--background-modifier-border);
+  padding-left: 13px;
+}
+.cursor-smith-section .setting-item.cursor-smith-sub-2 {
+  margin-left: 38px;
+}
+.cursor-smith-section .setting-item.cursor-smith-sub-3 {
+  margin-left: 64px;
+}
+/* The hairline above a row starts after the guide line, and the first row
+   of a sub-group has none: the line and the step already mark the break. */
+.cursor-smith-section .setting-item.cursor-smith-sub::before {
+  left: 12px;
+}
+.cursor-smith-section .setting-item:not(.cursor-smith-sub) + .setting-item.cursor-smith-sub::before,
+.cursor-smith-section .setting-item.cursor-smith-sub-1 + .setting-item.cursor-smith-sub-2::before,
+.cursor-smith-section .setting-item.cursor-smith-sub-2 + .setting-item.cursor-smith-sub-3::before {
+  content: none;
+}
+
+/* --- Settings panel: rows of colour pickers ------------------------------
+   The gradient has one row of 2-4 pickers per theme (dark and light), and
+   the Speed demon ramp one of four. Each row's pickers are all added to a
+   SINGLE Setting (see lookDefinitions in main.js) so they lay out side by
+   side in that row's control area rather than each getting its own labelled
+   row. Obsidian's .setting-item-control is already a flex row, so all this
+   needs to add is breathing room between the swatches - without it they butt
+   against each other and read as one wide multi-coloured control instead of
+   N separate pickers. */
+.cursor-smith-color-row .setting-item-control {
+  gap: 10px;
+  align-items: flex-end;
+}
+/* Each swatch in a cell with its label under it: Dark / Light, or the
+   ramp's stop numbers. The picker's input is moved into the cell by the
+   row (swatchRow). */
+.cursor-smith-swatch-cell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+}
+.cursor-smith-swatch-label {
+  font-size: var(--font-ui-smaller);
+  color: var(--text-muted);
+  line-height: 1;
+}
+
+/* --- Page entries ------------------------------------------------------------
+   The categories are Obsidian's own sub-pages; their entries are Obsidian's
+   rows. This plugin adds only a Lucide icon, in front of the entry's NAME.
+   The icon is written into the description (the one slot of an entry that
+   takes markup) and, once the entry is rendered, moved by the panel's
+   decorate pass (settings-tab.ts, decorateIcons) to the front of the
+   entry's info block, which takes .cursor-smith-iconed: a two-column grid,
+   the icon in the first column spanning the name and the description, the
+   two of them in the second - a leading icon. (This was a parent-matching
+   selector and a contents display before; the plugin review warns on
+   both.) */
+.setting-item-info.cursor-smith-iconed {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 0 10px;
+  align-items: start;
+}
+.setting-item-info.cursor-smith-iconed > .setting-item-name {
+  grid-column: 2;
+  grid-row: 1;
+}
+.setting-item-info.cursor-smith-iconed > .setting-item-description {
+  grid-column: 2;
+  grid-row: 2;
+}
+/* On the name's line, not floating between the name and the description:
+   the name's line box is about 20px, the icon 16px. */
+.cursor-smith-page-icon {
+  grid-column: 1;
+  grid-row: 1 / 3;
+  align-self: start;
+  margin-top: 2px;
+  display: inline-flex;
+  align-items: center;
+  color: var(--text-muted);
+}
+.cursor-smith-page-icon svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* A page's last row: the reset link. */
+.setting-item.cursor-smith-reset-row {
+  padding: 0.5em 0 0.2em;
+}
+.setting-item.cursor-smith-reset-row .setting-item-info {
+  display: none;
+}
+.setting-item.cursor-smith-reset-row .setting-item-control {
+  justify-content: flex-end;
+}
+.setting-item.cursor-smith-reset-row::before {
+  content: none;
+}
+.cursor-smith-reset-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 8px;
+  border: none;
+  border-radius: var(--radius-s);
+  background: transparent;
+  color: var(--text-faint);
+  font-size: var(--font-ui-smaller);
+  cursor: pointer;
+  box-shadow: none;
+}
+.cursor-smith-reset-link:hover {
+  color: var(--text-muted);
+  background-color: var(--background-modifier-hover);
+}
+.cursor-smith-reset-link svg {
+  width: 12px;
+  height: 12px;
+}
+
+/* --- The Effects rail ---------------------------------------------------------
+   A chip per effect on the Effects page: its icon, a dot for "on", the
+   picked one filled with the accent. In the row's control area, which
+   Obsidian empties on a re-render. */
+.setting-item.cursor-smith-rail-row {
+  display: block;
+  border-bottom: 1px solid var(--background-modifier-border);
+}
+.setting-item.cursor-smith-rail-row .setting-item-name {
+  display: none;
+}
+.setting-item.cursor-smith-rail-row .setting-item-description {
+  margin-top: 0;
+}
+.setting-item.cursor-smith-rail-row .setting-item-control {
+  display: block;
+  width: 100%;
+}
+.cursor-smith-rail {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 8px 0 6px;
+}
+/* On the tag as well as the class: Obsidian's own button:not(.clickable-icon)
+   rule outranks a lone class and would fill every pill. */
+button.cursor-smith-chip,
+button.cursor-smith-chip:hover {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 30px;
+  padding: 0 11px;
+  margin: 0;
+  border-radius: 15px;
+  border: 1px solid var(--background-modifier-border);
+  background: transparent;
+  color: var(--text-muted);
+  font-size: var(--font-ui-small);
+  font-weight: normal;
+  line-height: 1;
+  cursor: pointer;
+  box-shadow: none;
+}
+.cursor-smith-chip:hover {
+  color: var(--text-normal);
+  border-color: var(--background-modifier-border-hover);
+}
+.cursor-smith-chip-icon {
+  display: inline-flex;
+  align-items: center;
+}
+.cursor-smith-chip-icon svg {
+  width: 13px;
+  height: 13px;
+}
+/* The tick at the left of a pill - a chip's while its effect is on, a
+   preset card's while it is the look in use. One look for both. */
+.cursor-smith-tick {
+  display: inline-flex;
+  align-items: center;
+  color: var(--interactive-accent);
+}
+.cursor-smith-tick svg {
+  width: 13px;
+  height: 13px;
+  stroke-width: 3;
+}
+.cursor-smith-chip .cursor-smith-tick {
+  display: none;
+}
+.cursor-smith-chip.is-on .cursor-smith-tick {
+  display: inline-flex;
+}
+.cursor-smith-chip.is-on {
+  color: var(--text-normal);
+  border-color: var(--interactive-accent);
+  background-color: color-mix(in srgb, var(--interactive-accent) 12%, transparent);
+}
+.cursor-smith-chip.is-picked,
+.cursor-smith-chip.is-picked:hover {
+  color: var(--text-on-accent);
+  background-color: var(--interactive-accent);
+  border-color: var(--interactive-accent);
+}
+.cursor-smith-chip.is-picked .cursor-smith-tick {
+  color: var(--text-on-accent);
+}
+/* A thumb's height on a phone. */
+.is-mobile .cursor-smith-chip,
+.is-mobile .cursor-smith-chip:hover {
+  height: 40px;
+  padding: 0 14px;
+  border-radius: 20px;
+  font-size: var(--font-ui-medium);
+}
+
+/* --- A row that needs a setting from another card -------------------------
+   Shown, dimmed, its control disabled, the hint in the description. */
+.setting-item.cursor-smith-needs {
+  opacity: 0.55;
+}
+.cursor-smith-needs-hint {
+  display: none;
+  color: var(--text-accent);
+  /* The gap before it is a margin, not a typed space: after a Chinese or
+     Japanese full stop a space reads wrong (1.8.1, the translations). */
+  margin-inline-start: 0.3em;
+}
+.cursor-smith-needs-hint.is-shown {
+  display: inline;
+}
+
+/* --- The preset strip ----------------------------------------------------------
+   Thin cards in the header, one per saved preset: a "use" button holding
+   a little text with a caret crawling it in the preset's look, the name
+   and a tick on the one in use, then its three buttons beside it; after
+   them Save and Import, which are plain buttons. The card rules undo
+   Obsidian's button styling, since Save and Import share them. */
+.setting-item.cursor-smith-presets-row {
+  display: block;
+}
+.setting-item.cursor-smith-presets-row .setting-item-control {
+  display: block;
+  width: 100%;
+  padding-top: 8px;
+}
+.cursor-smith-presets {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+/* Save and Import on a line of their own below the presets, however many
+   there are: a full-width item breaks the wrapping row before them. */
+.cursor-smith-pcard-break {
+  flex-basis: 100%;
+  width: 100%;
+  height: 0;
+}
+.cursor-smith-pcard,
+.cursor-smith-pcard:hover,
+button.cursor-smith-pcard,
+button.cursor-smith-pcard:hover {
+  display: inline-flex;
+  align-items: center;
+  gap: 0;
+  height: 30px;
+  min-height: 0;
+  padding: 0 6px 0 0;
+  margin: 0;
+  border: 1px solid var(--background-modifier-border);
+  border-radius: 15px;
+  /* The demo's effects stay inside the card. */
+  overflow: hidden;
+  background-color: transparent;
+  color: var(--text-normal);
+  font-size: var(--font-ui-small);
+  font-weight: normal;
+  line-height: 1;
+  white-space: nowrap;
+  cursor: pointer;
+  box-shadow: none;
+}
+.cursor-smith-pcard:hover {
+  border-color: var(--background-modifier-border-hover);
+}
+.cursor-smith-pcard.is-active,
+.cursor-smith-pcard.is-active:hover {
+  border-color: var(--interactive-accent);
+  background-color: color-mix(in srgb, var(--interactive-accent) 12%, transparent);
+}
+/* The "use" button: no look of its own, it fills the card's left side. */
+button.cursor-smith-pcard-use,
+button.cursor-smith-pcard-use:hover {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 100%;
+  min-height: 0;
+  padding: 0 4px 0 8px;
+  margin: 0;
+  border: none;
+  border-radius: 15px 0 0 15px;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  line-height: 1;
+  white-space: nowrap;
+  cursor: pointer;
+  box-shadow: none;
+}
+.cursor-smith-pcard-use:focus-visible {
+  box-shadow: 0 0 0 2px var(--background-modifier-border-focus);
+}
+/* The demo: the preset's name in the editor's monospace font, and over it
+   a caret in the preset's look, driven frame by frame from the preset's
+   own numbers (demo.ts): it "types" the name, pauses, jumps back. The
+   caret's offset and width are inline; ghosts (CRT effects) are boxes
+   under it. Still under reduced motion. */
+.cursor-smith-pcard-demo {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  height: 22px;
+  padding: 0;
+  font-family: var(--font-monospace);
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 22px;
+  letter-spacing: 1px;
+  color: var(--text-normal);
+}
+/* Room for the caret after the last letter (it lands there, as a real one
+   does after the last keystroke), and for a smear's stretch. */
+.cursor-smith-pcard-text {
+  padding-right: 22px;
+}
+.cursor-smith-pcard-demo {
+  margin-right: 6px;
+}
+/* A particle: a pixel thrown, risen or burnt, moved and faded inline. No
+   will-change on it, the caret or the ghosts: a layer each (160 particles
+   at Chaos 11) cost a phone more to layerize every frame than the repaint
+   they save (the Randomizer's preview lagged on the phone). */
+.cursor-smith-pcard-particle {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 2px;
+  height: 2px;
+  border-radius: 1px;
+  pointer-events: none;
+  z-index: 2;
+}
+.cursor-smith-pcard-caret,
+.cursor-smith-pcard-ghost {
+  position: absolute;
+  left: 0;
+  top: 5px;
+  width: 1ch;
+  height: 12px;
+  border-radius: 1px;
+}
+.cursor-smith-pcard-ghost {
+  z-index: 0;
+}
+.cursor-smith-pcard-caret {
+  z-index: 1;
+}
+.cursor-smith-pcard-caret-line {
+  width: 2px;
+}
+/* A Line's serifs: a bar across each end, in the caret's own paint. */
+.cursor-smith-pcard-caret-line.is-serif::before,
+.cursor-smith-pcard-caret-line.is-serif::after {
+  content: "";
+  position: absolute;
+  left: -2px;
+  right: -2px;
+  height: 1px;
+  background: inherit;
+}
+.cursor-smith-pcard-caret-line.is-serif::before {
+  top: 0;
+}
+.cursor-smith-pcard-caret-line.is-serif::after {
+  bottom: 0;
+}
+/* Shredder's blades (demo.ts) are drawn in the caret's background: the
+   serifs give way to them. */
+.cursor-smith-pcard-caret-line.is-shred::before,
+.cursor-smith-pcard-caret-line.is-shred::after {
+  display: none;
+}
+.cursor-smith-pcard-caret-underline {
+  top: 16px;
+  height: 2px;
+}
+/* An Underline's serifs: a tick up at each end, in the caret's own paint;
+   they give way to an eater (the Vacuum draws its own, as a U). */
+.cursor-smith-pcard-caret-underline.is-serif::before,
+.cursor-smith-pcard-caret-underline.is-serif::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  width: 1px;
+  height: calc(100% + 2px);
+  background: inherit;
+  border-radius: inherit;
+}
+.cursor-smith-pcard-caret-underline.is-serif::before {
+  left: 0;
+}
+.cursor-smith-pcard-caret-underline.is-serif::after {
+  right: 0;
+}
+.cursor-smith-pcard-caret-underline.is-shred::before,
+.cursor-smith-pcard-caret-underline.is-shred::after {
+  display: none;
+}
+/* The letter under a Box caret: the name again, inside the caret and
+   clipped to it, moved back by the caret's own offset (inline) so it lies
+   over the real letters; its color is inline (black or white). */
+.cursor-smith-pcard-caret-box {
+  overflow: hidden;
+}
+.cursor-smith-pcard-caret-text {
+  position: absolute;
+  left: 0;
+  top: -5px;
+  line-height: 22px;
+  white-space: nowrap;
+}
+/* The buttons beside the name: small icons, muted until hovered. They
+   carry Obsidian's clickable-icon class, which keeps them out of its
+   narrow-column rule that makes every control button full width. */
+.cursor-smith-pcard-actions {
+  display: inline-flex;
+  flex-shrink: 0;
+  gap: 0;
+  margin-left: 2px;
+}
+.cursor-smith-pcard-action.clickable-icon,
+.cursor-smith-pcard-action.clickable-icon:hover {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  min-height: 0;
+  padding: 0;
+  margin: 0;
+  border: none;
+  border-radius: 11px;
+  background: transparent;
+  color: var(--text-faint);
+  cursor: pointer;
+  box-shadow: none;
+}
+.cursor-smith-pcard-action.clickable-icon:hover {
+  color: var(--text-normal);
+  background-color: var(--background-modifier-hover);
+}
+.cursor-smith-pcard-action svg {
+  width: 12px;
+  height: 12px;
+}
+/* Below 400px of settings column (Obsidian's own breakpoint, the one that
+   makes its control buttons full width) the strip is a list: one card
+   per line, demo and name at the left, the buttons at the right edge,
+   Save and Import sharing a line. */
+@container (max-width: 400px) {
+  .setting-item.cursor-smith-presets-row .setting-item-control .cursor-smith-pcard {
+    width: 100%;
+    justify-content: flex-start;
+  }
+  .setting-item.cursor-smith-presets-row .setting-item-control .cursor-smith-pcard-use {
+    flex: 1 1 auto;
+    justify-content: flex-start;
+  }
+  .setting-item.cursor-smith-presets-row .setting-item-control .cursor-smith-pcard-more {
+    flex: 1 1 0;
+    width: auto;
+    justify-content: center;
+  }
+  .cursor-smith-pcard-actions {
+    margin-left: auto;
+  }
+  .setting-item .setting-item-control button.cursor-smith-chip.cursor-smith-chip {
+    width: auto;
+  }
+  .setting-item-control .cursor-smith-mode-tabs {
+    justify-content: flex-start;
+  }
+}
+/* A tapped trash: red, and a word. */
+.cursor-smith-pcard-action.clickable-icon.is-armed,
+.cursor-smith-pcard-action.clickable-icon.is-armed:hover {
+  width: auto;
+  padding: 0 8px;
+  color: var(--text-on-accent);
+  background-color: var(--background-modifier-error);
+  font-size: var(--font-ui-smaller);
+  font-weight: 600;
+}
+.cursor-smith-pcard-more .cursor-smith-pcard-name {
+  font-weight: 600;
+}
+/* Save and Import: an icon and a word, dashed. */
+.cursor-smith-pcard.cursor-smith-pcard-more,
+.cursor-smith-pcard.cursor-smith-pcard-more:hover {
+  gap: 8px;
+  padding: 0 10px 0 8px;
+  border-style: dashed;
+  background-color: transparent;
+  color: var(--text-muted);
+}
+.cursor-smith-pcard.cursor-smith-pcard-more:hover {
+  color: var(--text-normal);
+}
+.cursor-smith-pcard-more-icon {
+  display: inline-flex;
+}
+.cursor-smith-pcard-more-icon svg {
+  width: 13px;
+  height: 13px;
+}
+.is-mobile .cursor-smith-pcard,
+.is-mobile .cursor-smith-pcard:hover {
+  height: 40px;
+  border-radius: 20px;
+  font-size: var(--font-ui-medium);
+}
+.is-mobile .cursor-smith-pcard-use,
+.is-mobile .cursor-smith-pcard-use:hover {
+  padding-left: 12px;
+  border-radius: 20px 0 0 20px;
+}
+/* On a phone the two buttons are thumb-sized: the card's full height. */
+.is-mobile .cursor-smith-pcard,
+.is-mobile .cursor-smith-pcard:hover {
+  padding-right: 2px;
+}
+.is-mobile .cursor-smith-pcard-actions {
+  gap: 2px;
+}
+.is-mobile .cursor-smith-pcard-action.clickable-icon,
+.is-mobile .cursor-smith-pcard-action.clickable-icon:hover {
+  width: 40px;
+  height: 40px;
+  border-radius: 20px;
+}
+.is-mobile .cursor-smith-pcard-action svg {
+  width: 19px;
+  height: 19px;
+}
+
+/* --- The prompt (Save, Import) -------------------------------------------------- */
+.cursor-smith-prompt-field {
+  width: 100%;
+  margin: 4px 0 6px;
+}
+.cursor-smith-prompt-note {
+  min-height: 1.4em;
+  color: var(--text-warning);
+  font-size: var(--font-ui-smaller);
+}
+
+/* --- Canvas Engine Styles (Box, Line, Underline) --- */
+/* The wrapper is the fixed, clipping, inert box the tick sizes to the
+   caret's neighbourhood; the canvas sits absolutely inside it. This one
+   stylesheet reaches every document the canvas migrates into - Obsidian
+   clones the main window's stylesheets into each pop-out and into the 1.13
+   settings window. Collapsed to 0x0 until the tick sizes them so nothing
+   can sit over the drag surface meanwhile. */
+.cursor-smith-wrapper {
+  position: fixed;
+  overflow: hidden;
+  pointer-events: none;
+  /* Above the torch's darkness (10000) and glow (10001); see there. */
+  z-index: 10002;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+}
+/* On a phone the wrapper is a layer of the scrolled content, inside the
+   editor's scroller beside CodeMirror's own cursor layer (an absolute child
+   at 150), so the compositor carries the caret with the text between
+   frames; a fixed overlay trails a fling by a frame or more there. The
+   scroller is a stacking context, so this z-index is local to it: the
+   torch's darkness (outside, 10000) covers the caret on a phone, and the
+   light it follows is what shows it. */
+.cursor-smith-wrapper.cursor-smith-wrapper-scrolled {
+  position: absolute;
+  z-index: 151;
+}
+.cursor-smith-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+}
+
+/* The Translucent option works by putting a mix-blend-mode on the canvas
+   WRAPPER (the div this canvas sits in), set from main.js - see
+   applyCanvasBlend there for why it has to be the wrapper and not the canvas
+   itself. Two things would quietly break it, neither of which looks like a
+   bug at the point you'd write it:
+
+     • `isolation: isolate` on anything between the wrapper and
+       .app-container. Isolation stops the blend reaching the editor, so the
+       option silently does nothing at all.
+     • a mix-blend-mode declared on .cursor-smith-canvas here. The
+       wrapper is a stacking context, so a blend on the canvas inside it
+       composites against the wrapper's empty background - no visible effect,
+       and it costs a blend pass every frame to achieve nothing.
+
+   Keep blend-mode handling for this layer in main.js only. */
+
+/* The class is doubled (`.foo.foo`) purely to raise this selector's
+   specificity above a plausible community theme or CSS snippet that sets
+   caret-color on the same or a more specific element - without reaching for
+   !important, which would make this impossible for a user to override in
+   turn (e.g. to combine this plugin with their own caret tweaks).
+
+   ZERO ALPHA, NOT `transparent`. On iOS, WebKit tints the entire selection
+   UI - the highlight wash and both drag handles - with caret-color, and uses
+   only its RGB channels, discarding the alpha. `transparent` is
+   rgba(0, 0, 0, 0), so the tint it hands over is BLACK. That is issue #24: a
+   selection painted black on a dark theme with two black handles nobody can
+   see to grab. Measured off the reporter's pair of screenshots - the broken
+   highlight is rgb(16,16,16) over an rgb(20,20,20) background, the working
+   one rgb(42,31,53), i.e. the same wash at the same ~20% alpha differing
+   only in the tint - and the handles are the same colour at full alpha.
+
+   Alpha is what hides the caret, so holding it at 0 hides it exactly as
+   `transparent` did; only the channels iOS misreads change. Chromium
+   (desktop, and Android) never derives selection colours from caret-color,
+   so this is inert everywhere except the platform that has the bug - no
+   platform sniffing needed.
+
+   The accent, rather than some fixed colour, because that is what Obsidian
+   builds its own --text-selection from, so the iOS highlight lands on the
+   same hue the desktop one already uses. The literal fallback is not
+   decoration: an undefined var() makes the declaration invalid AT
+   COMPUTED-VALUE TIME, and that resolves to `unset` - inherited, i.e. a
+   fully VISIBLE caret - rather than falling back to any earlier
+   declaration. */
+body.cursor-smith-hide-native.cursor-smith-hide-native {
+  caret-color: hsla(var(--color-accent-hsl, 254, 80%, 68%), 0);
+}
+
+/* CodeMirror 6 (Obsidian's editor) draws its own cursor as a DOM element
+   rather than relying on the browser's native caret, so caret-color alone
+   doesn't hide it - it has its own independent blink cycle and would
+   otherwise flash through whenever our custom cursor fades out. The
+   ancestor class is doubled for the same specificity reason as above: CM6
+   themes style these cursor elements directly, so we need real specificity
+   headroom rather than relying on !important or stylesheet load order. */
+body.cursor-smith-hide-native.cursor-smith-hide-native .cm-cursor,
+body.cursor-smith-hide-native.cursor-smith-hide-native .cm-cursor-primary,
+body.cursor-smith-hide-native.cursor-smith-hide-native .cm-cursor-secondary,
+body.cursor-smith-hide-native.cursor-smith-hide-native .cm-fat-cursor,
+body.cursor-smith-hide-native.cursor-smith-hide-native .cm-dropCursor {
+  display: none;
+  opacity: 0;
+  visibility: hidden;
+  border-color: transparent;
+  background-color: transparent;
+}
+
+/* The cursor LAYER carries CodeMirror's blink as a CSS animation (cm-blink,
+   steps(1)). A running main-thread animation has its style recalculated on
+   every rendering frame - including every frame this plugin's loop requests,
+   of which an idle page would otherwise have almost none. With every cursor
+   in the layer hidden above, the animation animates nothing; stopping it took
+   idle style recalcs from ~25/s to 0 (measured 2026-09-17). */
+body.cursor-smith-hide-native.cursor-smith-hide-native .cm-cursorLayer {
+  animation: none;
+}
+
+/* Belt-and-braces: some CM themes set caret-color directly on .cm-content
+   or .cm-line. That used to tie in specificity with the rule above and
+   fall back to stylesheet load order (fixed here with !important); doubling
+   the ancestor class instead gives this selector more specificity than a
+   theme's plain `.cm-content`/`.cm-line` rule outright, so we no longer
+   depend on load order OR need !important to win the cascade.
+
+   The same zero-alpha accent as the body rule, and it has to be: this
+   selector is the MORE specific of the two, so a `transparent` left here
+   would win inside the editor and keep issue #24 alive in the one place the
+   plugin is actually for. */
+body.cursor-smith-hide-native.cursor-smith-hide-native .cm-content,
+body.cursor-smith-hide-native.cursor-smith-hide-native .cm-line {
+  caret-color: hsla(var(--color-accent-hsl, 254, 80%, 68%), 0);
+}
+
+/* Plugins that draw their own caret onto a CSS-transformed surface, where we
+   deliberately decline to draw one (see isExcalidrawCaretHost in main.js).
+   Excalidraw edits text in a <textarea> scaled and rotated to match the shape,
+   which our measuring code cannot follow, so suppressing our cursor there is
+   the fix - but the body rule above works purely by INHERITANCE, so without
+   this carve-out the textarea would inherit the zero-alpha caret colour and
+   end up with no caret from either source. A declaration on the element
+   itself always beats an inherited value, so no doubled class is needed
+   here. */
+body.cursor-smith-hide-native .excalidraw textarea,
+body.cursor-smith-hide-native .excalidraw-wrapper textarea,
+body.cursor-smith-hide-native textarea.excalidraw-wysiwyg {
+  caret-color: auto;
+}
+
+/* --- Torch spotlight -----------------------------------------------------
+   Two fixed layers under .app-container, siblings of the canvas wrapper:
+   the darkness and, above it, the warm core. Both are canvases PAINTED by
+   the torch tick (paintTorchDarkness / paintTorchGlow); nothing here is a
+   gradient, and nothing here is settings-driven except through the custom
+   property the tick writes. Both are collapsed to 0x0 until the tick sizes
+   them, so neither can sit over the window's drag surface meanwhile.
+
+   NO mix-blend-mode on the darkness. It used to be multiply with a warm
+   colour at the centre stop, which is why the spotlight read as a muddy
+   brown wash rather than as a dark room: multiply can only ever darken, so
+   a warm "tint" walks the page toward brown instead of lighting it. Plain
+   black with alpha, composited normally, is what the reference does - and
+   it is one less blend pass per frame. */
+.cursor-smith-torch-overlay {
+  position: fixed;
+  pointer-events: none;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+  /* 10000, the glow 10001 and the caret canvas 10002, in that order: just
+     under Word-Smith's raised chrome - its letterbox masks (10003), status
+     bar (10006), titlebar (10007) and Vim panel (10008) while the editor is
+     focused - which darkens ITSELF under the torch (the contract's Way B,
+     the user's pick on 2026-09-20: Word-Smith keys on
+     body.cursor-smith-torch-active and washes that chrome at the torch's
+     own darkness). At rest (20-24) the chrome is under these and the torch
+     darkens it. At 10010 - above the raised chrome, 1.5.9 to 1.6.9 - the
+     chrome was darkened twice, by the torch and by its own wash: "the torch
+     makes the Word-Smith powerline black" (2026-09-27). Nothing of
+     Obsidian's sits in between (its own layers stop at the tooltip's 70). */
+  z-index: 10000;
+  opacity: 1;
+  transition: opacity 0.2s ease;
+}
+
+/* The warm core, as its own layer. It CANNOT live inside
+   .cursor-smith-torch-overlay: that element carries a z-index, so it is a
+   stacking context, and a screen blend nested inside it would composite
+   against the overlay's own pixels instead of against the editor - visible
+   effect nil, cost one blend pass per frame. See ARCHITECTURE.md,
+   "Blending against the editor". Additive (screen) because multiply can
+   only darken; this sits one z-index above the darkness so it lights what
+   the overlay just dimmed. Built and destroyed by the torch tick, only
+   while Glow strength > 0 - a blended layer costs a re-composite of
+   everything beneath it whether or not it is showing anything.
+
+   Glow strength scales the whole layer through --torch-glow rather than
+   the painted falloff, so the shape stays put as the slider moves and the
+   candle flicker is one number to multiply in. */
+.cursor-smith-torch-glow {
+  position: fixed;
+  pointer-events: none;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+  z-index: 10001;
+  mix-blend-mode: screen;
+  opacity: var(--torch-glow, 0);
+}
+/* Two classes outrank the one-class rules above; nothing sets these
+   inline, so no !important is needed to hide a layer. */
+.cursor-smith-torch-glow.cursor-smith-torch-hidden,
+.cursor-smith-torch-overlay.cursor-smith-torch-hidden {
+  opacity: 0;
+  display: none;
+}
+
+/* The candle flicker LIVES IN THE TORCH TICK, which writes --torch-glow
+   under the frame governor. It used to be a keyframe animation here, and
+   that is why this warning exists rather than the feature: a CSS animation
+   runs on the compositor, entirely outside the rAF frame governor, so it
+   pinned the display to full refresh rate for as long as the torch was on,
+   no matter which gear the render loops chose - and on a layer blended over
+   the whole editor pane, every flicker frame forced a re-composite rather
+   than a cheap opacity change. Do NOT re-add an animation or transition
+   property on either torch layer for the flame: the effect already exists,
+   one governor-friendly custom-property write per frame. */
+
+/* Note: we used to force .titlebar/.status-bar to a very high z-index here
+   to keep the cursor canvas from painting over them. That fought against
+   whatever stacking context Obsidian's own DOM created around those
+   elements (numerically "winning" z-index doesn't help if an ancestor
+   creates its own stacking context), so the canvas could still end up on
+   top in practice - and a full-viewport layer sitting over the titlebar,
+   even invisibly, is exactly what breaks Electron's native window-drag
+   hit-testing. The canvas is now clip-path'd to the actual editor pane in
+   main.js (see editorClip()), so it's physically incapable of overlapping
+   the titlebar or status bar - no z-index tug-of-war needed, and dragging
+   the window works normally again. */
+/* --- Settings panel: the "motion effects are off" notice -----------------
+   The first row of the panel, shown only while the OS is actually asking
+   for reduced motion (see reducedMotionNotice in main.js).
+
+   It exists because the suppression is deliberately invisible everywhere
+   else: applyReducedMotion() runs on the merged copy inside
+   effectiveSettings(), never on this.settings, so the toggles below keep
+   showing what the user chose rather than being rewritten by an OS
+   preference. Correct for the data, but it means Smooth movement and Motion
+   smear can read as ON while doing nothing - which is precisely the bug
+   report this notice is here to pre-empt.
+
+   Styled off --text-warning rather than a hardcoded colour so it follows the
+   user's theme. */
+.setting-item.cursor-smith-reduced-notice {
+  border-left: 3px solid var(--text-warning);
+}
+.setting-item.cursor-smith-reduced-notice .setting-item-name {
+  color: var(--text-warning);
+}
+
+/* The Effects entry's value: one icon per effect that is on. */
+.cursor-smith-value-icon {
+  display: inline-flex;
+  align-items: center;
+  margin-left: 6px;
+  color: var(--text-muted);
+}
+.cursor-smith-value-icon svg {
+  width: 15px;
+  height: 15px;
+}
+
+/* --- About: what's new, built in; the version above, the notes in a box that scrolls --- */
+.setting-item.cursor-smith-about-notes-row {
+  display: block;
+}
+.cursor-smith-about-ver {
+  font-weight: var(--font-bold);
+  margin-bottom: var(--size-4-2);
+}
+.cursor-smith-about-notes {
+  max-height: 18em;
+  overflow: auto;
+  padding: var(--size-4-2) var(--size-4-3);
+  border: 1px solid var(--background-modifier-border);
+  border-radius: var(--radius-m);
+  background-color: var(--background-secondary);
+  font-size: var(--font-ui-small);
+  user-select: text;
+}
+.cursor-smith-about-head {
+  margin: var(--size-4-2) 0 var(--size-4-1);
+  font-size: var(--font-ui-small);
+}
+.cursor-smith-about-head:first-child {
+  margin-top: 0;
+}
+.cursor-smith-about-notes ul {
+  margin: 0;
+  padding-left: var(--size-4-5);
+  color: var(--text-muted);
+}
+.cursor-smith-about-notes li + li {
+  margin-top: var(--size-4-1);
+}
+.cursor-smith-about-notes strong {
+  color: var(--text-normal);
+}
+.cursor-smith-about-notes p {
+  margin: var(--size-4-2) 0 0;
+  color: var(--text-muted);
+}
+/* Buy me a coffee in its own yellow, as Word-Smith has it */
+button.cursor-smith-about-coffee,
+button.cursor-smith-about-coffee:hover {
+  background-color: #ffdd00;
+  color: #1a1a1a;
+  font-weight: var(--font-semibold);
+}
+
+/* --- The Vim alert: a tiny card under the mode switch while Vim is on --- */
+.setting-item.cursor-smith-alert {
+  align-items: center;
+  gap: 10px;
+  margin: 6px 0 2px;
+  padding: 8px 10px;
+  border: 1px solid color-mix(in srgb, var(--text-warning) 45%, transparent);
+  border-radius: 8px;
+  background-color: color-mix(in srgb, var(--text-warning) 8%, transparent);
+}
+.setting-item.cursor-smith-alert .setting-item-name:empty {
+  display: none;
+}
+.setting-item.cursor-smith-alert .setting-item-description {
+  padding-top: 0;
+  color: var(--text-normal);
+}
+/* Obsidian stacks a row's parts in a narrow column with
+   .setting-item:not(:is(...)) (0,3,0) inside a container query, and on a
+   phone with .is-phone .modal .setting-item:not(:is(...)) (0,5,0). The
+   alert keeps its icon beside the text in both: these two selectors
+   out-rank the first and tie the second, and this sheet comes later. */
+.setting-item.cursor-smith-alert.cursor-smith-alert.cursor-smith-alert,
+.is-phone .modal .setting-item.cursor-smith-alert.cursor-smith-alert {
+  flex-direction: row;
+  align-items: flex-start;
+}
+.setting-item.cursor-smith-alert .setting-item-info {
+  flex: 1 1 0;
+}
+.cursor-smith-alert-icon {
+  display: inline-flex;
+  flex-shrink: 0;
+  color: var(--text-warning);
+}
+.cursor-smith-alert-icon svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* --- Settings panel and status bar bits (static, so classes not inline) --- */
+
+/* The Vim mode indicator pinned to the LEFT of the status bar: Obsidian
+   packs status items to the right in one flex row, so the lowest `order`
+   puts this one first and `margin-right: auto` absorbs the free space after
+   it - the standard flexbox left/right split. */
+.cursor-smith-vim-status {
+  order: -9999;
+  margin-right: auto;
+}
+
+/* Share-code fields. */
+
+/* Small muted notes among a card's rows (no presets yet, what Command
+   mode covers): a row with no name and only a description. The warning
+   variant (Vim key bindings off) is tinted. */
+.setting-item.cursor-smith-note-row .setting-item-name:empty {
+  display: none;
+}
+.setting-item.cursor-smith-note-row .setting-item-description {
+  margin-top: 0;
+}
+.setting-item.cursor-smith-note-warning .setting-item-description {
+  color: var(--text-warning, var(--text-muted));
+}
+
+/* The five Vim mode tabs: chips (see the Effects rail) in the row's
+   control area, each in its mode's cursor color (inline). */
+.cursor-smith-mode-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 6px;
+}
+.cursor-smith-mode-tab.is-picked {
+  font-weight: 600;
+}
+
+/* --- The hotkeys card (the Behavior page) --------------------------------------
+   As Word-Smith's: a keyboard icon and a line per command with the hotkey it
+   has now - Obsidian's own `setting-hotkey` chip ("Blank" when empty) and its
+   `setting-add-hotkey-button`, both dressed by app.css, so a theme that
+   restyles the Hotkeys page restyles this card too. */
+.setting-item.cursor-smith-keys {
+  align-items: flex-start;
+  gap: 10px;
+  margin: 4px 0 2px;
+  padding: 8px 10px;
+  border: 1px solid var(--background-modifier-border);
+  border-radius: 8px;
+  background-color: var(--background-secondary);
+}
+.setting-item.cursor-smith-keys::before { content: none; }
+.setting-item.cursor-smith-keys .setting-item-name:empty { display: none; }
+.setting-item.cursor-smith-keys .setting-item-description { padding-top: 0; }
+.setting-item.cursor-smith-keys.cursor-smith-keys.cursor-smith-keys,
+.is-phone .modal .setting-item.cursor-smith-keys.cursor-smith-keys { flex-direction: row; align-items: flex-start; }
+.setting-item.cursor-smith-keys .setting-item-info { flex: 1 1 0; }
+.setting-item.cursor-smith-keys .setting-item-control { display: none; }
+.cursor-smith-keys-icon { display: inline-flex; flex-shrink: 0; margin-top: 1px; color: var(--text-muted); }
+.cursor-smith-keys-icon svg { width: 16px; height: 16px; }
+.cursor-smith-keys-line { display: flex; flex-wrap: wrap; gap: 4px 8px; align-items: center; }
+.cursor-smith-keys-name { color: var(--text-normal); }
+/* the chip and the plus beside the name, level on one line: Obsidian's
+   .setting-hotkey carries a top margin that would sit the chip low */
+.cursor-smith-keys-ctl { display: inline-flex; align-items: center; gap: 6px; flex-shrink: 0; }
+.cursor-smith-keys-ctl .setting-hotkey { margin: 0; align-self: center; }
+.cursor-smith-keys-key { white-space: nowrap; }
+.cursor-smith-keys-note { margin-top: 4px; font-size: var(--font-ui-smaller); color: var(--text-faint); }
+
+/* The Randomizer's preview (1.7.7): as wide as the page, a box with the
+   search box's rounded corners (a pill first; "less pilly", the user), the
+   look being edited playing in it - the preset cards' demo, scaled up
+   (demo.ts sets the scale), clipped so nothing it throws gets out. */
+.setting-item.cursor-smith-roll-pill-row {
+  border-top: none;
+  padding-block: 6px 14px;
+}
+.setting-item.cursor-smith-roll-pill-row .setting-item-info {
+  display: none;
+}
+.setting-item.cursor-smith-roll-pill-row .setting-item-control {
+  flex: 1 1 auto;
+  width: 100%;
+}
+/* A rounded box, not a pill: the phone's --input-radius is a pill's, which
+   cut the Vim badge in the corner. Contained: what moves in it lays out
+   and paints only it, not the page. */
+.cursor-smith-roll-stage {
+  position: relative;
+  width: 100%;
+  height: 92px;
+  overflow: hidden;
+  contain: strict;
+  border-radius: var(--radius-m, 8px);
+  background: var(--background-primary);
+  border: 1px solid var(--background-modifier-border);
+}
+/* The text low in the box: what rises off it (fire, fireworks, popped
+   letters) has room before the edge. */
+/* With Vim on (demo.ts, vimScriptFor): the mode's name in the stage's
+   corner, in the mode's color; the Visual selection under the letters. */
+.cursor-smith-roll-mode {
+  position: absolute;
+  left: 10px;
+  top: 8px;
+  padding: 1px 8px;
+  border-radius: 4px;
+  font-family: var(--font-monospace);
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 18px;
+  white-space: pre;
+}
+.cursor-smith-roll-select {
+  position: absolute;
+  top: 2px;
+  height: 18px;
+  border-radius: 2px;
+  pointer-events: none;
+  display: none;
+}
+/* One line, whatever the stage's width: the scale (demo.ts, fit) makes it
+   fit; wrapped, a phone's narrow stage broke it over two. */
+.cursor-smith-roll-stage .cursor-smith-roll-demo {
+  position: absolute;
+  left: 18px;
+  top: 64%;
+  width: max-content;
+  white-space: nowrap;
+  margin: 0;
+  transform: translateY(-50%);
+  transform-origin: left center;
+}
+/* The sentence's unwritten half: in place, unseen. */
+.cursor-smith-roll-unwritten {
+  visibility: hidden;
+}
+/* The preview's letters: one element each, for Typewriter's ink (a stamp
+   scales the letter in place). */
+.cursor-smith-roll-char {
+  display: inline-block;
+  white-space: pre;
+  transform-origin: 50% 70%;
+}
+/* A popped letter: the particle's box, sized by its letter. */
+.cursor-smith-pcard-particle.is-letter {
+  border-radius: 0;
+  line-height: 1;
+  font-weight: 700;
+}
+.cursor-smith-roll-buttons-row .cursor-smith-roll-dice {
+  display: inline-flex;
+  margin-inline-end: 6px;
+}
+.cursor-smith-roll-buttons-row .cursor-smith-roll-dice svg {
+  width: 16px;
+  height: 16px;
+}
