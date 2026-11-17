@@ -10,7 +10,11 @@ var __getOwnPropNames = Object.getOwnPropertyNames;
 var __getProtoOf = Object.getPrototypeOf;
 var __hasOwnProp = Object.prototype.hasOwnProperty;
 var __commonJS = (cb, mod) => function __require() {
-  return mod || (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
+  try {
+    return mod || (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
+  } catch (e) {
+    throw mod = 0, e;
+  }
 };
 var __export = (target, all) => {
   for (var name in all)
@@ -24,13 +28,20 @@ var __copyProps = (to, from, except, desc) => {
   }
   return to;
 };
-var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target, mod));
+var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(
+  // If the importer is in node compatibility mode or this is not an ESM
+  // file that has been converted to a CommonJS file using a Babel-
+  // compatible transform (i.e. "__esModule" has not been set), then set
+  // "default" to the CommonJS "module.exports" for node compatibility.
+  isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
+  mod
+));
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 
 // node_modules/sprintf-js/src/sprintf.js
 var require_sprintf = __commonJS({
   "node_modules/sprintf-js/src/sprintf.js"(exports) {
-    !function() {
+    !(function() {
       "use strict";
       var re = {
         not_string: /[^s]/,
@@ -190,17 +201,19 @@ var require_sprintf = __commonJS({
             if (arg_names === 3) {
               throw new Error("[sprintf] mixing positional and named placeholders is not (yet) supported");
             }
-            parse_tree.push({
-              placeholder: match[0],
-              param_no: match[1],
-              keys: match[2],
-              sign: match[3],
-              pad_char: match[4],
-              align: match[5],
-              width: match[6],
-              precision: match[7],
-              type: match[8]
-            });
+            parse_tree.push(
+              {
+                placeholder: match[0],
+                param_no: match[1],
+                keys: match[2],
+                sign: match[3],
+                pad_char: match[4],
+                align: match[5],
+                width: match[6],
+                precision: match[7],
+                type: match[8]
+              }
+            );
           } else {
             throw new SyntaxError("[sprintf] unexpected placeholder");
           }
@@ -224,7 +237,7 @@ var require_sprintf = __commonJS({
           });
         }
       }
-    }();
+    })();
   }
 });
 
@@ -234,11 +247,8 @@ __export(main_exports, {
   default: () => EasyTypingPlugin
 });
 module.exports = __toCommonJS(main_exports);
-var import_obsidian9 = require("obsidian");
+var import_obsidian8 = require("obsidian");
 var import_state6 = require("@codemirror/state");
-
-// src/core.ts
-var import_obsidian = require("obsidian");
 
 // src/utils.ts
 var import_state = require("@codemirror/state");
@@ -276,8 +286,7 @@ function convertEscapeChar(s) {
 function findFirstPipeNotPrecededByBackslash(s) {
   let regex = /^r\/[^]*?\/\|/;
   let regMatch = s.match(regex);
-  if (regMatch)
-    return regMatch[0].length - 1;
+  if (regMatch) return regMatch[0].length - 1;
   const match = s.match(/((^|[^\\])(\\\\)*)\|/);
   return match ? s.indexOf(match[0]) + match[1].length : -1;
 }
@@ -350,8 +359,7 @@ var SCRIPT_CHAR_CLASSES = {
   ["unknown" /* Unknown */]: ""
 };
 function classifyChar(ch) {
-  if (!ch || ch.length === 0)
-    return "unknown" /* Unknown */;
+  if (!ch || ch.length === 0) return "unknown" /* Unknown */;
   const code = ch.charCodeAt(0);
   if (code >= 19968 && code <= 40959 || code >= 13312 && code <= 19903) {
     return "chinese" /* Chinese */;
@@ -379,16 +387,14 @@ function resolveCharClass(cat, customCategories) {
   }
   if (customCategories) {
     const custom = customCategories.find((c) => c.name === cat);
-    if (custom)
-      return custom.pattern;
+    if (custom) return custom.pattern;
   }
   return "";
 }
 function buildPairRegexps(a, b, customCategories) {
   const classA = resolveCharClass(a, customCategories);
   const classB = resolveCharClass(b, customCategories);
-  if (!classA || !classB)
-    return [];
+  if (!classA || !classB) return [];
   const regAB = new RegExp(`([${classA}])([${classB}])`, "g");
   const regBA = new RegExp(`([${classB}])([${classA}])`, "g");
   return [regAB, regBA];
@@ -396,8 +402,7 @@ function buildPairRegexps(a, b, customCategories) {
 
 // src/formatting/text_formatter.ts
 function capitalizeFirstLetter(ctx, isFirstPart, isCursorInPart) {
-  if (!isFirstPart)
-    return ctx;
+  if (!isFirstPart) return ctx;
   const { content, prevCh, curCh } = ctx;
   const regFirstSentence = /^\s*(?:\- (?:\[[x ]\] )?)?"?(?:\*{1,3}|_{1,3}|==|~~)?[a-z\u0401\u0451\u0410-\u044f]/g;
   const regHeaderSentence = /^(?:#+ |>+ ?|")(?:\*{1,3}|_{1,3}|==|~~)?[a-z\u0401\u0451\u0410-\u044f]/g;
@@ -427,8 +432,7 @@ function capitalizeMidSentence(ctx) {
   const reg = /(?:[.?!]\s+|[。！？]\s*)(?:\*{1,3}|_{1,3}|==|~~)?[a-z\u0401\u0451\u0410-\u044f]/g;
   while (true) {
     const match = reg.exec(content);
-    if (!match)
-      break;
+    if (!match) break;
     const tempIndex = reg.lastIndex - 1;
     const isSpaceDot = tempIndex - 2 < 0 || content.substring(tempIndex - 2, tempIndex) === " .";
     if (isParamDefined(prevCh) && tempIndex >= prevCh - offset && tempIndex < curCh - offset && !isSpaceDot) {
@@ -453,29 +457,23 @@ function isCJKContext(ch) {
 function findTokenBounds(content, pos) {
   pos = Math.max(0, Math.min(pos, content.length));
   let refIdx = pos > 0 ? pos - 1 : 0;
-  if (refIdx >= content.length)
-    refIdx = content.length - 1;
-  if (refIdx < 0)
-    return [0, 0];
+  if (refIdx >= content.length) refIdx = content.length - 1;
+  if (refIdx < 0) return [0, 0];
   const refIsCJK = isCJKContext(content.charAt(refIdx));
   let left = pos;
   while (left > 0 && !/[\s\0]/.test(content.charAt(left - 1))) {
     const ch = content.charAt(left - 1);
     const isCJK = isCJKContext(ch);
-    if (!isCJK && !/\w/.test(ch))
-      break;
-    if (isCJK !== refIsCJK)
-      break;
+    if (!isCJK && !/\w/.test(ch)) break;
+    if (isCJK !== refIsCJK) break;
     left--;
   }
   let right = pos;
   while (right < content.length && !/[\s\0]/.test(content.charAt(right))) {
     const ch = content.charAt(right);
     const isCJK = isCJKContext(ch);
-    if (!isCJK && !/\w/.test(ch))
-      break;
-    if (isCJK !== refIsCJK)
-      break;
+    if (!isCJK && !/\w/.test(ch)) break;
+    if (isCJK !== refIsCJK) break;
     right++;
   }
   return [left, right];
@@ -483,46 +481,35 @@ function findTokenBounds(content, pos) {
 function extractToken(content, left, right) {
   return content.substring(left, right).replace(/\0/g, "");
 }
-function extendCursorTokenForDict(content, seedL, seedR, prefixDict, usePrefix) {
-  const seedToken = extractToken(content, seedL, seedR);
-  let runL = seedL;
-  while (runL > 0) {
-    const ch = content.charAt(runL - 1);
-    if (/[\s\0]/.test(ch) || !/\w/.test(ch) && !isCJKContext(ch))
-      break;
-    runL--;
+function createDictionaryTokenLookup(content, prefixDict) {
+  const leftBounds = new Int32Array(content.length + 1);
+  const rightBounds = new Int32Array(content.length + 1);
+  rightBounds[content.length] = content.length;
+  for (let i = 0; i < content.length; i++) {
+    const ch = content.charAt(i);
+    const inRun = !/[\s\0]/.test(ch) && (/\w/.test(ch) || isCJKContext(ch));
+    leftBounds[i + 1] = inRun ? leftBounds[i] : i + 1;
+    rightBounds[i] = inRun ? -1 : i;
   }
-  let runR = seedR;
-  while (runR < content.length) {
-    const ch = content.charAt(runR);
-    if (/[\s\0]/.test(ch) || !/\w/.test(ch) && !isCJKContext(ch))
-      break;
-    runR++;
+  for (let i = content.length - 1; i >= 0; i--) {
+    if (rightBounds[i] === -1) rightBounds[i] = rightBounds[i + 1];
   }
-  let bestL = seedL, bestR = seedR, bestToken = seedToken;
-  let bestMatched = prefixDict.shouldSuppressSpace(seedToken, usePrefix);
-  let bestSpan = bestMatched ? seedR - seedL : -1;
-  for (let l = seedL; l >= runL; l--) {
-    for (let r = seedR; r <= runR; r++) {
-      if (l === seedL && r === seedR)
-        continue;
-      const token = extractToken(content, l, r);
-      if (prefixDict.shouldSuppressSpace(token, usePrefix)) {
-        const span = r - l;
-        if (span > bestSpan) {
-          bestL = l;
-          bestR = r;
-          bestToken = token;
-          bestMatched = true;
-          bestSpan = span;
-        }
-      }
+  const matchers = /* @__PURE__ */ new Map();
+  return (seedL, seedR, usePrefix) => {
+    var _a, _b;
+    const runL = leftBounds[seedL];
+    const runR = rightBounds[seedR];
+    const key = `${runL}:${runR}`;
+    let matcher = matchers.get(key);
+    if (!matcher) {
+      matcher = prefixDict.createRangeMatcher(content, runL, runR);
+      matchers.set(key, matcher);
     }
-  }
-  if (!bestMatched) {
-    return { left: seedL, right: seedR, token: seedToken };
-  }
-  return { left: bestL, right: bestR, token: bestToken };
+    const match = matcher(seedL, seedR, usePrefix);
+    const left = (_a = match == null ? void 0 : match.left) != null ? _a : seedL;
+    const right = (_b = match == null ? void 0 : match.right) != null ? _b : seedR;
+    return { left, right, token: extractToken(content, left, right) };
+  };
 }
 function collectAllBoundaries(content, languagePairs, customCategories) {
   const positions = /* @__PURE__ */ new Set();
@@ -532,8 +519,7 @@ function collectAllBoundaries(content, languagePairs, customCategories) {
       reg.lastIndex = 0;
       while (true) {
         const match = reg.exec(content);
-        if (!match)
-          break;
+        if (!match) break;
         positions.add(reg.lastIndex - 1);
       }
     }
@@ -546,14 +532,12 @@ function isFormattingChar(ch) {
 }
 function collectFormattingSeparatedBoundaries(content, languagePairs, customCategories) {
   const positions = /* @__PURE__ */ new Set();
-  if (!FORMATTING_CHARS_RE.test(content))
-    return positions;
+  if (!FORMATTING_CHARS_RE.test(content)) return positions;
   const pairTests = [];
   for (const pair of languagePairs) {
     const classA = resolveCharClass(pair.a, customCategories);
     const classB = resolveCharClass(pair.b, customCategories);
-    if (!classA || !classB)
-      continue;
+    if (!classA || !classB) continue;
     const regA = new RegExp(`^[${classA}]$`);
     const regB = new RegExp(`^[${classB}]$`);
     pairTests.push({
@@ -562,8 +546,7 @@ function collectFormattingSeparatedBoundaries(content, languagePairs, customCate
       }
     });
   }
-  if (pairTests.length === 0)
-    return positions;
+  if (pairTests.length === 0) return positions;
   const len = content.length;
   let i = 0;
   while (i < len) {
@@ -584,14 +567,12 @@ function collectFormattingSeparatedBoundaries(content, languagePairs, customCate
     while (leftIdx >= 0 && (isFormattingChar(content[leftIdx]) || content[leftIdx] === "\0")) {
       leftIdx--;
     }
-    if (leftIdx < 0)
-      continue;
+    if (leftIdx < 0) continue;
     let rightIdx = blockEnd + 1;
     while (rightIdx < len && (isFormattingChar(content[rightIdx]) || content[rightIdx] === "\0")) {
       rightIdx++;
     }
-    if (rightIdx >= len)
-      continue;
+    if (rightIdx >= len) continue;
     const leftChar = content[leftIdx];
     const rightChar = content[rightIdx];
     let pairMatched = false;
@@ -601,8 +582,7 @@ function collectFormattingSeparatedBoundaries(content, languagePairs, customCate
         break;
       }
     }
-    if (!pairMatched)
-      continue;
+    if (!pairMatched) continue;
     const fmtChar = content[blockStart];
     let matchedLeftDist = -1;
     let matchedRightDist = -1;
@@ -611,42 +591,37 @@ function collectFormattingSeparatedBoundaries(content, languagePairs, customCate
         matchedLeftDist = blockStart - j;
         break;
       }
-      if (/[\s\0]/.test(content[j]))
-        break;
+      if (/[\s\0]/.test(content[j])) break;
     }
     for (let j = blockEnd + 1; j < len; j++) {
       if (content[j] === fmtChar) {
         matchedRightDist = j - blockEnd;
         break;
       }
-      if (/[\s\0]/.test(content[j]))
-        break;
+      if (/[\s\0]/.test(content[j])) break;
     }
     if (matchedLeftDist >= 0 && (matchedRightDist < 0 || matchedLeftDist <= matchedRightDist)) {
       positions.add(blockEnd + 1);
     } else if (matchedRightDist >= 0) {
       positions.add(blockStart);
     } else {
-      if (isCJKContext(leftChar))
-        positions.add(blockStart);
-      if (isCJKContext(rightChar))
-        positions.add(blockEnd + 1);
+      if (isCJKContext(leftChar)) positions.add(blockStart);
+      if (isCJKContext(rightChar)) positions.add(blockEnd + 1);
     }
   }
   return positions;
 }
 function applyLanguagePairSpacing(ctx, languagePairs, prefixDict, customCategories, debug) {
   let { content, curCh, prevCh, offset } = ctx;
-  if (!isParamDefined(prevCh))
-    return ctx;
+  if (!isParamDefined(prevCh)) return ctx;
   const cursorInContent = curCh - offset;
   const allBoundaries = collectAllBoundaries(content, languagePairs, customCategories);
   const fmtBoundaries = collectFormattingSeparatedBoundaries(content, languagePairs, customCategories);
   for (const pos of fmtBoundaries) {
     allBoundaries.add(pos);
   }
-  if (allBoundaries.size === 0)
-    return ctx;
+  if (allBoundaries.size === 0) return ctx;
+  const findDictionaryToken = createDictionaryTokenLookup(content, prefixDict);
   let [tokLeft, tokRight] = findTokenBounds(content, cursorInContent);
   let cursorToken = extractToken(content, tokLeft, tokRight);
   let tokenIsFinalized = false;
@@ -663,7 +638,7 @@ function applyLanguagePairSpacing(ctx, languagePairs, prefixDict, customCategori
   }
   const isActivelyTyping = curCh !== prevCh;
   const usePrefix = isActivelyTyping && !tokenIsFinalized;
-  const extended = extendCursorTokenForDict(content, tokLeft, tokRight, prefixDict, usePrefix);
+  const extended = findDictionaryToken(tokLeft, tokRight, usePrefix);
   let tokLeftExt = extended.left;
   let tokRightExt = extended.right;
   let cursorTokenExt = extended.token;
@@ -682,7 +657,32 @@ function applyLanguagePairSpacing(ctx, languagePairs, prefixDict, customCategori
     }
   }
   if (debug) {
-    console.log("[LangPairSpacing] content:", JSON.stringify(content), "curCh:", curCh, "prevCh:", prevCh, "offset:", offset, "cursorInContent:", cursorInContent, "boundaries:", Array.from(allBoundaries), "tokenBounds:", [tokLeft, tokRight], "cursorToken:", JSON.stringify(cursorToken), "tokenBoundsExt:", [tokLeftExt, tokRightExt], "cursorTokenExt:", JSON.stringify(cursorTokenExt), "suppressed:", cursorTokenSuppressed, "protectedUpTo:", protectedUpTo);
+    console.log(
+      "[LangPairSpacing] content:",
+      JSON.stringify(content),
+      "curCh:",
+      curCh,
+      "prevCh:",
+      prevCh,
+      "offset:",
+      offset,
+      "cursorInContent:",
+      cursorInContent,
+      "boundaries:",
+      Array.from(allBoundaries),
+      "tokenBounds:",
+      [tokLeft, tokRight],
+      "cursorToken:",
+      JSON.stringify(cursorToken),
+      "tokenBoundsExt:",
+      [tokLeftExt, tokRightExt],
+      "cursorTokenExt:",
+      JSON.stringify(cursorTokenExt),
+      "suppressed:",
+      cursorTokenSuppressed,
+      "protectedUpTo:",
+      protectedUpTo
+    );
   }
   const toInsert = [];
   const prevChInContent = prevCh - offset;
@@ -708,23 +708,21 @@ function applyLanguagePairSpacing(ctx, languagePairs, prefixDict, customCategori
     } else {
       if (pos >= prevChInContent && pos < cursorInContent) {
         const [seedL, seedR] = findTokenBounds(content, pos);
-        const ext = extendCursorTokenForDict(content, seedL, seedR, prefixDict, false);
+        const ext = findDictionaryToken(seedL, seedR, false);
         if (!prefixDict.shouldSuppressSpace(ext.token, false)) {
           toInsert.push(pos);
         }
       }
     }
   }
-  if (toInsert.length === 0)
-    return ctx;
+  if (toInsert.length === 0) return ctx;
   toInsert.sort((a, b) => a - b);
   for (let i = toInsert.length - 1; i >= 0; i--) {
     content = content.substring(0, toInsert[i]) + " " + content.substring(toInsert[i]);
   }
   let shift = 0;
   for (const pos of toInsert) {
-    if (pos < cursorInContent)
-      shift++;
+    if (pos < cursorInContent) shift++;
   }
   curCh += shift;
   return { ...ctx, content, curCh };
@@ -755,8 +753,7 @@ function escapeForCharClass(symbols) {
 
 // src/formatting/inline_spacing.ts
 function shouldInsertSpaceBetweenParts(prevType, curType, prevTextEndSpaceState, prevPartRightSpaceRequire, curPartLeftSpaceRequire, settings) {
-  if (prevType === "none" /* none */)
-    return false;
+  if (prevType === "none" /* none */) return false;
   const modeOf = (type) => {
     switch (type) {
       case "code" /* code */:
@@ -819,9 +816,9 @@ function shouldPrependSpaceToText(prevType, txtStartSpaceState, prevPartRightSpa
 var PrefixDictionary = class {
   constructor(raw) {
     this.literalWords = [];
-    this.regexEntries = [];
-    if (!raw || raw.trim() === "")
-      return;
+    this.exactRegexEntries = [];
+    this.fromStartRegexEntries = [];
+    if (!raw || raw.trim() === "") return;
     const tokenPattern = /\/(?:[^/\\]|\\.)+\/[gimsuy]*|[^\s,]+/g;
     let match;
     while ((match = tokenPattern.exec(raw)) !== null) {
@@ -829,7 +826,11 @@ var PrefixDictionary = class {
       const regexMatch = /^\/(.+)\/([gimsuy]*)$/.exec(token);
       if (regexMatch) {
         try {
-          this.regexEntries.push(new RegExp(regexMatch[1], regexMatch[2]));
+          const re = new RegExp(regexMatch[1], regexMatch[2]);
+          const exact = new RegExp(`^(?:${re.source})$`, re.flags);
+          const fromStart = new RegExp(`^(?:${re.source})`, re.flags.replace("g", ""));
+          this.exactRegexEntries.push(exact);
+          this.fromStartRegexEntries.push(fromStart);
         } catch (e) {
           console.warn("PrefixDictionary: invalid regex:", token, e);
         }
@@ -838,22 +839,27 @@ var PrefixDictionary = class {
       }
     }
   }
+  /**
+   * Check if the token exactly matches a dictionary word or a regex entry.
+   * Literal words are case-sensitive.
+   */
   isExactMatch(token) {
     for (const word of this.literalWords) {
-      if (word === token)
-        return true;
+      if (word === token) return true;
     }
-    for (const re of this.regexEntries) {
+    for (const re of this.exactRegexEntries) {
       re.lastIndex = 0;
-      const anchored = new RegExp(`^(?:${re.source})$`, re.flags);
-      if (anchored.test(token))
-        return true;
+      if (re.test(token)) return true;
     }
     return false;
   }
+  /**
+   * Check if the token is a prefix of any literal word in the dictionary.
+   * Only applies to literal words, not regex entries.
+   * Case-sensitive.
+   */
   isPrefixOfWord(token) {
-    if (token.length === 0)
-      return false;
+    if (token.length === 0) return false;
     for (const word of this.literalWords) {
       if (word.length > token.length && word.startsWith(token)) {
         return true;
@@ -861,13 +867,98 @@ var PrefixDictionary = class {
     }
     return false;
   }
+  /**
+   * Determine if space insertion should be suppressed for a given token.
+   *
+   * @param token - The token surrounding the space insertion point
+   * @param isAtCursor - Whether this token is directly before the cursor
+   * @returns true if space should NOT be inserted
+   *
+   * Rules:
+   * 1. Exact match with dictionary word or regex → suppress (any position)
+   * 2. Token is a prefix of a dictionary word AND at cursor → suppress
+   * 3. Token is a prefix but NOT at cursor → don't suppress (insert space)
+   * 4. No match at all → don't suppress (insert space)
+   */
   shouldSuppressSpace(token, isAtCursor) {
-    if (this.isExactMatch(token))
-      return true;
-    if (isAtCursor && this.isPrefixOfWord(token))
-      return true;
+    if (this.isExactMatch(token)) return true;
+    if (isAtCursor && this.isPrefixOfWord(token)) return true;
     return false;
   }
+  /**
+   * Match ranges within one uninterrupted run of text. The caller supplies
+   * run bounds that exclude whitespace, cursor markers and other delimiters.
+   * All cached results belong to this content and this matcher only.
+   */
+  createRangeMatcher(content, from, to) {
+    const literalMatches = /* @__PURE__ */ new Map();
+    const regexMatches = /* @__PURE__ */ new Map();
+    const maxWordLength = this.literalWords.reduce((max, word) => Math.max(max, word.length), 0);
+    const literalEndsAt = (start) => {
+      const cached2 = literalMatches.get(start);
+      if (cached2) return cached2;
+      let exactEnd = -1;
+      let prefixEnd = -1;
+      for (const word of this.literalWords) {
+        const limit = Math.min(word.length, to - start);
+        let matched = 0;
+        while (matched < limit && content.charCodeAt(start + matched) === word.charCodeAt(matched)) {
+          matched++;
+        }
+        if (matched === word.length) {
+          exactEnd = Math.max(exactEnd, start + matched);
+        }
+        if (matched > 0) {
+          prefixEnd = Math.max(prefixEnd, start + matched);
+        }
+      }
+      const result = { exactEnd, prefixEnd };
+      literalMatches.set(start, result);
+      return result;
+    };
+    const regexEndAt = (start, minEnd) => {
+      let cached2 = regexMatches.get(start);
+      if (!cached2) {
+        cached2 = { nextEnd: to };
+        regexMatches.set(start, cached2);
+      }
+      if (cached2.matchedEnd !== void 0) return cached2.matchedEnd;
+      while (cached2.nextEnd >= minEnd) {
+        const end = cached2.nextEnd--;
+        const token = content.substring(start, end);
+        for (const re of this.exactRegexEntries) {
+          re.lastIndex = 0;
+          if (re.test(token)) {
+            cached2.matchedEnd = end;
+            return end;
+          }
+        }
+      }
+      return -1;
+    };
+    return (seedL, seedR, usePrefix) => {
+      if (seedL < from || seedR > to || seedL > seedR) return void 0;
+      const hasRegex = this.exactRegexEntries.length > 0;
+      if (!hasRegex && maxWordLength === 0) return void 0;
+      const firstStart = hasRegex ? from : Math.max(from, seedR - maxWordLength);
+      let best;
+      let bestSpan = -1;
+      for (let start = seedL; start >= firstStart; start--) {
+        const literal = literalEndsAt(start);
+        let end = usePrefix ? literal.prefixEnd : literal.exactEnd;
+        if (hasRegex) end = Math.max(end, regexEndAt(start, seedR));
+        if (end >= seedR && end - start > bestSpan) {
+          best = { left: start, right: end };
+          bestSpan = end - start;
+        }
+      }
+      return best;
+    };
+  }
+  /**
+   * Find the longest dictionary word that the token starts with.
+   * Returns the length of the matched word, or -1 if no match.
+   */
   findLongestMatchFromStart(token) {
     let maxLen = -1;
     for (const word of this.literalWords) {
@@ -875,9 +966,9 @@ var PrefixDictionary = class {
         maxLen = word.length;
       }
     }
-    for (const re of this.regexEntries) {
-      const anchored = new RegExp(`^(?:${re.source})`, re.flags.replace("g", ""));
-      const match = anchored.exec(token);
+    for (const re of this.fromStartRegexEntries) {
+      re.lastIndex = 0;
+      const match = re.exec(token);
       if (match && match[0].length > maxLen) {
         maxLen = match[0].length;
       }
@@ -886,19 +977,92 @@ var PrefixDictionary = class {
   }
 };
 
+// src/syntax_node_types.ts
+function syntaxNodeTokens(name) {
+  const tokens = name.split("_");
+  const tagIndex = tokens.findIndex((token) => token.startsWith("tag-"));
+  if (tagIndex >= 0 && tokens.slice(0, tagIndex).includes("hashtag")) {
+    return tokens.slice(0, tagIndex);
+  }
+  return tokens;
+}
+function hasCodeBlockToken(tokens) {
+  return tokens.some((token) => /^(?:HyperMD|hmd)-codeblock(?:-|$)/.test(token));
+}
+function isCodeBlockSyntaxNode(name) {
+  return hasCodeBlockToken(syntaxNodeTokens(name));
+}
+function hasMathToken(tokens) {
+  return tokens.includes("math") || tokens.some((token) => /^HyperMD-math(?:-|$)/.test(token));
+}
+function isMathSyntaxNode(name) {
+  return hasMathToken(syntaxNodeTokens(name));
+}
+function inlineSyntaxNodeType(name) {
+  const tokens = syntaxNodeTokens(name);
+  const isLink = tokens.some((token) => token === "link" || /^(?:formatting-link|hmd-internal-link|hmd-external-link)(?:-|$)/.test(token));
+  if (!isLink && (tokens.includes("inline-code") || tokens.includes("hmd-indented-code") || hasCodeBlockToken(tokens))) {
+    return "code";
+  }
+  if (hasMathToken(tokens)) return "formula";
+  return "text";
+}
+
+// src/formatting/custom_regex_config.ts
+var cachedSource;
+var cachedConfig;
+function getCustomRegexConfig(source = "") {
+  if (source === cachedSource && cachedConfig) return cachedConfig;
+  const result = { rules: [], errors: [] };
+  source.split(/\r\n?|\n/).forEach((rawLine, index) => {
+    if (/^\s*(?:\/\/|$)/.test(rawLine)) return;
+    const line = rawLine.trimEnd();
+    const policy = /\|([\-=+])([\-=+])$/.exec(line);
+    if (!policy || policy.index === 0) {
+      result.errors.push({ line: index + 1, kind: "format" });
+      return;
+    }
+    try {
+      result.rules.push({
+        regex: new RegExp(line.slice(0, policy.index), "g"),
+        left: policy[1],
+        right: policy[2]
+      });
+    } catch (error) {
+      result.errors.push({ line: index + 1, kind: "regex", message: String(error) });
+    }
+  });
+  cachedSource = source;
+  cachedConfig = result;
+  return result;
+}
+function migrateLegacyDefaultRegexConfig(source, addSpaces = true) {
+  const normalized = source.replace(/\r\n?/g, "\n").replace(/\n+$/, "");
+  const earliestDefault = ":\\w*:\n{{.*?}}";
+  const v4Default = earliestDefault + "\n<.*?>\n\\[\\!.*?\\][+-]{0,1}";
+  if (normalized !== earliestDefault && normalized !== v4Default) return source;
+  const policy = addSpaces ? "|++" : "|--";
+  return normalized.split("\n").map((pattern) => pattern + policy).join("\n");
+}
+
 // src/core.ts
+var InlineType = /* @__PURE__ */ ((InlineType2) => {
+  InlineType2["text"] = "text";
+  InlineType2["code"] = "code";
+  InlineType2["formula"] = "formula";
+  InlineType2["wikilink"] = "wikilink";
+  InlineType2["mdlink"] = "mdlink";
+  InlineType2["user"] = "user-defined";
+  InlineType2["none"] = "none";
+  return InlineType2;
+})(InlineType || {});
 var LineFormater = class {
   constructor() {
   }
   syntaxTreeNodeNameType(name) {
-    if (name.contains("code") && !name.contains("link")) {
-      return "code" /* code */;
-    } else if (name.contains("math")) {
-      return "formula" /* formula */;
-    } else {
-      return "text" /* text */;
-    }
+    return InlineType[inlineSyntaxNodeType(name)];
   }
+  // param lineNum: 1-based line number
   parseLineWithSyntaxTree(state, lineNum, regRegExp) {
     let linePartsOfTxtCodeFormula = [];
     let line = state.doc.line(lineNum);
@@ -969,8 +1133,7 @@ var LineFormater = class {
     } else {
       res = this.formatLine(state, doc.lineAt(fromB).number, settings, offsetToPos(doc, toB).ch, offsetToPos(doc, fromB).ch);
     }
-    if (res === null || res[2].length == 0)
-      return null;
+    if (res === null || res[2].length == 0) return null;
     let newline = stringInsertAt(res[0], res[1], "|");
     let changes = [];
     let offset = doc.lineAt(fromB).from;
@@ -986,14 +1149,16 @@ var LineFormater = class {
     }
     return [changes, { selection: { anchor: offset + res[1] }, userEvent: "EasyTyping.change" }];
   }
+  // 返回值： [最终的行，最终光标位置，内容改变]
+  // param lineNum: 1-based line number
+  // curCh: 光标在当前行的位置
+  // prevCh: 光标在前一时刻在当前行的位置
   formatLine(state, lineNum, settings, curCh, prevCh) {
     let line = state.doc.line(lineNum).text;
     let regNull = /^\s*$/g;
-    if (regNull.test(line))
-      return [line, curCh, []];
+    if (regNull.test(line)) return [line, curCh, []];
     let lineParts = settings.UserDefinedRegSwitch ? this.parseLineWithSyntaxTree(state, lineNum, settings.UserDefinedRegExp) : this.parseLineWithSyntaxTree(state, lineNum);
-    if (settings.debug)
-      console.log("line parts\n", lineParts);
+    if (settings.debug) console.log("line parts\n", lineParts);
     let linePartsOrigin = JSON.parse(JSON.stringify(lineParts));
     let inlineChangeList = [];
     let cursorLinePartIndex = -1;
@@ -1033,7 +1198,11 @@ var LineFormater = class {
           curCh = ctx.curCh;
         }
         lineParts[i].content = content;
-        const boundary = detectBoundarySpaceState(content, settings.SoftSpaceLeftSymbols || "", settings.SoftSpaceRightSymbols || "");
+        const boundary = detectBoundarySpaceState(
+          content,
+          settings.SoftSpaceLeftSymbols || "",
+          settings.SoftSpaceRightSymbols || ""
+        );
         if (prevPartType !== "none" /* none */) {
           if (prevPartType === "wikilink" /* wikilink */ || prevPartType === "mdlink" /* mdlink */) {
             if (!settings.InlineLinkSmartSpace && settings.InlineLinkSpaceMode > boundary.start) {
@@ -1053,7 +1222,12 @@ var LineFormater = class {
                 }
               }
             }
-          } else if (shouldPrependSpaceToText(prevPartType, boundary.start, i > 0 ? lineParts[i - 1].rightSpaceRequire : 0 /* none */, settings)) {
+          } else if (shouldPrependSpaceToText(
+            prevPartType,
+            boundary.start,
+            i > 0 ? lineParts[i - 1].rightSpaceRequire : 0 /* none */,
+            settings
+          )) {
             lineParts[i].content = " " + lineParts[i].content;
             content = lineParts[i].content;
           }
@@ -1112,13 +1286,27 @@ var LineFormater = class {
             offset += 1;
           }
         } else if (prevPartType === "text" /* text */) {
-          if (shouldInsertSpaceBetweenParts("text" /* text */, lineParts[i].type, prevTextEndSpaceState, i > 0 ? lineParts[i - 1].rightSpaceRequire : 0 /* none */, lineParts[i].leftSpaceRequire, settings)) {
+          if (shouldInsertSpaceBetweenParts(
+            "text" /* text */,
+            lineParts[i].type,
+            prevTextEndSpaceState,
+            i > 0 ? lineParts[i - 1].rightSpaceRequire : 0 /* none */,
+            lineParts[i].leftSpaceRequire,
+            settings
+          )) {
             lineParts[i - 1].content += " ";
             resultLine += " ";
             offset += 1;
           }
         } else if (prevPartType !== "none" /* none */) {
-          if (shouldInsertSpaceBetweenParts(prevPartType, lineParts[i].type, prevTextEndSpaceState, i > 0 ? lineParts[i - 1].rightSpaceRequire : 0 /* none */, lineParts[i].leftSpaceRequire, settings)) {
+          if (shouldInsertSpaceBetweenParts(
+            prevPartType,
+            lineParts[i].type,
+            prevTextEndSpaceState,
+            i > 0 ? lineParts[i - 1].rightSpaceRequire : 0 /* none */,
+            lineParts[i].leftSpaceRequire,
+            settings
+          )) {
             inlineChangeList.push({
               text: " ",
               begin: lineParts[i].begin,
@@ -1151,13 +1339,15 @@ var LineFormater = class {
     inlineChangeList = inlineChangeList.sort((a, b) => a.begin - b.begin);
     return [resultLine, resultCursorCh, inlineChangeList];
   }
+  /**
+   * Extract the display-relevant first character of a link for smart spacing.
+   */
   getLinkBeginChar(part) {
     if (part.type === "wikilink" /* wikilink */) {
       const regAlias = /\|/;
       const charOfAliasBegin = part.content.search(regAlias);
       let beginIndex = 2;
-      if (part.content.charAt(0) === "!")
-        beginIndex = 3;
+      if (part.content.charAt(0) === "!") beginIndex = 3;
       if (charOfAliasBegin !== -1) {
         beginIndex = charOfAliasBegin + 1;
       } else if (part.content.charAt(beginIndex) === "#") {
@@ -1176,11 +1366,15 @@ var LineFormater = class {
 function matchWithReg(text, regExp, type, inlineTypeArray, checkArray = false, leftSpaceRe = 0 /* none */, rightSpaceRe = 0 /* none */) {
   let retArray = inlineTypeArray;
   let matchArray = [];
+  regExp.lastIndex = 0;
   retArray = retArray.sort((a, b) => a.begin - b.begin);
   while (true) {
     let match = regExp.exec(text);
-    if (!match)
-      break;
+    if (!match) break;
+    if (match[0].length === 0) {
+      regExp.lastIndex = match.index + 1;
+      continue;
+    }
     let valid = true;
     if (checkArray) {
       for (let i = 0; i < retArray.length; i++) {
@@ -1190,16 +1384,17 @@ function matchWithReg(text, regExp, type, inlineTypeArray, checkArray = false, l
         }
       }
     }
-    if (!valid)
-      continue;
-    matchArray.push({
-      content: match[0],
-      type,
-      begin: match.index,
-      end: regExp.lastIndex,
-      leftSpaceRequire: leftSpaceRe,
-      rightSpaceRequire: rightSpaceRe
-    });
+    if (!valid) continue;
+    matchArray.push(
+      {
+        content: match[0],
+        type,
+        begin: match.index,
+        end: regExp.lastIndex,
+        leftSpaceRequire: leftSpaceRe,
+        rightSpaceRequire: rightSpaceRe
+      }
+    );
   }
   retArray = retArray.concat(matchArray);
   return retArray;
@@ -1210,39 +1405,16 @@ function splitTextWithLinkAndUserDefined(text, regExps) {
   let regMdLink = /\!{0,2}\[[^\[\]]*?\]\([^\s]*\)/g;
   retArray = matchWithReg(text, regWikiLink, "wikilink" /* wikilink */, retArray);
   retArray = matchWithReg(text, regMdLink, "mdlink" /* mdlink */, retArray);
-  let regExpList = [];
-  let leftSRequireList = [];
-  let rightSRequireList = [];
-  let regNull = /^\s*$|^\/\//g;
-  let regSRequire = /\|[\-=\+][\-=\+]$/;
-  if (regExps) {
-    let regs = regExps.split("\n");
-    for (let i = 0; i < regs.length; i++) {
-      if (regNull.test(regs[i]))
-        continue;
-      if (!regSRequire.test(regs[i]) || regs[i].length <= 3) {
-        new import_obsidian.Notice("EasyTyping: \u7B2C" + String(i) + "\u884C\u81EA\u5B9A\u4E49\u6B63\u5219\u4E0D\u7B26\u5408\u89C4\u8303\n" + regs[i]);
-        continue;
-      }
-      let regItem = regs[i].substring(0, regs[i].length - 3);
-      let spaceReqString = regs[i].substring(regs[i].length - 3);
-      let isValidReg = true;
-      try {
-        let regTemp = new RegExp(regItem, "g");
-      } catch (error) {
-        isValidReg = false;
-        console.error("EasyTyping: Invalid RegExp:", regItem, error);
-      }
-      if (isValidReg) {
-        regExpList.push(new RegExp(regItem, "g"));
-        leftSRequireList.push(str2SpaceState(spaceReqString.charAt(1)));
-        rightSRequireList.push(str2SpaceState(spaceReqString.charAt(2)));
-      }
-    }
-    let regLen = regExpList.length;
-    for (let i = 0; i < regLen; i++) {
-      retArray = matchWithReg(text, regExpList[i], "user-defined" /* user */, retArray, true, leftSRequireList[i], rightSRequireList[i]);
-    }
+  for (const rule of getCustomRegexConfig(regExps).rules) {
+    retArray = matchWithReg(
+      text,
+      rule.regex,
+      "user-defined" /* user */,
+      retArray,
+      true,
+      str2SpaceState(rule.left),
+      str2SpaceState(rule.right)
+    );
   }
   retArray = retArray.sort((a, b) => a.begin - b.begin);
   let textArray = [];
@@ -1251,26 +1423,30 @@ function splitTextWithLinkAndUserDefined(text, regExps) {
   for (let i = 0; i < retArray.length; i++) {
     if (textBegin < retArray[i].begin) {
       textEnd = retArray[i].begin;
-      textArray.push({
-        content: text.substring(textBegin, textEnd),
-        type: "text" /* text */,
-        begin: textBegin,
-        end: textEnd,
-        leftSpaceRequire: 0 /* none */,
-        rightSpaceRequire: 0 /* none */
-      });
+      textArray.push(
+        {
+          content: text.substring(textBegin, textEnd),
+          type: "text" /* text */,
+          begin: textBegin,
+          end: textEnd,
+          leftSpaceRequire: 0 /* none */,
+          rightSpaceRequire: 0 /* none */
+        }
+      );
     }
     textBegin = retArray[i].end;
   }
   if (textBegin != text.length) {
-    textArray.push({
-      content: text.substring(textBegin, text.length),
-      type: "text" /* text */,
-      begin: textBegin,
-      end: text.length,
-      leftSpaceRequire: 0 /* none */,
-      rightSpaceRequire: 0 /* none */
-    });
+    textArray.push(
+      {
+        content: text.substring(textBegin, text.length),
+        type: "text" /* text */,
+        begin: textBegin,
+        end: text.length,
+        leftSpaceRequire: 0 /* none */,
+        rightSpaceRequire: 0 /* none */
+      }
+    );
   }
   retArray = retArray.concat(textArray);
   retArray = retArray.sort((a, b) => a.begin - b.begin);
@@ -1297,38 +1473,35 @@ function str2SpaceState(s) {
   }
 }
 function string2SpaceState(s) {
-  if (Number(s) == 0 /* none */)
-    return 0 /* none */;
-  if (Number(s) == 1 /* soft */)
-    return 1 /* soft */;
-  if (Number(s) == 2 /* strict */)
-    return 2 /* strict */;
+  if (Number(s) == 0 /* none */) return 0 /* none */;
+  if (Number(s) == 1 /* soft */) return 1 /* soft */;
+  if (Number(s) == 2 /* strict */) return 2 /* strict */;
   return 0 /* none */;
 }
 function getPosLineType(state, pos) {
   const line = state.doc.lineAt(pos);
   let line_number = line.number;
   const tree = (0, import_language.ensureSyntaxTree)(state, line.to);
-  if (!tree)
-    return "text" /* text */;
-  const token = tree.resolve(line.from, 1).name;
+  if (!tree) return "text" /* text */;
+  const nodeNameAt = (pos2) => syntaxNodeTokens(tree.resolve(pos2, 1).name).join("_");
+  const token = nodeNameAt(line.from);
   if (token.contains("table")) {
     return "table" /* table */;
   }
   if (token.contains("hmd-frontmatter")) {
     return "frontmatter" /* frontmatter */;
   }
-  if (token.contains("math")) {
+  if (isMathSyntaxNode(token)) {
     for (let p = line.from + 1; p < line.to; p += 1) {
-      if (!tree.resolve(p, 1).name.contains("math")) {
+      if (!isMathSyntaxNode(nodeNameAt(p))) {
         return "text" /* text */;
       }
     }
     return "formula" /* formula */;
-  } else if (token.contains("code") && token.contains("block")) {
+  } else if (isCodeBlockSyntaxNode(token)) {
     for (let p = line.from + 1; p < line.to; p += 1) {
-      let t = tree.resolve(p, 1).name;
-      if (!(t.contains("code") && t.contains("block"))) {
+      let t = nodeNameAt(p);
+      if (!isCodeBlockSyntaxNode(t)) {
         return "text" /* text */;
       }
     }
@@ -1337,7 +1510,7 @@ function getPosLineType(state, pos) {
     let callout_start_line = -1;
     for (let l = line_number - 1; l >= 1; l -= 1) {
       let l_line = state.doc.line(l);
-      let l_token = tree.resolve(l_line.from, 1).name;
+      let l_token = nodeNameAt(l_line.from);
       if (!l_token.contains("quote")) {
         break;
       }
@@ -1346,8 +1519,7 @@ function getPosLineType(state, pos) {
         break;
       }
     }
-    if (callout_start_line == -1)
-      return "text" /* text */;
+    if (callout_start_line == -1) return "text" /* text */;
     let is_code_block = false;
     let reset = false;
     let reg_code_begin = /^>+ ```/;
@@ -1367,12 +1539,11 @@ function getPosLineType(state, pos) {
     }
     if (is_code_block) {
       return "codeblock" /* codeblock */;
-    } else
-      return "text" /* text */;
+    } else return "text" /* text */;
   } else if (token.contains("list")) {
     for (let p = line.from + 1; p < line.to; p += 1) {
-      let t = tree.resolve(p, 1).name;
-      if (t.contains("code") && t.contains("block")) {
+      let t = nodeNameAt(p);
+      if (isCodeBlockSyntaxNode(t)) {
         return "codeblock" /* codeblock */;
       }
     }
@@ -1382,30 +1553,31 @@ function getPosLineType(state, pos) {
 function getPosLineType2(state, pos) {
   const line = state.doc.lineAt(pos);
   const tree = (0, import_language.syntaxTree)(state);
-  const token = tree.resolve(line.from, 1).name;
+  const nodeNameAt = (pos2) => syntaxNodeTokens(tree.resolve(pos2, 1).name).join("_");
+  const token = nodeNameAt(line.from);
   if (token.contains("hmd-frontmatter")) {
     return "frontmatter" /* frontmatter */;
   }
-  if (token.contains("math")) {
+  if (isMathSyntaxNode(token)) {
     for (let p = line.from + 1; p < line.to; p += 1) {
-      if (!tree.resolve(p, 1).name.contains("math")) {
+      if (!isMathSyntaxNode(nodeNameAt(p))) {
         return "text" /* text */;
       }
     }
     return "formula" /* formula */;
-  } else if (token.contains("code") && token.contains("block")) {
+  } else if (isCodeBlockSyntaxNode(token)) {
     for (let p = line.from + 1; p < line.to; p += 1) {
-      let t = tree.resolve(p, 1).name;
-      if (!(t.contains("code") && t.contains("block"))) {
+      let t = nodeNameAt(p);
+      if (!isCodeBlockSyntaxNode(t)) {
         return "text" /* text */;
       }
     }
     return "codeblock" /* codeblock */;
   }
   for (let p = line.from; p < line.to; p += 1) {
-    if (tree.resolve(p, 1).name.contains("list")) {
+    if (nodeNameAt(p).contains("list")) {
       return "list" /* list */;
-    } else if (tree.resolve(p, 1).name.contains("callout")) {
+    } else if (nodeNameAt(p).contains("callout")) {
       return "callout_title" /* callout_title */;
     }
   }
@@ -1454,10 +1626,10 @@ var DEFAULT_SETTINGS = {
 };
 
 // src/settings/easy_typing_settings_tab.ts
-var import_obsidian5 = require("obsidian");
+var import_obsidian4 = require("obsidian");
 
 // src/lang/locale/index.ts
-var import_obsidian2 = require("obsidian");
+var import_obsidian = require("obsidian");
 
 // src/lang/locale/en-US.ts
 var locale = {
@@ -1468,7 +1640,7 @@ var locale = {
     },
     codeblockEdit: {
       name: "Enhance Codeblock Edit",
-      desc: "Improve editing in codeblocks (Tab, delete, paste, Cmd/Ctrl+A select)."
+      desc: "Improve editing in codeblocks (Tab, delete, paste, Cmd/Ctrl+A select). In inline code, Cmd/Ctrl+A first selects the content without backticks."
     },
     backspaceEdit: {
       name: "Smart Backspace",
@@ -1528,7 +1700,11 @@ var locale = {
     },
     userDefinedRegexp: {
       name: "User-defined Regular Expression, one expression per line",
-      desc: "User-defined regular expression, matched to the content is not formatted, one expression per line, do not feel free to add spaces at the end of the line.The end of each line of three characters fixed as | and two space strategy symbols, space strategy symbols for - = +, respectively, on behalf of not requiring spaces (-), soft spaces (=), strict spaces (+).These two space strategy symbols are the space strategy for the left and right sides of the matching block respectively. Lines starting with // are treated as comments"
+      desc: "User-defined regular expression, matched to the content is not formatted, one expression per line, do not feel free to add spaces at the end of the line.The end of each line of three characters fixed as | and two space strategy symbols, space strategy symbols for - = +, respectively, on behalf of not requiring spaces (-), soft spaces (=), strict spaces (+).These two space strategy symbols are the space strategy for the left and right sides of the matching block respectively. Lines starting with // are treated as comments",
+      validationSummary: "The invalid lines below are skipped. Other valid rules still apply.",
+      invalidFormatLine: "Line %d: missing or invalid suffix. End the line with | and two spacing symbols (-, =, or +), for example |-- or |=+.",
+      invalidRegexLine: "Line %d: invalid regular expression.",
+      startupWarning: "Custom regex errors on lines {lines}. Invalid rules were skipped. Check Easy Typing \u2192 Custom regex settings."
     },
     userRulesRespectUserDefinedRegexBlocks: {
       name: "User rules respect custom regex blocks",
@@ -1776,7 +1952,7 @@ var locale2 = {
     },
     codeblockEdit: {
       name: "\u589E\u5F3A\u4EE3\u7801\u5757\u7F16\u8F91",
-      desc: "\u589E\u5F3A\u4EE3\u7801\u5757\u5185\u7684\u7F16\u8F91\uFF08Cmd/Ctrl+A \u9009\u4E2D\u3001Tab\u3001\u5220\u9664\u3001\u7C98\u8D34\uFF09"
+      desc: "\u589E\u5F3A\u4EE3\u7801\u5757\u5185\u7684\u7F16\u8F91\uFF08Cmd/Ctrl+A \u9009\u4E2D\u3001Tab\u3001\u5220\u9664\u3001\u7C98\u8D34\uFF09\uFF1B\u5728\u884C\u5185\u4EE3\u7801\u4E2D\uFF0C\u9996\u6B21\u6309 Cmd/Ctrl+A \u9009\u4E2D\u5185\u5BB9\uFF0C\u4E0D\u542B\u53CD\u5F15\u53F7"
     },
     backspaceEdit: {
       name: "\u667A\u80FD\u9000\u683C\u952E",
@@ -1836,7 +2012,11 @@ var locale2 = {
     },
     userDefinedRegexp: {
       name: "\u7528\u6237\u5B9A\u4E49\u7684\u6B63\u5219\u8868\u8FBE\u5F0F",
-      desc: "\u7528\u6237\u81EA\u5B9A\u4E49\u6B63\u5219\u8868\u8FBE\u5F0F\uFF0C\u5339\u914D\u5230\u7684\u5185\u5BB9\u4E0D\u8FDB\u884C\u683C\u5F0F\u5316\uFF0C\u6BCF\u884C\u4E00\u4E2A\u8868\u8FBE\u5F0F\uFF0C\u884C\u5C3E\u4E0D\u8981\u968F\u610F\u52A0\u7A7A\u683C\u3002\u6BCF\u884C\u672B\u5C3E3\u4E2A\u5B57\u7B26\u7684\u56FA\u5B9A\u4E3A|\u548C\u4E24\u4E2A\u7A7A\u683C\u7B56\u7565\u7B26\u53F7\uFF0C\u7A7A\u683C\u7B56\u7565\u7B26\u53F7\u4E3A-=+\uFF0C\u5206\u522B\u4EE3\u8868\u4E0D\u8981\u6C42\u7A7A\u683C(-)\uFF0C\u8F6F\u7A7A\u683C(=)\uFF0C\u4E25\u683C\u7A7A\u683C(+)\u3002\u8FD9\u4E24\u4E2A\u7A7A\u683C\u7B56\u7565\u7B26\u53F7\u5206\u522B\u4E3A\u5339\u914D\u533A\u5757\u7684\u5DE6\u53F3\u4E24\u8FB9\u7684\u7A7A\u683C\u7B56\u7565\u3002\u4EE5 // \u5F00\u5934\u7684\u884C\u4F5C\u4E3A\u6CE8\u91CA"
+      desc: "\u7528\u6237\u81EA\u5B9A\u4E49\u6B63\u5219\u8868\u8FBE\u5F0F\uFF0C\u5339\u914D\u5230\u7684\u5185\u5BB9\u4E0D\u8FDB\u884C\u683C\u5F0F\u5316\uFF0C\u6BCF\u884C\u4E00\u4E2A\u8868\u8FBE\u5F0F\uFF0C\u884C\u5C3E\u4E0D\u8981\u968F\u610F\u52A0\u7A7A\u683C\u3002\u6BCF\u884C\u672B\u5C3E3\u4E2A\u5B57\u7B26\u7684\u56FA\u5B9A\u4E3A|\u548C\u4E24\u4E2A\u7A7A\u683C\u7B56\u7565\u7B26\u53F7\uFF0C\u7A7A\u683C\u7B56\u7565\u7B26\u53F7\u4E3A-=+\uFF0C\u5206\u522B\u4EE3\u8868\u4E0D\u8981\u6C42\u7A7A\u683C(-)\uFF0C\u8F6F\u7A7A\u683C(=)\uFF0C\u4E25\u683C\u7A7A\u683C(+)\u3002\u8FD9\u4E24\u4E2A\u7A7A\u683C\u7B56\u7565\u7B26\u53F7\u5206\u522B\u4E3A\u5339\u914D\u533A\u5757\u7684\u5DE6\u53F3\u4E24\u8FB9\u7684\u7A7A\u683C\u7B56\u7565\u3002\u4EE5 // \u5F00\u5934\u7684\u884C\u4F5C\u4E3A\u6CE8\u91CA",
+      validationSummary: "\u4EE5\u4E0B\u9519\u8BEF\u884C\u4F1A\u88AB\u8DF3\u8FC7\uFF0C\u5176\u4F59\u6709\u6548\u89C4\u5219\u4ECD\u4F1A\u751F\u6548\u3002",
+      invalidFormatLine: "\u7B2C %d \u884C\uFF1A\u7F3A\u5C11\u6709\u6548\u540E\u7F00\u3002\u884C\u5C3E\u9700\u4E3A | \u52A0\u4E24\u4E2A\u7A7A\u683C\u7B56\u7565\u7B26\u53F7\uFF08-\u3001=\u3001+\uFF09\uFF0C\u4F8B\u5982 |-- \u6216 |=+\u3002",
+      invalidRegexLine: "\u7B2C %d \u884C\uFF1A\u6B63\u5219\u8868\u8FBE\u5F0F\u8BED\u6CD5\u9519\u8BEF\u3002",
+      startupWarning: "\u81EA\u5B9A\u4E49\u6B63\u5219\u7B2C {lines} \u884C\u6709\u9519\u8BEF\uFF0C\u5DF2\u8DF3\u8FC7\u8FD9\u4E9B\u89C4\u5219\u3002\u8BF7\u524D\u5F80 Easy Typing \u2192 \u81EA\u5B9A\u4E49\u6B63\u5219\u533A\u5757\u8BBE\u7F6E\u67E5\u770B\u3002"
     },
     userRulesRespectUserDefinedRegexBlocks: {
       name: "\u81EA\u5B9A\u4E49\u6B63\u5219\u533A\u5757\u540C\u65F6\u963B\u6B62\u7528\u6237\u89C4\u5219",
@@ -2084,7 +2264,7 @@ var locale3 = {
     },
     codeblockEdit: {
       name: "\u589E\u5F3A\u4EE3\u78BC\u584A\u7DE8\u8F2F",
-      desc: "\u589E\u5F3A\u4EE3\u78BC\u584A\u5167\u7684\u7DE8\u8F2F\uFF08Cmd/Ctrl+A \u9078\u4E2D\u3001Tab\u3001\u522A\u9664\u3001\u7C98\u8CBC\uFF09"
+      desc: "\u589E\u5F3A\u4EE3\u78BC\u584A\u5167\u7684\u7DE8\u8F2F\uFF08Cmd/Ctrl+A \u9078\u4E2D\u3001Tab\u3001\u522A\u9664\u3001\u7C98\u8CBC\uFF09\uFF1B\u5728\u884C\u5167\u4EE3\u78BC\u4E2D\uFF0C\u9996\u6B21\u6309 Cmd/Ctrl+A \u9078\u4E2D\u5167\u5BB9\uFF0C\u4E0D\u542B\u53CD\u5F15\u865F"
     },
     backspaceEdit: {
       name: "\u667A\u6167\u9000\u683C\u9375",
@@ -2148,7 +2328,11 @@ var locale3 = {
     },
     userDefinedRegexp: {
       name: "\u7528\u6236\u5B9A\u7FA9\u7684\u6B63\u5247\u8868\u9054\u5F0F",
-      desc: "\u7528\u6236\u81EA\u5B9A\u7FA9\u6B63\u5247\u8868\u9054\u5F0F\uFF0C\u5339\u914D\u5230\u7684\u5167\u5BB9\u4E0D\u9032\u884C\u683C\u5F0F\u5316\uFF0C\u6BCF\u884C\u4E00\u500B\u8868\u9054\u5F0F\uFF0C\u884C\u5C3E\u4E0D\u8981\u96A8\u610F\u52A0\u7A7A\u683C\u3002\u6BCF\u884C\u672B\u5C3E3\u500B\u5B57\u7B26\u7684\u56FA\u5B9A\u70BA|\u548C\u5169\u500B\u7A7A\u683C\u7B56\u7565\u7B26\u865F\uFF0C\u7A7A\u683C\u7B56\u7565\u7B26\u865F\u70BA-=+\uFF0C\u5206\u5225\u4EE3\u8868\u4E0D\u8981\u6C42\u7A7A\u683C(-)\uFF0C\u8EDF\u7A7A\u683C(=)\uFF0C\u56B4\u683C\u7A7A\u683C(+)\u3002\u9019\u5169\u500B\u7A7A\u683C\u7B56\u7565\u7B26\u865F\u5206\u5225\u70BA\u5339\u914D\u5340\u584A\u7684\u5DE6\u53F3\u5169\u908A\u7684\u7A7A\u683C\u7B56\u7565\u3002\u4EE5 // \u958B\u982D\u7684\u884C\u4F5C\u70BA\u8A3B\u91CB"
+      desc: "\u7528\u6236\u81EA\u5B9A\u7FA9\u6B63\u5247\u8868\u9054\u5F0F\uFF0C\u5339\u914D\u5230\u7684\u5167\u5BB9\u4E0D\u9032\u884C\u683C\u5F0F\u5316\uFF0C\u6BCF\u884C\u4E00\u500B\u8868\u9054\u5F0F\uFF0C\u884C\u5C3E\u4E0D\u8981\u96A8\u610F\u52A0\u7A7A\u683C\u3002\u6BCF\u884C\u672B\u5C3E3\u500B\u5B57\u7B26\u7684\u56FA\u5B9A\u70BA|\u548C\u5169\u500B\u7A7A\u683C\u7B56\u7565\u7B26\u865F\uFF0C\u7A7A\u683C\u7B56\u7565\u7B26\u865F\u70BA-=+\uFF0C\u5206\u5225\u4EE3\u8868\u4E0D\u8981\u6C42\u7A7A\u683C(-)\uFF0C\u8EDF\u7A7A\u683C(=)\uFF0C\u56B4\u683C\u7A7A\u683C(+)\u3002\u9019\u5169\u500B\u7A7A\u683C\u7B56\u7565\u7B26\u865F\u5206\u5225\u70BA\u5339\u914D\u5340\u584A\u7684\u5DE6\u53F3\u5169\u908A\u7684\u7A7A\u683C\u7B56\u7565\u3002\u4EE5 // \u958B\u982D\u7684\u884C\u4F5C\u70BA\u8A3B\u91CB",
+      validationSummary: "\u4EE5\u4E0B\u932F\u8AA4\u884C\u6703\u88AB\u7565\u904E\uFF0C\u5176\u9918\u6709\u6548\u898F\u5247\u4ECD\u6703\u751F\u6548\u3002",
+      invalidFormatLine: "\u7B2C %d \u884C\uFF1A\u7F3A\u5C11\u6709\u6548\u5F8C\u7DB4\u3002\u884C\u5C3E\u9700\u70BA | \u52A0\u5169\u500B\u7A7A\u683C\u7B56\u7565\u7B26\u865F\uFF08-\u3001=\u3001+\uFF09\uFF0C\u4F8B\u5982 |-- \u6216 |=+\u3002",
+      invalidRegexLine: "\u7B2C %d \u884C\uFF1A\u6B63\u5247\u8868\u9054\u5F0F\u8A9E\u6CD5\u932F\u8AA4\u3002",
+      startupWarning: "\u81EA\u5B9A\u7FA9\u6B63\u5247\u7B2C {lines} \u884C\u6709\u932F\u8AA4\uFF0C\u5DF2\u7565\u904E\u9019\u4E9B\u898F\u5247\u3002\u8ACB\u524D\u5F80 Easy Typing \u2192 \u81EA\u5B9A\u7FA9\u6B63\u5247\u5340\u584A\u8A2D\u5B9A\u67E5\u770B\u3002"
     },
     userRulesRespectUserDefinedRegexBlocks: {
       name: "\u81EA\u5B9A\u7FA9\u6B63\u5247\u5340\u584A\u540C\u6642\u963B\u6B62\u7528\u6236\u898F\u5247",
@@ -2460,7 +2644,11 @@ var locale4 = {
     },
     userDefinedRegexp: {
       name: "\u041F\u043E\u043B\u044C\u0437\u043E\u0432\u0430\u0442\u0435\u043B\u044C\u0441\u043A\u043E\u0435 \u0440\u0435\u0433\u0443\u043B\u044F\u0440\u043D\u043E\u0435 \u0432\u044B\u0440\u0430\u0436\u0435\u043D\u0438\u0435, \u043E\u0434\u043D\u043E \u0432\u044B\u0440\u0430\u0436\u0435\u043D\u0438\u0435 \u043D\u0430 \u0441\u0442\u0440\u043E\u043A\u0443",
-      desc: "\u041F\u043E\u043B\u044C\u0437\u043E\u0432\u0430\u0442\u0435\u043B\u044C\u0441\u043A\u043E\u0435 \u0440\u0435\u0433\u0443\u043B\u044F\u0440\u043D\u043E\u0435 \u0432\u044B\u0440\u0430\u0436\u0435\u043D\u0438\u0435, \u0441\u043E\u0432\u043F\u0430\u0434\u0430\u044E\u0449\u0435\u0435 \u0441 \u0441\u043E\u0434\u0435\u0440\u0436\u0438\u043C\u044B\u043C, \u043D\u0435 \u0444\u043E\u0440\u043C\u0430\u0442\u0438\u0440\u0443\u0435\u0442\u0441\u044F, \u043E\u0434\u043D\u043E \u0432\u044B\u0440\u0430\u0436\u0435\u043D\u0438\u0435 \u043D\u0430 \u0441\u0442\u0440\u043E\u043A\u0443, \u043D\u0435 \u0434\u043E\u0431\u0430\u0432\u043B\u044F\u0439\u0442\u0435 \u043F\u0440\u043E\u0431\u0435\u043B\u044B \u0432 \u043A\u043E\u043D\u0446\u0435 \u0441\u0442\u0440\u043E\u043A\u0438.\u041A\u043E\u043D\u0435\u0446 \u043A\u0430\u0436\u0434\u043E\u0439 \u0441\u0442\u0440\u043E\u043A\u0438 \u0444\u0438\u043A\u0441\u0438\u0440\u043E\u0432\u0430\u043D \u0442\u0440\u0435\u043C\u044F \u0441\u0438\u043C\u0432\u043E\u043B\u0430\u043C\u0438: | \u0438 \u0434\u0432\u0443\u043C\u044F \u0441\u0438\u043C\u0432\u043E\u043B\u0430\u043C\u0438 \u0441\u0442\u0440\u0430\u0442\u0435\u0433\u0438\u0438 \u043F\u0440\u043E\u0431\u0435\u043B\u043E\u0432, \u0441\u0438\u043C\u0432\u043E\u043B\u044B \u0441\u0442\u0440\u0430\u0442\u0435\u0433\u0438\u0438 \u043F\u0440\u043E\u0431\u0435\u043B\u043E\u0432 - \u044D\u0442\u043E - = +, \u043A\u043E\u0442\u043E\u0440\u044B\u0435 \u0441\u043E\u043E\u0442\u0432\u0435\u0442\u0441\u0442\u0432\u0435\u043D\u043D\u043E \u043E\u0431\u043E\u0437\u043D\u0430\u0447\u0430\u044E\u0442 \u043E\u0442\u0441\u0443\u0442\u0441\u0442\u0432\u0438\u0435 \u0442\u0440\u0435\u0431\u043E\u0432\u0430\u043D\u0438\u044F \u043F\u0440\u043E\u0431\u0435\u043B\u043E\u0432 (-), \u043C\u044F\u0433\u043A\u0438\u0435 \u043F\u0440\u043E\u0431\u0435\u043B\u044B (=), \u0441\u0442\u0440\u043E\u0433\u0438\u0435 \u043F\u0440\u043E\u0431\u0435\u043B\u044B (+).\u042D\u0442\u0438 \u0434\u0432\u0430 \u0441\u0438\u043C\u0432\u043E\u043B\u0430 \u0441\u0442\u0440\u0430\u0442\u0435\u0433\u0438\u0438 \u043F\u0440\u043E\u0431\u0435\u043B\u043E\u0432 \u044F\u0432\u043B\u044F\u044E\u0442\u0441\u044F \u0441\u0442\u0440\u0430\u0442\u0435\u0433\u0438\u0435\u0439 \u043F\u0440\u043E\u0431\u0435\u043B\u043E\u0432 \u0434\u043B\u044F \u043B\u0435\u0432\u043E\u0439 \u0438 \u043F\u0440\u0430\u0432\u043E\u0439 \u0441\u0442\u043E\u0440\u043E\u043D \u0441\u043E\u0432\u043F\u0430\u0434\u0430\u044E\u0449\u0435\u0433\u043E \u0431\u043B\u043E\u043A\u0430 \u0441\u043E\u043E\u0442\u0432\u0435\u0442\u0441\u0442\u0432\u0435\u043D\u043D\u043E. \u0421\u0442\u0440\u043E\u043A\u0438, \u043D\u0430\u0447\u0438\u043D\u0430\u044E\u0449\u0438\u0435\u0441\u044F \u0441 //, \u043E\u0431\u0440\u0430\u0431\u0430\u0442\u044B\u0432\u0430\u044E\u0442\u0441\u044F \u043A\u0430\u043A \u043A\u043E\u043C\u043C\u0435\u043D\u0442\u0430\u0440\u0438\u0438"
+      desc: "\u041F\u043E\u043B\u044C\u0437\u043E\u0432\u0430\u0442\u0435\u043B\u044C\u0441\u043A\u043E\u0435 \u0440\u0435\u0433\u0443\u043B\u044F\u0440\u043D\u043E\u0435 \u0432\u044B\u0440\u0430\u0436\u0435\u043D\u0438\u0435, \u0441\u043E\u0432\u043F\u0430\u0434\u0430\u044E\u0449\u0435\u0435 \u0441 \u0441\u043E\u0434\u0435\u0440\u0436\u0438\u043C\u044B\u043C, \u043D\u0435 \u0444\u043E\u0440\u043C\u0430\u0442\u0438\u0440\u0443\u0435\u0442\u0441\u044F, \u043E\u0434\u043D\u043E \u0432\u044B\u0440\u0430\u0436\u0435\u043D\u0438\u0435 \u043D\u0430 \u0441\u0442\u0440\u043E\u043A\u0443, \u043D\u0435 \u0434\u043E\u0431\u0430\u0432\u043B\u044F\u0439\u0442\u0435 \u043F\u0440\u043E\u0431\u0435\u043B\u044B \u0432 \u043A\u043E\u043D\u0446\u0435 \u0441\u0442\u0440\u043E\u043A\u0438.\u041A\u043E\u043D\u0435\u0446 \u043A\u0430\u0436\u0434\u043E\u0439 \u0441\u0442\u0440\u043E\u043A\u0438 \u0444\u0438\u043A\u0441\u0438\u0440\u043E\u0432\u0430\u043D \u0442\u0440\u0435\u043C\u044F \u0441\u0438\u043C\u0432\u043E\u043B\u0430\u043C\u0438: | \u0438 \u0434\u0432\u0443\u043C\u044F \u0441\u0438\u043C\u0432\u043E\u043B\u0430\u043C\u0438 \u0441\u0442\u0440\u0430\u0442\u0435\u0433\u0438\u0438 \u043F\u0440\u043E\u0431\u0435\u043B\u043E\u0432, \u0441\u0438\u043C\u0432\u043E\u043B\u044B \u0441\u0442\u0440\u0430\u0442\u0435\u0433\u0438\u0438 \u043F\u0440\u043E\u0431\u0435\u043B\u043E\u0432 - \u044D\u0442\u043E - = +, \u043A\u043E\u0442\u043E\u0440\u044B\u0435 \u0441\u043E\u043E\u0442\u0432\u0435\u0442\u0441\u0442\u0432\u0435\u043D\u043D\u043E \u043E\u0431\u043E\u0437\u043D\u0430\u0447\u0430\u044E\u0442 \u043E\u0442\u0441\u0443\u0442\u0441\u0442\u0432\u0438\u0435 \u0442\u0440\u0435\u0431\u043E\u0432\u0430\u043D\u0438\u044F \u043F\u0440\u043E\u0431\u0435\u043B\u043E\u0432 (-), \u043C\u044F\u0433\u043A\u0438\u0435 \u043F\u0440\u043E\u0431\u0435\u043B\u044B (=), \u0441\u0442\u0440\u043E\u0433\u0438\u0435 \u043F\u0440\u043E\u0431\u0435\u043B\u044B (+).\u042D\u0442\u0438 \u0434\u0432\u0430 \u0441\u0438\u043C\u0432\u043E\u043B\u0430 \u0441\u0442\u0440\u0430\u0442\u0435\u0433\u0438\u0438 \u043F\u0440\u043E\u0431\u0435\u043B\u043E\u0432 \u044F\u0432\u043B\u044F\u044E\u0442\u0441\u044F \u0441\u0442\u0440\u0430\u0442\u0435\u0433\u0438\u0435\u0439 \u043F\u0440\u043E\u0431\u0435\u043B\u043E\u0432 \u0434\u043B\u044F \u043B\u0435\u0432\u043E\u0439 \u0438 \u043F\u0440\u0430\u0432\u043E\u0439 \u0441\u0442\u043E\u0440\u043E\u043D \u0441\u043E\u0432\u043F\u0430\u0434\u0430\u044E\u0449\u0435\u0433\u043E \u0431\u043B\u043E\u043A\u0430 \u0441\u043E\u043E\u0442\u0432\u0435\u0442\u0441\u0442\u0432\u0435\u043D\u043D\u043E. \u0421\u0442\u0440\u043E\u043A\u0438, \u043D\u0430\u0447\u0438\u043D\u0430\u044E\u0449\u0438\u0435\u0441\u044F \u0441 //, \u043E\u0431\u0440\u0430\u0431\u0430\u0442\u044B\u0432\u0430\u044E\u0442\u0441\u044F \u043A\u0430\u043A \u043A\u043E\u043C\u043C\u0435\u043D\u0442\u0430\u0440\u0438\u0438",
+      validationSummary: "\u0421\u0442\u0440\u043E\u043A\u0438 \u0441 \u043E\u0448\u0438\u0431\u043A\u0430\u043C\u0438 \u043D\u0438\u0436\u0435 \u043F\u0440\u043E\u043F\u0443\u0441\u043A\u0430\u044E\u0442\u0441\u044F. \u041E\u0441\u0442\u0430\u043B\u044C\u043D\u044B\u0435 \u043A\u043E\u0440\u0440\u0435\u043A\u0442\u043D\u044B\u0435 \u043F\u0440\u0430\u0432\u0438\u043B\u0430 \u043F\u0440\u043E\u0434\u043E\u043B\u0436\u0430\u044E\u0442 \u0434\u0435\u0439\u0441\u0442\u0432\u043E\u0432\u0430\u0442\u044C.",
+      invalidFormatLine: "\u0421\u0442\u0440\u043E\u043A\u0430 %d: \u043E\u0442\u0441\u0443\u0442\u0441\u0442\u0432\u0443\u0435\u0442 \u0438\u043B\u0438 \u043D\u0435\u0432\u0435\u0440\u043D\u043E \u0443\u043A\u0430\u0437\u0430\u043D \u0441\u0443\u0444\u0444\u0438\u043A\u0441. \u0417\u0430\u0432\u0435\u0440\u0448\u0438\u0442\u0435 \u0441\u0442\u0440\u043E\u043A\u0443 \u0441\u0438\u043C\u0432\u043E\u043B\u043E\u043C | \u0438 \u0434\u0432\u0443\u043C\u044F \u0441\u0438\u043C\u0432\u043E\u043B\u0430\u043C\u0438 \u0441\u0442\u0440\u0430\u0442\u0435\u0433\u0438\u0438 \u043F\u0440\u043E\u0431\u0435\u043B\u043E\u0432 (-, =, +), \u043D\u0430\u043F\u0440\u0438\u043C\u0435\u0440 |-- \u0438\u043B\u0438 |=+.",
+      invalidRegexLine: "\u0421\u0442\u0440\u043E\u043A\u0430 %d: \u043E\u0448\u0438\u0431\u043A\u0430 \u0441\u0438\u043D\u0442\u0430\u043A\u0441\u0438\u0441\u0430 \u0440\u0435\u0433\u0443\u043B\u044F\u0440\u043D\u043E\u0433\u043E \u0432\u044B\u0440\u0430\u0436\u0435\u043D\u0438\u044F.",
+      startupWarning: "\u041E\u0448\u0438\u0431\u043A\u0438 \u0432 \u0441\u0442\u0440\u043E\u043A\u0430\u0445 {lines} \u043F\u043E\u043B\u044C\u0437\u043E\u0432\u0430\u0442\u0435\u043B\u044C\u0441\u043A\u0438\u0445 \u0440\u0435\u0433\u0443\u043B\u044F\u0440\u043D\u044B\u0445 \u0432\u044B\u0440\u0430\u0436\u0435\u043D\u0438\u0439. \u041D\u0435\u043A\u043E\u0440\u0440\u0435\u043A\u0442\u043D\u044B\u0435 \u043F\u0440\u0430\u0432\u0438\u043B\u0430 \u043F\u0440\u043E\u043F\u0443\u0449\u0435\u043D\u044B. \u041F\u0440\u043E\u0432\u0435\u0440\u044C\u0442\u0435 \u043D\u0430\u0441\u0442\u0440\u043E\u0439\u043A\u0438 \u043F\u043E\u043B\u044C\u0437\u043E\u0432\u0430\u0442\u0435\u043B\u044C\u0441\u043A\u0438\u0445 \u0440\u0435\u0433\u0443\u043B\u044F\u0440\u043D\u044B\u0445 \u0432\u044B\u0440\u0430\u0436\u0435\u043D\u0438\u0439 \u0432 Easy Typing."
     },
     userRulesRespectUserDefinedRegexBlocks: {
       name: "\u041F\u043E\u043B\u044C\u0437\u043E\u0432\u0430\u0442\u0435\u043B\u044C\u0441\u043A\u0438\u0435 \u043F\u0440\u0430\u0432\u0438\u043B\u0430 \u0443\u0432\u0430\u0436\u0430\u044E\u0442 \u0431\u043B\u043E\u043A\u0438 \u043F\u043E\u043B\u044C\u0437\u043E\u0432\u0430\u0442\u0435\u043B\u044C\u0441\u043A\u0438\u0445 \u0440\u0435\u0433\u0443\u043B\u044F\u0440\u043D\u044B\u0445 \u0432\u044B\u0440\u0430\u0436\u0435\u043D\u0438\u0439",
@@ -2768,7 +2956,11 @@ var locale5 = {
     },
     userDefinedRegexp: {
       name: "\u30E6\u30FC\u30B6\u30FC\u5B9A\u7FA9\u6B63\u898F\u8868\u73FE\uFF081\u884C\u306B1\u3064\uFF09",
-      desc: "\u30E6\u30FC\u30B6\u30FC\u5B9A\u7FA9\u306E\u6B63\u898F\u8868\u73FE\u3067\u3001\u30DE\u30C3\u30C1\u3057\u305F\u30B3\u30F3\u30C6\u30F3\u30C4\u306F\u66F8\u5F0F\u8A2D\u5B9A\u3055\u308C\u307E\u305B\u3093\u30021\u884C\u306B1\u3064\u306E\u5F0F\u3092\u8A18\u8FF0\u3057\u3001\u884C\u672B\u306B\u30B9\u30DA\u30FC\u30B9\u3092\u8FFD\u52A0\u3057\u306A\u3044\u3067\u304F\u3060\u3055\u3044\u3002\u5404\u884C\u306E\u672B\u5C3E3\u6587\u5B57\u306F | \u30682\u3064\u306E\u30B9\u30DA\u30FC\u30B7\u30F3\u30B0\u6226\u7565\u8A18\u53F7\u3067\u56FA\u5B9A\u3055\u308C\u307E\u3059\u3002\u30B9\u30DA\u30FC\u30B7\u30F3\u30B0\u6226\u7565\u8A18\u53F7\u306F - = + \u3067\u3001\u305D\u308C\u305E\u308C\u30B9\u30DA\u30FC\u30B9\u4E0D\u8981(-)\u3001\u30BD\u30D5\u30C8\u30B9\u30DA\u30FC\u30B9(=)\u3001\u53B3\u5BC6\u30B9\u30DA\u30FC\u30B9(+)\u3092\u610F\u5473\u3057\u307E\u3059\u3002\u3053\u308C\u30892\u3064\u306E\u30B9\u30DA\u30FC\u30B7\u30F3\u30B0\u6226\u7565\u8A18\u53F7\u306F\u3001\u30DE\u30C3\u30C1\u30D6\u30ED\u30C3\u30AF\u306E\u5DE6\u53F3\u306E\u30B9\u30DA\u30FC\u30B7\u30F3\u30B0\u6226\u7565\u3067\u3059\u3002// \u3067\u59CB\u307E\u308B\u884C\u306F\u30B3\u30E1\u30F3\u30C8\u3068\u3057\u3066\u6271\u308F\u308C\u307E\u3059\u3002"
+      desc: "\u30E6\u30FC\u30B6\u30FC\u5B9A\u7FA9\u306E\u6B63\u898F\u8868\u73FE\u3067\u3001\u30DE\u30C3\u30C1\u3057\u305F\u30B3\u30F3\u30C6\u30F3\u30C4\u306F\u66F8\u5F0F\u8A2D\u5B9A\u3055\u308C\u307E\u305B\u3093\u30021\u884C\u306B1\u3064\u306E\u5F0F\u3092\u8A18\u8FF0\u3057\u3001\u884C\u672B\u306B\u30B9\u30DA\u30FC\u30B9\u3092\u8FFD\u52A0\u3057\u306A\u3044\u3067\u304F\u3060\u3055\u3044\u3002\u5404\u884C\u306E\u672B\u5C3E3\u6587\u5B57\u306F | \u30682\u3064\u306E\u30B9\u30DA\u30FC\u30B7\u30F3\u30B0\u6226\u7565\u8A18\u53F7\u3067\u56FA\u5B9A\u3055\u308C\u307E\u3059\u3002\u30B9\u30DA\u30FC\u30B7\u30F3\u30B0\u6226\u7565\u8A18\u53F7\u306F - = + \u3067\u3001\u305D\u308C\u305E\u308C\u30B9\u30DA\u30FC\u30B9\u4E0D\u8981(-)\u3001\u30BD\u30D5\u30C8\u30B9\u30DA\u30FC\u30B9(=)\u3001\u53B3\u5BC6\u30B9\u30DA\u30FC\u30B9(+)\u3092\u610F\u5473\u3057\u307E\u3059\u3002\u3053\u308C\u30892\u3064\u306E\u30B9\u30DA\u30FC\u30B7\u30F3\u30B0\u6226\u7565\u8A18\u53F7\u306F\u3001\u30DE\u30C3\u30C1\u30D6\u30ED\u30C3\u30AF\u306E\u5DE6\u53F3\u306E\u30B9\u30DA\u30FC\u30B7\u30F3\u30B0\u6226\u7565\u3067\u3059\u3002// \u3067\u59CB\u307E\u308B\u884C\u306F\u30B3\u30E1\u30F3\u30C8\u3068\u3057\u3066\u6271\u308F\u308C\u307E\u3059\u3002",
+      validationSummary: "\u4EE5\u4E0B\u306E\u7121\u52B9\u306A\u884C\u306F\u30B9\u30AD\u30C3\u30D7\u3055\u308C\u307E\u3059\u3002\u4ED6\u306E\u6709\u52B9\u306A\u30EB\u30FC\u30EB\u306F\u9069\u7528\u3055\u308C\u307E\u3059\u3002",
+      invalidFormatLine: "%d \u884C\u76EE\uFF1A\u672B\u5C3E\u306E\u6307\u5B9A\u304C\u7121\u52B9\u3067\u3059\u3002\u884C\u672B\u306B | \u30682\u3064\u306E\u30B9\u30DA\u30FC\u30B7\u30F3\u30B0\u8A18\u53F7\uFF08-\u3001=\u3001+\uFF09\u3092\u6307\u5B9A\u3057\u3066\u304F\u3060\u3055\u3044\u3002\u4F8B\uFF1A|--\u3001|=+\u3002",
+      invalidRegexLine: "%d \u884C\u76EE\uFF1A\u6B63\u898F\u8868\u73FE\u306E\u69CB\u6587\u30A8\u30E9\u30FC\u3002",
+      startupWarning: "\u30AB\u30B9\u30BF\u30E0\u6B63\u898F\u8868\u73FE\u306E {lines} \u884C\u76EE\u306B\u30A8\u30E9\u30FC\u304C\u3042\u308A\u3001\u8A72\u5F53\u30EB\u30FC\u30EB\u306F\u30B9\u30AD\u30C3\u30D7\u3055\u308C\u307E\u3057\u305F\u3002Easy Typing \u2192 \u30AB\u30B9\u30BF\u30E0\u6B63\u898F\u8868\u73FE\u306E\u8A2D\u5B9A\u3092\u78BA\u8A8D\u3057\u3066\u304F\u3060\u3055\u3044\u3002"
     },
     userRulesRespectUserDefinedRegexBlocks: {
       name: "\u30E6\u30FC\u30B6\u30FC\u30EB\u30FC\u30EB\u306F\u30AB\u30B9\u30BF\u30E0\u6B63\u898F\u8868\u73FE\u30D6\u30ED\u30C3\u30AF\u3092\u5C0A\u91CD",
@@ -3076,7 +3268,11 @@ var locale6 = {
     },
     userDefinedRegexp: {
       name: "\uC0AC\uC6A9\uC790 \uC815\uC758 \uC815\uADDC\uC2DD, \uD55C \uC904\uC5D0 \uD558\uB098\uC529",
-      desc: "\uC0AC\uC6A9\uC790 \uC815\uC758 \uC815\uADDC\uC2DD\uC73C\uB85C \uB9E4\uCE6D\uB41C \uCF58\uD150\uCE20\uB294 \uC11C\uC2DD\uC774 \uC801\uC6A9\uB418\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4. \uD55C \uC904\uC5D0 \uD558\uB098\uC529 \uC791\uC131\uD558\uBA70, \uC904 \uB05D\uC5D0 \uACF5\uBC31\uC744 \uCD94\uAC00\uD558\uC9C0 \uB9C8\uC138\uC694.\uAC01 \uC904\uC758 \uB9C8\uC9C0\uB9C9 3\uC790\uB294 |\uC640 \uB450 \uAC1C\uC758 \uAC04\uACA9 \uC804\uB7B5 \uAE30\uD638\uB85C \uACE0\uC815\uB429\uB2C8\uB2E4. \uAC04\uACA9 \uC804\uB7B5 \uAE30\uD638\uB294 - = +\uC774\uBA70, \uAC01\uAC01 \uAC04\uACA9 \uBD88\uD544\uC694(-), \uC18C\uD504\uD2B8\uC6E8\uC5B4 \uC2A4\uD398\uC774\uC2A4(=), \uC5C4\uACA9\uD55C \uC2A4\uD398\uC774\uC2A4(+)\uB97C \uC758\uBBF8\uD569\uB2C8\uB2E4.\uC774 \uB450 \uAC04\uACA9 \uC804\uB7B5 \uAE30\uD638\uB294 \uB9E4\uCE6D \uBE14\uB85D\uC758 \uC67C\uCABD\uACFC \uC624\uB978\uCABD\uC758 \uAC04\uACA9 \uC804\uB7B5\uC785\uB2C8\uB2E4. // \uB85C \uC2DC\uC791\uD558\uB294 \uC904\uC740 \uC8FC\uC11D\uC73C\uB85C \uCC98\uB9AC\uB429\uB2C8\uB2E4."
+      desc: "\uC0AC\uC6A9\uC790 \uC815\uC758 \uC815\uADDC\uC2DD\uC73C\uB85C \uB9E4\uCE6D\uB41C \uCF58\uD150\uCE20\uB294 \uC11C\uC2DD\uC774 \uC801\uC6A9\uB418\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4. \uD55C \uC904\uC5D0 \uD558\uB098\uC529 \uC791\uC131\uD558\uBA70, \uC904 \uB05D\uC5D0 \uACF5\uBC31\uC744 \uCD94\uAC00\uD558\uC9C0 \uB9C8\uC138\uC694.\uAC01 \uC904\uC758 \uB9C8\uC9C0\uB9C9 3\uC790\uB294 |\uC640 \uB450 \uAC1C\uC758 \uAC04\uACA9 \uC804\uB7B5 \uAE30\uD638\uB85C \uACE0\uC815\uB429\uB2C8\uB2E4. \uAC04\uACA9 \uC804\uB7B5 \uAE30\uD638\uB294 - = +\uC774\uBA70, \uAC01\uAC01 \uAC04\uACA9 \uBD88\uD544\uC694(-), \uC18C\uD504\uD2B8\uC6E8\uC5B4 \uC2A4\uD398\uC774\uC2A4(=), \uC5C4\uACA9\uD55C \uC2A4\uD398\uC774\uC2A4(+)\uB97C \uC758\uBBF8\uD569\uB2C8\uB2E4.\uC774 \uB450 \uAC04\uACA9 \uC804\uB7B5 \uAE30\uD638\uB294 \uB9E4\uCE6D \uBE14\uB85D\uC758 \uC67C\uCABD\uACFC \uC624\uB978\uCABD\uC758 \uAC04\uACA9 \uC804\uB7B5\uC785\uB2C8\uB2E4. // \uB85C \uC2DC\uC791\uD558\uB294 \uC904\uC740 \uC8FC\uC11D\uC73C\uB85C \uCC98\uB9AC\uB429\uB2C8\uB2E4.",
+      validationSummary: "\uC544\uB798\uC758 \uC798\uBABB\uB41C \uC904\uC740 \uAC74\uB108\uB701\uB2C8\uB2E4. \uB098\uBA38\uC9C0 \uC720\uD6A8\uD55C \uADDC\uCE59\uC740 \uACC4\uC18D \uC801\uC6A9\uB429\uB2C8\uB2E4.",
+      invalidFormatLine: "%d\uD589: \uB05D\uBD80\uBD84 \uD615\uC2DD\uC774 \uC798\uBABB\uB418\uC5C8\uAC70\uB098 \uB204\uB77D\uB418\uC5C8\uC2B5\uB2C8\uB2E4. | \uB4A4\uC5D0 \uAC04\uACA9 \uAE30\uD638(-, =, +) \uB450 \uAC1C\uB97C \uBD99\uC5EC \uC904\uC744 \uB05D\uB0B4\uC138\uC694. \uC608: |-- \uB610\uB294 |=+.",
+      invalidRegexLine: "%d\uD589: \uC815\uADDC\uC2DD \uAD6C\uBB38 \uC624\uB958.",
+      startupWarning: "\uC0AC\uC6A9\uC790 \uC815\uC758 \uC815\uADDC\uC2DD\uC758 {lines}\uD589\uC5D0 \uC624\uB958\uAC00 \uC788\uC5B4 \uD574\uB2F9 \uADDC\uCE59\uC744 \uAC74\uB108\uB6F0\uC5C8\uC2B5\uB2C8\uB2E4. Easy Typing \u2192 \uC0AC\uC6A9\uC790 \uC815\uC758 \uC815\uADDC\uC2DD \uC124\uC815\uC744 \uD655\uC778\uD558\uC138\uC694."
     },
     userRulesRespectUserDefinedRegexBlocks: {
       name: "\uC0AC\uC6A9\uC790 \uADDC\uCE59\uC774 \uCEE4\uC2A4\uD140 \uC815\uADDC\uC2DD \uBE14\uB85D\uC744 \uC900\uC218",
@@ -3328,26 +3524,27 @@ var localeMap = {
 var cached = null;
 function getLocale() {
   var _a;
-  if (cached)
-    return cached;
-  const lang = import_obsidian2.moment.locale().toLowerCase();
+  if (cached) return cached;
+  const lang = import_obsidian.moment.locale().toLowerCase();
   cached = (_a = localeMap[lang]) != null ? _a : en_US_default;
   return cached;
 }
 
 // src/rule_engine.ts
-var import_obsidian3 = require("obsidian");
+var import_obsidian2 = require("obsidian");
 function escapeRegex(s) {
   return s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }
-var RuleEngine = class {
+var RuleEngine = class _RuleEngine {
   constructor() {
     this.rulesById = /* @__PURE__ */ new Map();
     this.sortedRules = [];
     this.ruleIdCounter = 0;
     this.fnErrorLastNotify = /* @__PURE__ */ new Map();
+    // Cache for compiled regex patterns: key is rule.id
     this.regexCache = /* @__PURE__ */ new Map();
   }
+  // ===== Static Utilities =====
   static parseOptions(options = "") {
     const type = options.includes("d") ? "delete" /* Delete */ : options.includes("s") ? "selectKey" /* SelectKey */ : "input" /* Input */;
     const triggerMode = options.includes("T") ? "tab" /* Tab */ : "auto" /* Auto */;
@@ -3357,12 +3554,9 @@ var RuleEngine = class {
     if (options.includes("a") || !options.includes("t") && !options.includes("f") && !options.includes("c")) {
       scope.push("all" /* All */);
     } else {
-      if (options.includes("t"))
-        scope.push("text" /* Text */);
-      if (options.includes("f"))
-        scope.push("formula" /* Formula */);
-      if (options.includes("c"))
-        scope.push("code" /* Code */);
+      if (options.includes("t")) scope.push("text" /* Text */);
+      if (options.includes("f")) scope.push("formula" /* Formula */);
+      if (options.includes("c")) scope.push("code" /* Code */);
     }
     return { type, triggerMode, isRegex, isFunctionReplacement, scope };
   }
@@ -3370,12 +3564,15 @@ var RuleEngine = class {
     const normalized = flags.toLowerCase().replace(/[^imu]/g, "");
     return Array.from(new Set(normalized.split(""))).sort((a, b) => "imu".indexOf(a) - "imu".indexOf(b)).join("");
   }
+  /**
+   * Validate regex patterns in a SimpleRule before saving.
+   * Returns null if valid, or an error message string if invalid.
+   */
   static validateRegex(rule) {
     var _a;
-    const opts = RuleEngine.parseOptions(rule.options);
-    if (!opts.isRegex)
-      return null;
-    const regexFlags = RuleEngine.normalizeRegexFlags(rule.regex_flags);
+    const opts = _RuleEngine.parseOptions(rule.options);
+    if (!opts.isRegex) return null;
+    const regexFlags = _RuleEngine.normalizeRegexFlags(rule.regex_flags);
     const leftPattern = rule.trigger;
     const rightPattern = (_a = rule.trigger_right) != null ? _a : "";
     if (leftPattern) {
@@ -3394,6 +3591,10 @@ var RuleEngine = class {
     }
     return null;
   }
+  /**
+   * Convert real control characters to visible escape sequences for UI display.
+   * Inverse of unescapeText: newline → \n, tab → \t, CR → \r, \\ → \\\\
+   */
   static escapeText(text, preserveBackslashes = false) {
     let result = text;
     if (!preserveBackslashes) {
@@ -3401,6 +3602,10 @@ var RuleEngine = class {
     }
     return result.replace(/\n/g, "\\n").replace(/\t/g, "\\t").replace(/\r/g, "\\r");
   }
+  /**
+   * Convert escape sequences in user-entered text: \n → newline, \t → tab, \r → CR, \\\\ → \\
+   * Strings from TypeScript source already contain real newlines and are unaffected.
+   */
   static unescapeText(text) {
     let result = "";
     for (let i = 0; i < text.length; i++) {
@@ -3446,7 +3651,7 @@ var RuleEngine = class {
   }
   static normalizeRule(simple) {
     var _a, _b, _c, _d, _e, _f, _g, _h, _i;
-    const opts = RuleEngine.parseOptions(simple.options);
+    const opts = _RuleEngine.parseOptions(simple.options);
     let replacement = simple.replacement;
     if (opts.isFunctionReplacement && typeof simple.replacement === "string") {
       try {
@@ -3458,7 +3663,7 @@ var RuleEngine = class {
       } catch (e) {
         console.error(`[RuleEngine] Failed to compile function for rule "${(_a = simple.id) != null ? _a : "?"}":`, e);
         replacement = () => void 0;
-        new import_obsidian3.Notice(`[EasyTyping] Rule "${(_b = simple.id) != null ? _b : "?"}" has invalid function body: ${e.message}`);
+        new import_obsidian2.Notice(`[EasyTyping] Rule "${(_b = simple.id) != null ? _b : "?"}" has invalid function body: ${e.message}`);
       }
     }
     if (opts.type === "selectKey" /* SelectKey */) {
@@ -3467,7 +3672,7 @@ var RuleEngine = class {
         enabled: (_d = simple.enabled) != null ? _d : true,
         type: "selectKey" /* SelectKey */,
         triggerMode: "auto" /* Auto */,
-        triggerKeys: RuleEngine.parseSelectKeyRuleTriggerKeys(simple.trigger),
+        triggerKeys: _RuleEngine.parseSelectKeyRuleTriggerKeys(simple.trigger),
         scope: opts.scope,
         scopeLanguage: simple.scope_language,
         regexFlags: void 0,
@@ -3485,7 +3690,7 @@ var RuleEngine = class {
       triggerKeys: void 0,
       scope: opts.scope,
       scopeLanguage: simple.scope_language,
-      regexFlags: opts.isRegex ? RuleEngine.normalizeRegexFlags(simple.regex_flags) : void 0,
+      regexFlags: opts.isRegex ? _RuleEngine.normalizeRegexFlags(simple.regex_flags) : void 0,
       priority: (_h = simple.priority) != null ? _h : 100,
       match: {
         left: simple.trigger,
@@ -3495,6 +3700,7 @@ var RuleEngine = class {
       replacement
     };
   }
+  // ===== Rule Management =====
   generateId() {
     return `rule-${++this.ruleIdCounter}`;
   }
@@ -3502,10 +3708,8 @@ var RuleEngine = class {
     let lo = 0, hi = this.sortedRules.length;
     while (lo < hi) {
       const mid = lo + hi >>> 1;
-      if (this.sortedRules[mid].priority <= rule.priority)
-        lo = mid + 1;
-      else
-        hi = mid;
+      if (this.sortedRules[mid].priority <= rule.priority) lo = mid + 1;
+      else hi = mid;
     }
     this.sortedRules.splice(lo, 0, rule);
   }
@@ -3518,26 +3722,23 @@ var RuleEngine = class {
     return id;
   }
   addSimpleRule(simple) {
-    const normalized = RuleEngine.normalizeRule(simple);
+    const normalized = _RuleEngine.normalizeRule(simple);
     return this.addRule({ ...normalized, id: simple.id });
   }
   addSimpleRules(rules) {
     return rules.map((r) => this.addSimpleRule(r));
   }
   removeRule(id) {
-    if (!this.rulesById.has(id))
-      return false;
+    if (!this.rulesById.has(id)) return false;
     this.rulesById.delete(id);
     this.regexCache.delete(id);
     const idx = this.sortedRules.findIndex((r) => r.id === id);
-    if (idx !== -1)
-      this.sortedRules.splice(idx, 1);
+    if (idx !== -1) this.sortedRules.splice(idx, 1);
     return true;
   }
   updateRule(id, patch) {
     const existing = this.rulesById.get(id);
-    if (!existing)
-      return false;
+    if (!existing) return false;
     if (patch.match !== void 0 || patch.type !== void 0 || patch.regexFlags !== void 0) {
       this.regexCache.delete(id);
     }
@@ -3545,16 +3746,14 @@ var RuleEngine = class {
     Object.assign(existing, patch);
     if (priorityChanged) {
       const idx = this.sortedRules.findIndex((r) => r.id === id);
-      if (idx !== -1)
-        this.sortedRules.splice(idx, 1);
+      if (idx !== -1) this.sortedRules.splice(idx, 1);
       this.insertSorted(existing);
     }
     return true;
   }
   setEnabled(id, enabled) {
     const rule = this.rulesById.get(id);
-    if (rule)
-      rule.enabled = enabled;
+    if (rule) rule.enabled = enabled;
   }
   getRules() {
     return this.sortedRules;
@@ -3575,13 +3774,17 @@ var RuleEngine = class {
     this.addSimpleRules(builtinRules);
     this.addSimpleRules(userRules);
   }
+  // ===== Regex Cache =====
+  /**
+   * Get or create cached regex patterns for a rule.
+   * Caches the compiled RegExp objects to avoid recompiling on every input.
+   */
   getCachedRegex(rule) {
     const existing = this.regexCache.get(rule.id);
-    if (existing !== void 0)
-      return existing;
+    if (existing !== void 0) return existing;
     const leftPattern = rule.match.isRegex ? rule.match.left : escapeRegex(rule.match.left);
     const rightPattern = rule.match.isRegex ? rule.match.right : escapeRegex(rule.match.right);
-    const regexFlags = rule.match.isRegex ? RuleEngine.normalizeRegexFlags(rule.regexFlags) : "";
+    const regexFlags = rule.match.isRegex ? _RuleEngine.normalizeRegexFlags(rule.regexFlags) : "";
     try {
       const cached2 = {
         left: leftPattern ? new RegExp("(?:" + leftPattern + ")(?![\\s\\S])", regexFlags) : null,
@@ -3591,11 +3794,12 @@ var RuleEngine = class {
       return cached2;
     } catch (e) {
       console.error(`[RuleEngine] Invalid regex in rule "${rule.id}":`, e);
-      new import_obsidian3.Notice(`[EasyTyping] Rule "${rule.id}" has invalid regex: ${e.message}`);
+      new import_obsidian2.Notice(`[EasyTyping] Rule "${rule.id}" has invalid regex: ${e.message}`);
       this.regexCache.set(rule.id, null);
       return null;
     }
   }
+  // ===== Template Expansion =====
   expandVariables(text, match) {
     text = text.replace(/\[\[R(\d+)\]\]/g, (_, n) => {
       var _a;
@@ -3618,12 +3822,10 @@ var RuleEngine = class {
   findMatchingBrace(text, openIdx) {
     let depth = 1;
     for (let i = openIdx + 1; i < text.length; i++) {
-      if (text[i] === "{")
-        depth++;
+      if (text[i] === "{") depth++;
       else if (text[i] === "}") {
         depth--;
-        if (depth === 0)
-          return i;
+        if (depth === 0) return i;
       }
     }
     return -1;
@@ -3684,6 +3886,7 @@ var RuleEngine = class {
     tabstops.sort((a, b) => a.number - b.number);
     return [result, tabstops];
   }
+  // ===== Rule Execution =====
   notifyFunctionError(ruleId, error) {
     var _a;
     const now = Date.now();
@@ -3691,33 +3894,25 @@ var RuleEngine = class {
     if (now - last > 5e3) {
       this.fnErrorLastNotify.set(ruleId, now);
       const msg = error instanceof Error ? error.message : String(error);
-      new import_obsidian3.Notice(`[EasyTyping] Rule "${ruleId}" runtime error: ${msg}`);
+      new import_obsidian2.Notice(`[EasyTyping] Rule "${ruleId}" runtime error: ${msg}`);
     }
     console.error(`[RuleEngine] Runtime error in rule "${ruleId}":`, error);
   }
   process(ctx) {
     var _a;
     for (const rule of this.sortedRules) {
-      if (!rule.enabled)
-        continue;
-      if (rule.type !== ctx.kind)
-        continue;
-      if (rule.triggerMode === "tab" /* Tab */ && ctx.changeType !== "tab")
-        continue;
-      if (rule.triggerMode === "auto" /* Auto */ && ctx.changeType === "tab")
-        continue;
-      if (ctx.scopeHint !== "all" /* All */ && !rule.scope.includes("all" /* All */) && !rule.scope.includes(ctx.scopeHint))
-        continue;
-      if (rule.scopeLanguage && ctx.scopeHint === "code" /* Code */ && rule.scope.includes("code" /* Code */) && ctx.scopeLanguage !== rule.scopeLanguage)
-        continue;
+      if (!rule.enabled) continue;
+      if (rule.type !== ctx.kind) continue;
+      if (rule.triggerMode === "tab" /* Tab */ && ctx.changeType !== "tab") continue;
+      if (rule.triggerMode === "auto" /* Auto */ && ctx.changeType === "tab") continue;
+      if (ctx.scopeHint !== "all" /* All */ && !rule.scope.includes("all" /* All */) && !rule.scope.includes(ctx.scopeHint)) continue;
+      if (rule.scopeLanguage && ctx.scopeHint === "code" /* Code */ && rule.scope.includes("code" /* Code */) && ctx.scopeLanguage !== rule.scopeLanguage) continue;
       switch (ctx.kind) {
         case "selectKey" /* SelectKey */: {
-          if (!((_a = rule.triggerKeys) == null ? void 0 : _a.includes(ctx.key)))
-            continue;
+          if (!((_a = rule.triggerKeys) == null ? void 0 : _a.includes(ctx.key))) continue;
           const result = this.applySelectKeyRule(rule, ctx);
           if (result) {
-            if (ctx.debug)
-              console.log("[RuleEngine] hit:", rule.id, rule.description);
+            if (ctx.debug) console.log("[RuleEngine] hit:", rule.id, rule.description);
             return result;
           }
           break;
@@ -3725,8 +3920,7 @@ var RuleEngine = class {
         default: {
           const result = this.matchAndApplyTextRule(rule, ctx);
           if (result) {
-            if (ctx.debug)
-              console.log("[RuleEngine] hit:", rule.id, rule.description);
+            if (ctx.debug) console.log("[RuleEngine] hit:", rule.id, rule.description);
             return result;
           }
           break;
@@ -3740,14 +3934,12 @@ var RuleEngine = class {
     const leftDoc = ctx.docText.slice(0, from);
     const rightDoc = ctx.docText.slice(to);
     const cached2 = this.getCachedRegex(rule);
-    if (!cached2)
-      return null;
+    if (!cached2) return null;
     const leftRegex = cached2.left;
     const rightRegex = cached2.right;
     const leftMatch = leftRegex ? leftRegex.exec(leftDoc) : [""];
     const rightMatch = rightRegex ? this.matchAtStart(rightDoc, rightRegex) : [""];
-    if (!leftMatch || !rightMatch)
-      return null;
+    if (!leftMatch || !rightMatch) return null;
     const matchFrom = from - leftMatch[0].length;
     const matchTo = to + rightMatch[0].length;
     return this.applyReplacement(rule, {
@@ -3759,8 +3951,7 @@ var RuleEngine = class {
   matchAtStart(doc, regex) {
     regex.lastIndex = 0;
     const match = regex.exec(doc);
-    if (!match || match.index !== 0)
-      return null;
+    if (!match || match.index !== 0) return null;
     return match;
   }
   applySelectKeyRule(rule, ctx) {
@@ -3780,14 +3971,12 @@ var RuleEngine = class {
         if (rule.type === "selectKey" /* SelectKey */) {
           const fn = rule.replacement;
           const result = fn(match.selectionText, match.key);
-          if (result === void 0)
-            return null;
+          if (result === void 0) return null;
           text = result;
         } else {
           const fn = rule.replacement;
           const result = fn(match.leftMatches, match.rightMatches);
-          if (result === void 0)
-            return null;
+          if (result === void 0) return null;
           text = result;
         }
       } catch (e) {
@@ -3797,7 +3986,7 @@ var RuleEngine = class {
     } else {
       text = rule.replacement;
     }
-    text = RuleEngine.unescapeText(text);
+    text = _RuleEngine.unescapeText(text);
     text = this.expandVariables(text, match);
     const [finalText, tabstops] = this.parseTabstops(text, match.matchRange.from, match);
     const cursor = tabstops.length > 0 ? tabstops[0].from : match.matchRange.from + finalText.length;
@@ -3812,6 +4001,7 @@ var RuleEngine = class {
 
 // src/default_rules.ts
 var DEFAULT_BUILTIN_RULES = [
+  // ===== 自动配对 (priority 10) =====
   {
     id: "builtin-autopair-input",
     trigger: "[\uFF08\u300A\u300C\u300E\u201C\u201D\u2018\u2019\u300A]",
@@ -3838,6 +4028,7 @@ var DEFAULT_BUILTIN_RULES = [
     priority: 10,
     description: "\u5220\u9664\u5168\u89D2\u62EC\u53F7/\u5F15\u53F7\u65F6\u540C\u65F6\u5220\u9664\u914D\u5BF9"
   },
+  // ===== 基础转换 (priority 10) =====
   { id: "builtin-conv-backtick", trigger: "\xB7\xB7", replacement: "`$0`", priority: 10, description: "\u8FDE\u7EED\u4E2D\u6587\u95F4\u9694\u53F7 \xB7\xB7 \u8F6C\u884C\u5185\u4EE3\u7801" },
   {
     id: "builtin-conv-codeblock",
@@ -3865,6 +4056,7 @@ var DEFAULT_BUILTIN_RULES = [
     priority: 10,
     description: "\u884C\u9996 \u300B \u8F6C\u5F15\u7528\u6807\u8BB0\u3001\u884C\u9996 \u3001 \u8F6C\u659C\u6760"
   },
+  // ===== 半角转全角 (priority 15) =====
   {
     id: "builtin-conv-hw2fw",
     trigger: "([\u4E00-\u9FA5\u3040-\u309F\u30A0-\u30FF\uAC00-\uD7AF])([,.:?!;(])",
@@ -3875,6 +4067,7 @@ var DEFAULT_BUILTIN_RULES = [
     enabled: false,
     description: "CJK\u5B57\u7B26\u540E\u534A\u89D2\u6807\u70B9\u8F6C\u5168\u89D2"
   },
+  // ===== 全角转半角 (priority 20) =====
   {
     id: "builtin-fw2hw-double",
     trigger: "([\u3002\uFF01\uFF1B\uFF0C\uFF1A\uFF1F\u300B\uFF5C\uFF08\u300A])\\1",
@@ -3884,6 +4077,7 @@ var DEFAULT_BUILTIN_RULES = [
     priority: 3,
     description: "\u8FDE\u7EED\u8F93\u5165\u4E24\u4E2A\u76F8\u540C\u5168\u89D2\u6807\u70B9\u8F6C\u5BF9\u5E94\u534A\u89D2"
   },
+  // ===== 删除配对 (priority 30) =====
   { id: "builtin-del-inline-formula", trigger: "$", trigger_right: "$", replacement: "", options: "d", priority: 30, description: "\u5220\u9664\u884C\u5185\u516C\u5F0F $...$ \u914D\u5BF9" },
   { id: "builtin-del-highlight", trigger: "==", trigger_right: "==", replacement: "", options: "d", priority: 30, description: "\u5220\u9664\u9AD8\u4EAE ==...== \u914D\u5BF9" },
   { id: "builtin-del-block-formula", trigger: "$$\n", trigger_right: "\n$$", replacement: "", options: "d", priority: 30, description: "\u5220\u9664\u5757\u7EA7\u516C\u5F0F $$...$$ \u914D\u5BF9" },
@@ -3904,6 +4098,7 @@ var DEFAULT_BUILTIN_RULES = [
     priority: 30,
     description: "\u5FEB\u901F\u5220\u9664\u53CC\u94FE\u53CA\u5D4C\u5165\uFF08![[]]\uFF09"
   },
+  // ===== 选中替换 (priority 40) =====
   {
     id: "builtin-sel-wrap-backtick",
     trigger: "\xB7",
@@ -3936,12 +4131,13 @@ var DEFAULT_BUILTIN_RULES = [
     priority: 40,
     description: "\u9009\u4E2D\u6587\u5B57\u540E\u8F93\u5165\u300A\uFF08\uFF0C\u914D\u5BF9\u62EC\u53F7\u5305\u88F9"
   },
+  // ===== 引用处理 (priority 50) =====
   { id: "builtin-quote-convert", trigger: "((?:^|\\n)\\s*>*) ?[>\u300B]", replacement: "[[1]]> $0", options: "r", priority: 50, description: "\u8F93\u5165 > \u6216 \u300B \u8F6C\u4E3A Markdown \u5F15\u7528\u6807\u8BB0" },
   { id: "builtin-quote-space", trigger: "((?:^|\\n)\\s*>+)([^ >\u300B]+)", replacement: "[[1]] [[2]]$0", options: "r", priority: 50, description: "\u5F15\u7528\u6807\u8BB0 > \u540E\u81EA\u52A8\u8865\u7A7A\u683C" }
 ];
 
 // src/settings/rule_edit_modal.ts
-var import_obsidian4 = require("obsidian");
+var import_obsidian3 = require("obsidian");
 var import_view = require("@codemirror/view");
 var import_state2 = require("@codemirror/state");
 var import_commands = require("@codemirror/commands");
@@ -3983,20 +4179,16 @@ function tokenizeJS(text) {
   while (i < text.length) {
     if (text[i] === "/" && text[i + 1] === "/") {
       const start = i;
-      while (i < text.length && text[i] !== "\n")
-        i++;
+      while (i < text.length && text[i] !== "\n") i++;
       tokens.push({ from: start, to: i, cls: "et-hl-comment" });
       continue;
     }
     if (text[i] === "/" && text[i + 1] === "*") {
       const start = i;
       i += 2;
-      while (i < text.length - 1 && !(text[i] === "*" && text[i + 1] === "/"))
-        i++;
-      if (i < text.length - 1)
-        i += 2;
-      else
-        i = text.length;
+      while (i < text.length - 1 && !(text[i] === "*" && text[i + 1] === "/")) i++;
+      if (i < text.length - 1) i += 2;
+      else i = text.length;
       tokens.push({ from: start, to: i, cls: "et-hl-comment" });
       continue;
     }
@@ -4005,12 +4197,10 @@ function tokenizeJS(text) {
       const start = i;
       i++;
       while (i < text.length && text[i] !== quote) {
-        if (text[i] === "\\")
-          i++;
+        if (text[i] === "\\") i++;
         i++;
       }
-      if (i < text.length)
-        i++;
+      if (i < text.length) i++;
       tokens.push({ from: start, to: i, cls: "et-hl-string" });
       continue;
     }
@@ -4018,15 +4208,12 @@ function tokenizeJS(text) {
       const start = i;
       if (text[i] === "0" && (text[i + 1] === "x" || text[i + 1] === "X")) {
         i += 2;
-        while (i < text.length && /[0-9a-fA-F]/.test(text[i]))
-          i++;
+        while (i < text.length && /[0-9a-fA-F]/.test(text[i])) i++;
       } else {
-        while (i < text.length && /\d/.test(text[i]))
-          i++;
+        while (i < text.length && /\d/.test(text[i])) i++;
         if (i < text.length && text[i] === ".") {
           i++;
-          while (i < text.length && /\d/.test(text[i]))
-            i++;
+          while (i < text.length && /\d/.test(text[i])) i++;
         }
       }
       tokens.push({ from: start, to: i, cls: "et-hl-number" });
@@ -4034,8 +4221,7 @@ function tokenizeJS(text) {
     }
     if (/[a-zA-Z_$]/.test(text[i])) {
       const start = i;
-      while (i < text.length && /[a-zA-Z0-9_$]/.test(text[i]))
-        i++;
+      while (i < text.length && /[a-zA-Z0-9_$]/.test(text[i])) i++;
       if (JS_KEYWORDS.has(text.slice(start, i))) {
         tokens.push({ from: start, to: i, cls: "et-hl-keyword" });
       }
@@ -4096,9 +4282,10 @@ function createJSEditorView(container, initialValue, onChange) {
   });
   return new import_view.EditorView({ state, parent: container });
 }
-var RuleEditModal = class extends import_obsidian4.Modal {
+var RuleEditModal = class extends import_obsidian3.Modal {
   constructor(app, mode, initial, onSubmit) {
     super(app);
+    // Form state
     this.ruleType = "input" /* Input */;
     this.triggerMode = "auto" /* Auto */;
     this.trigger = "";
@@ -4124,22 +4311,14 @@ var RuleEditModal = class extends import_obsidian4.Modal {
       this.isFunction = opts.isFunctionReplacement;
       this.ruleScopes = opts.scope.length > 0 ? [...opts.scope] : ["all" /* All */];
     }
-    if (initial.trigger !== void 0)
-      this.trigger = RuleEngine.escapeText(initial.trigger, this.isRegex);
-    if (initial.trigger_right !== void 0)
-      this.triggerRight = RuleEngine.escapeText(initial.trigger_right, this.isRegex);
-    if (typeof initial.replacement === "string")
-      this.replacement = initial.replacement;
-    if (initial.regex_flags !== void 0)
-      this.regexFlags = RuleEngine.normalizeRegexFlags(initial.regex_flags);
-    if (initial.priority !== void 0)
-      this.priority = initial.priority;
-    if (initial.description !== void 0)
-      this.description = initial.description;
-    if (initial.enabled !== void 0)
-      this.enabled = initial.enabled;
-    if (initial.scope_language !== void 0)
-      this.scopeLanguage = initial.scope_language;
+    if (initial.trigger !== void 0) this.trigger = RuleEngine.escapeText(initial.trigger, this.isRegex);
+    if (initial.trigger_right !== void 0) this.triggerRight = RuleEngine.escapeText(initial.trigger_right, this.isRegex);
+    if (typeof initial.replacement === "string") this.replacement = initial.replacement;
+    if (initial.regex_flags !== void 0) this.regexFlags = RuleEngine.normalizeRegexFlags(initial.regex_flags);
+    if (initial.priority !== void 0) this.priority = initial.priority;
+    if (initial.description !== void 0) this.description = initial.description;
+    if (initial.enabled !== void 0) this.enabled = initial.enabled;
+    if (initial.scope_language !== void 0) this.scopeLanguage = initial.scope_language;
   }
   onOpen() {
     const { contentEl } = this;
@@ -4209,17 +4388,17 @@ var RuleEditModal = class extends import_obsidian4.Modal {
       this.isRegex = !this.isRegex;
       this.refreshVisibility(contentEl);
     });
-    const triggerSetting = new import_obsidian4.Setting(matchGroup).setName(locale7.settings.ruleEditModal.fieldTrigger).setDesc("").addText((text) => {
+    const triggerSetting = new import_obsidian3.Setting(matchGroup).setName(locale7.settings.ruleEditModal.fieldTrigger).setDesc("").addText((text) => {
       text.setValue(this.trigger);
       text.onChange((v) => this.trigger = v);
     });
     triggerSetting.settingEl.dataset.field = "trigger";
-    const triggerRightSetting = new import_obsidian4.Setting(matchGroup).setName(locale7.settings.ruleEditModal.fieldTriggerRight).addText((text) => {
+    const triggerRightSetting = new import_obsidian3.Setting(matchGroup).setName(locale7.settings.ruleEditModal.fieldTriggerRight).addText((text) => {
       text.setValue(this.triggerRight);
       text.onChange((v) => this.triggerRight = v);
     });
     triggerRightSetting.settingEl.dataset.field = "triggerRight";
-    const regexFlagsSetting = new import_obsidian4.Setting(matchGroup).setName(locale7.settings.ruleEditModal.fieldRegexFlags).setDesc(locale7.settings.ruleEditModal.fieldRegexFlagsDesc).addText((text) => {
+    const regexFlagsSetting = new import_obsidian3.Setting(matchGroup).setName(locale7.settings.ruleEditModal.fieldRegexFlags).setDesc(locale7.settings.ruleEditModal.fieldRegexFlagsDesc).addText((text) => {
       text.setPlaceholder("imu");
       text.setValue(this.regexFlags);
       text.onChange((v) => this.regexFlags = RuleEngine.normalizeRegexFlags(v));
@@ -4237,10 +4416,10 @@ var RuleEditModal = class extends import_obsidian4.Modal {
       this.isFunction = !this.isFunction;
       this.refreshVisibility(contentEl);
     });
-    const replacementSetting = new import_obsidian4.Setting(replacementGroup);
+    const replacementSetting = new import_obsidian3.Setting(replacementGroup);
     replacementSetting.settingEl.addClass("et-replacement-setting");
     replacementSetting.settingEl.dataset.field = "replacementTextarea";
-    const replacementArea = new import_obsidian4.TextAreaComponent(replacementSetting.controlEl);
+    const replacementArea = new import_obsidian3.TextAreaComponent(replacementSetting.controlEl);
     replacementArea.inputEl.addClass("et-replacement-textarea");
     replacementArea.inputEl.setAttribute("aria-label", locale7.settings.ruleEditModal.fieldReplacement);
     replacementArea.setValue(this.replacement);
@@ -4265,7 +4444,7 @@ var RuleEditModal = class extends import_obsidian4.Modal {
     const otherGroup = contentEl.createDiv({ cls: "et-modal-group" });
     const otherHeader = otherGroup.createDiv({ cls: "et-modal-group-header" });
     otherHeader.createEl("span", { cls: "et-modal-group-title", text: locale7.settings.ruleEditModal.groupOther });
-    const scopeSetting = new import_obsidian4.Setting(otherGroup).setName(locale7.settings.ruleEditModal.fieldScope);
+    const scopeSetting = new import_obsidian3.Setting(otherGroup).setName(locale7.settings.ruleEditModal.fieldScope);
     scopeSetting.settingEl.dataset.field = "scopeSetting";
     scopeSetting.settingEl.addClass("et-scope-setting");
     const scopeControls = scopeSetting.controlEl.createDiv({ cls: "et-scope-options" });
@@ -4287,22 +4466,21 @@ var RuleEditModal = class extends import_obsidian4.Modal {
         this.refreshVisibility(contentEl);
       });
     }
-    const scopeLangSetting = new import_obsidian4.Setting(otherGroup).setName(locale7.settings.ruleEditModal.fieldScopeLanguage).addText((text) => {
+    const scopeLangSetting = new import_obsidian3.Setting(otherGroup).setName(locale7.settings.ruleEditModal.fieldScopeLanguage).addText((text) => {
       text.setPlaceholder("e.g. python, javascript");
       text.setValue(this.scopeLanguage);
       text.onChange((v) => this.scopeLanguage = v.trim().toLowerCase());
     });
     scopeLangSetting.settingEl.dataset.field = "scopeLanguage";
-    new import_obsidian4.Setting(otherGroup).setName(locale7.settings.ruleEditModal.fieldPriority).setDesc(locale7.settings.ruleEditModal.fieldPriorityDesc).addText((text) => {
+    new import_obsidian3.Setting(otherGroup).setName(locale7.settings.ruleEditModal.fieldPriority).setDesc(locale7.settings.ruleEditModal.fieldPriorityDesc).addText((text) => {
       text.setValue(String(this.priority));
       text.inputEl.type = "number";
       text.onChange((v) => {
         const n = parseInt(v);
-        if (!isNaN(n))
-          this.priority = n;
+        if (!isNaN(n)) this.priority = n;
       });
     });
-    new import_obsidian4.Setting(otherGroup).setName(locale7.settings.ruleEditModal.fieldDescription).addText((text) => {
+    new import_obsidian3.Setting(otherGroup).setName(locale7.settings.ruleEditModal.fieldDescription).addText((text) => {
       text.setValue(this.description);
       text.onChange((v) => this.description = v);
     });
@@ -4315,7 +4493,7 @@ var RuleEditModal = class extends import_obsidian4.Modal {
       const rule = this.buildSimpleRule();
       const regexError = RuleEngine.validateRegex(rule);
       if (regexError) {
-        new import_obsidian4.Notice(`[EasyTyping] ${locale7.settings.ruleEditModal.invalidRegex}: ${regexError}`);
+        new import_obsidian3.Notice(`[EasyTyping] ${locale7.settings.ruleEditModal.invalidRegex}: ${regexError}`);
         return;
       }
       this.close();
@@ -4328,8 +4506,7 @@ var RuleEditModal = class extends import_obsidian4.Modal {
     window.requestAnimationFrame(() => {
       if (this.mode === "create") {
         const triggerInput = contentEl.querySelector('[data-field="trigger"] input');
-        if (!triggerInput)
-          return;
+        if (!triggerInput) return;
         triggerInput.focus();
         triggerInput.setSelectionRange(triggerInput.value.length, triggerInput.value.length);
         return;
@@ -4363,8 +4540,7 @@ var RuleEditModal = class extends import_obsidian4.Modal {
       el.classList.toggle("et-pill-active", el.dataset.pillValue === this.ruleType);
     });
     const triggerModeSection = contentEl.querySelector('[data-field="triggerModeSection"]');
-    if (triggerModeSection)
-      triggerModeSection.classList.toggle("et-hidden", this.ruleType !== "input" /* Input */);
+    if (triggerModeSection) triggerModeSection.classList.toggle("et-hidden", this.ruleType !== "input" /* Input */);
     contentEl.querySelectorAll('[data-pill-group="triggerMode"]').forEach((el) => {
       const htmlEl = el;
       htmlEl.classList.toggle("et-hidden", this.ruleType !== "input" /* Input */);
@@ -4376,8 +4552,7 @@ var RuleEditModal = class extends import_obsidian4.Modal {
       regexChip.classList.toggle("et-hidden", this.ruleType === "selectKey" /* SelectKey */);
     }
     const fnChip = contentEl.querySelector('[data-field="isFunctionChip"]');
-    if (fnChip)
-      fnChip.classList.toggle("et-pill-chip-active", this.isFunction);
+    if (fnChip) fnChip.classList.toggle("et-pill-chip-active", this.isFunction);
     const replacementHintEl = contentEl.querySelector('[data-field="replacementHint"]');
     if (replacementHintEl) {
       const parts = [];
@@ -4437,24 +4612,16 @@ var RuleEditModal = class extends import_obsidian4.Modal {
   }
   buildSimpleRule() {
     let options = "";
-    if (this.ruleType === "delete" /* Delete */)
-      options += "d";
-    else if (this.ruleType === "selectKey" /* SelectKey */)
-      options += "s";
-    if (this.ruleType === "input" /* Input */ && this.triggerMode === "tab" /* Tab */)
-      options += "T";
-    if (this.isRegex)
-      options += "r";
-    if (this.isFunction)
-      options += "F";
+    if (this.ruleType === "delete" /* Delete */) options += "d";
+    else if (this.ruleType === "selectKey" /* SelectKey */) options += "s";
+    if (this.ruleType === "input" /* Input */ && this.triggerMode === "tab" /* Tab */) options += "T";
+    if (this.isRegex) options += "r";
+    if (this.isFunction) options += "F";
     const normalizedScopes = this.getNormalizedRuleScopes();
     if (!normalizedScopes.includes("all" /* All */)) {
-      if (normalizedScopes.includes("text" /* Text */))
-        options += "t";
-      if (normalizedScopes.includes("formula" /* Formula */))
-        options += "f";
-      if (normalizedScopes.includes("code" /* Code */))
-        options += "c";
+      if (normalizedScopes.includes("text" /* Text */)) options += "t";
+      if (normalizedScopes.includes("formula" /* Formula */)) options += "f";
+      if (normalizedScopes.includes("code" /* Code */)) options += "c";
     }
     return {
       trigger: this.isRegex ? this.trigger : RuleEngine.unescapeText(this.trigger),
@@ -4495,7 +4662,7 @@ var RuleEditModal = class extends import_obsidian4.Modal {
 // src/settings/easy_typing_settings_tab.ts
 var import_sprintf_js = __toESM(require_sprintf());
 var DEFAULT_PATH_VALUE = "";
-var FolderSuggest = class extends import_obsidian5.AbstractInputSuggest {
+var FolderSuggest = class extends import_obsidian4.AbstractInputSuggest {
   constructor(app, inputEl, defaultLabel, onSelect) {
     super(app, inputEl);
     this.defaultLabel = defaultLabel;
@@ -4515,10 +4682,12 @@ var FolderSuggest = class extends import_obsidian5.AbstractInputSuggest {
     this.onSelectCb(path);
   }
 };
-var EasyTypingSettingTab = class extends import_obsidian5.PluginSettingTab {
+var EasyTypingSettingTab = class extends import_obsidian4.PluginSettingTab {
   constructor(app, plugin) {
     super(app, plugin);
+    // 记住当前激活的 Tab，避免 display() 刷新时重置
     this.activeTab = "edit-enhance";
+    // 拖拽状态
     this.dragSourceIndex = null;
     this.plugin = plugin;
   }
@@ -4600,8 +4769,7 @@ var EasyTypingSettingTab = class extends import_obsidian5.PluginSettingTab {
       });
       btn.addEventListener("keydown", (evt) => {
         const currentIndex = tabs.findIndex((item) => item.id === tab.id);
-        if (currentIndex === -1)
-          return;
+        if (currentIndex === -1) return;
         let targetIndex = null;
         switch (evt.key) {
           case "ArrowRight":
@@ -4657,64 +4825,70 @@ var EasyTypingSettingTab = class extends import_obsidian5.PluginSettingTab {
       node.disabled = disabled;
     });
   }
+  // ==================== Tab 1: 编辑增强 ====================
   buildEditEnhanceTab(el) {
     const locale7 = getLocale();
     const section = this.createSection(el, locale7.headers.enhancedEditing);
-    new import_obsidian5.Setting(section.bodyEl).setName(locale7.settings.codeblockEdit.name).setDesc(locale7.settings.codeblockEdit.desc).addToggle((toggle) => {
+    new import_obsidian4.Setting(section.bodyEl).setName(locale7.settings.codeblockEdit.name).setDesc(locale7.settings.codeblockEdit.desc).addToggle((toggle) => {
       toggle.setValue(this.plugin.settings.BetterCodeEdit).onChange(async (value) => {
         this.plugin.settings.BetterCodeEdit = value;
         await this.plugin.saveSettings();
       });
     });
-    new import_obsidian5.Setting(section.bodyEl).setName(locale7.settings.backspaceEdit.name).setDesc(locale7.settings.backspaceEdit.desc).addToggle((toggle) => {
+    new import_obsidian4.Setting(section.bodyEl).setName(locale7.settings.backspaceEdit.name).setDesc(locale7.settings.backspaceEdit.desc).addToggle((toggle) => {
       toggle.setValue(this.plugin.settings.BetterBackspace).onChange(async (value) => {
         this.plugin.settings.BetterBackspace = value;
         await this.plugin.saveSettings();
       });
     });
-    new import_obsidian5.Setting(section.bodyEl).setName(locale7.settings.tabOut.name).setDesc(locale7.settings.tabOut.desc).addToggle((toggle) => {
+    new import_obsidian4.Setting(section.bodyEl).setName(locale7.settings.tabOut.name).setDesc(locale7.settings.tabOut.desc).addToggle((toggle) => {
       toggle.setValue(this.plugin.settings.Tabout).onChange(async (value) => {
         this.plugin.settings.Tabout = value;
         await this.plugin.saveSettings();
       });
     });
-    new import_obsidian5.Setting(section.bodyEl).setName(locale7.settings.enhanceModA.name).setDesc(locale7.settings.enhanceModA.desc).addToggle((toggle) => {
+    new import_obsidian4.Setting(section.bodyEl).setName(locale7.settings.enhanceModA.name).setDesc(locale7.settings.enhanceModA.desc).addToggle((toggle) => {
       toggle.setValue(this.plugin.settings.EnhanceModA).onChange(async (value) => {
         this.plugin.settings.EnhanceModA = value;
         await this.plugin.saveSettings();
       });
     });
-    new import_obsidian5.Setting(section.bodyEl).setName(locale7.settings.smartPaste.name).setDesc(locale7.settings.smartPaste.desc).addToggle((toggle) => {
+    new import_obsidian4.Setting(section.bodyEl).setName(locale7.settings.smartPaste.name).setDesc(locale7.settings.smartPaste.desc).addToggle((toggle) => {
       toggle.setValue(this.plugin.settings.SmartPaste).onChange(async (value) => {
         this.plugin.settings.SmartPaste = value;
         await this.plugin.saveSettings();
       });
     });
   }
+  // ==================== Tab 2: 自动格式化 ====================
   buildAutoFormatTab(el) {
     const locale7 = getLocale();
     const overviewSection = this.createSection(el, locale7.headers.autoformatSetting);
-    new import_obsidian5.Setting(overviewSection.bodyEl).setName(locale7.settings.autoFormatting.name).setDesc(locale7.settings.autoFormatting.desc).addToggle((toggle) => {
+    new import_obsidian4.Setting(overviewSection.bodyEl).setName(locale7.settings.autoFormatting.name).setDesc(locale7.settings.autoFormatting.desc).addToggle((toggle) => {
       toggle.setValue(this.plugin.settings.AutoFormat).onChange(async (value) => {
         this.plugin.settings.AutoFormat = value;
         await this.plugin.saveSettings();
         syncAutoFormatState(value);
       });
     });
-    const pasteSetting = new import_obsidian5.Setting(overviewSection.bodyEl).setName(locale7.settings.autoFormatPaste.name).setDesc(locale7.settings.autoFormatPaste.desc).addToggle((toggle) => {
+    const pasteSetting = new import_obsidian4.Setting(overviewSection.bodyEl).setName(locale7.settings.autoFormatPaste.name).setDesc(locale7.settings.autoFormatPaste.desc).addToggle((toggle) => {
       toggle.setValue(this.plugin.settings.AutoFormatPaste).onChange(async (value) => {
         this.plugin.settings.AutoFormatPaste = value;
         await this.plugin.saveSettings();
       });
     });
-    const autoCapitalSetting = new import_obsidian5.Setting(overviewSection.bodyEl).setName(locale7.settings.capitalizeFirstLetter.name).setDesc(locale7.settings.capitalizeFirstLetter.desc).addToggle((toggle) => {
+    const autoCapitalSetting = new import_obsidian4.Setting(overviewSection.bodyEl).setName(locale7.settings.capitalizeFirstLetter.name).setDesc(locale7.settings.capitalizeFirstLetter.desc).addToggle((toggle) => {
       toggle.setTooltip(locale7.toolTip.switch);
       toggle.setValue(this.plugin.settings.AutoCapital).onChange(async (value) => {
         this.plugin.settings.AutoCapital = value;
         await this.plugin.saveSettings();
       });
     });
-    const languageSection = this.createSection(el, locale7.headers.languagePairSection, locale7.settings.languagePairSpacing.desc);
+    const languageSection = this.createSection(
+      el,
+      locale7.headers.languagePairSection,
+      locale7.settings.languagePairSpacing.desc
+    );
     const scriptListContainer = languageSection.bodyEl.createDiv({ cls: "et-custom-scripts" });
     const capsuleContainer = languageSection.bodyEl.createDiv({ cls: "et-lang-pair-capsules" });
     const renderCapsules = () => {
@@ -4744,11 +4918,13 @@ var EasyTypingSettingTab = class extends import_obsidian5.PluginSettingTab {
       scriptListContainer.empty();
       for (let i = 0; i < this.plugin.settings.customScriptCategories.length; i++) {
         const cat = this.plugin.settings.customScriptCategories[i];
-        const item = new import_obsidian5.Setting(scriptListContainer);
+        const item = new import_obsidian4.Setting(scriptListContainer);
         item.setName(`${cat.name}  [${cat.pattern}]`);
         item.addExtraButton((btn) => {
           btn.setIcon("trash").setTooltip(locale7.toolTip.removeRule).onClick(async () => {
-            this.plugin.settings.languagePairs = this.plugin.settings.languagePairs.filter((p) => p.a !== cat.name && p.b !== cat.name);
+            this.plugin.settings.languagePairs = this.plugin.settings.languagePairs.filter(
+              (p) => p.a !== cat.name && p.b !== cat.name
+            );
             this.plugin.settings.customScriptCategories.splice(i, 1);
             await this.plugin.saveSettings();
             renderScripts();
@@ -4759,7 +4935,7 @@ var EasyTypingSettingTab = class extends import_obsidian5.PluginSettingTab {
     };
     renderScripts();
     renderCapsules();
-    const addScriptRow = new import_obsidian5.Setting(languageSection.bodyEl);
+    const addScriptRow = new import_obsidian4.Setting(languageSection.bodyEl);
     addScriptRow.settingEl.addClass("et-inline-form-setting");
     let newScriptName = "";
     let newScriptPattern = "";
@@ -4773,8 +4949,7 @@ var EasyTypingSettingTab = class extends import_obsidian5.PluginSettingTab {
       });
     }).addButton((btn) => {
       btn.setButtonText("+").onClick(async () => {
-        if (!newScriptName.trim() || !newScriptPattern.trim())
-          return;
+        if (!newScriptName.trim() || !newScriptPattern.trim()) return;
         try {
           new RegExp(`[${newScriptPattern}]`);
         } catch (e) {
@@ -4793,7 +4968,7 @@ var EasyTypingSettingTab = class extends import_obsidian5.PluginSettingTab {
     const allCategories = this.getAllScriptCategories();
     let selectedA = allCategories[0] || "";
     let selectedB = allCategories[1] || "";
-    const selectorSetting = new import_obsidian5.Setting(addRow);
+    const selectorSetting = new import_obsidian4.Setting(addRow);
     selectorSetting.settingEl.addClass("et-inline-form-setting");
     selectorSetting.setName(locale7.headers.addLanguagePair).addDropdown((dd) => {
       for (const cat of allCategories) {
@@ -4813,11 +4988,11 @@ var EasyTypingSettingTab = class extends import_obsidian5.PluginSettingTab {
       });
     }).addButton((btn) => {
       btn.setButtonText("+").onClick(async () => {
-        if (selectedA === selectedB)
-          return;
-        const exists = this.plugin.settings.languagePairs.some((p) => p.a === selectedA && p.b === selectedB || p.a === selectedB && p.b === selectedA);
-        if (exists)
-          return;
+        if (selectedA === selectedB) return;
+        const exists = this.plugin.settings.languagePairs.some(
+          (p) => p.a === selectedA && p.b === selectedB || p.a === selectedB && p.b === selectedA
+        );
+        if (exists) return;
         this.plugin.settings.languagePairs.push({ a: selectedA, b: selectedB });
         await this.plugin.saveSettings();
         renderCapsules();
@@ -4826,7 +5001,7 @@ var EasyTypingSettingTab = class extends import_obsidian5.PluginSettingTab {
     const detailSection = this.createSection(el, locale7.headers.detailedSetting);
     const introDiv = detailSection.bodyEl.createDiv({ cls: "et-settings-note et-space-strategy-intro setting-item-description" });
     introDiv.innerText = locale7.headers.spaceStrategyIntro || "\u7A7A\u683C\u7B56\u7565\u8BF4\u660E\uFF1A\n\u65E0\u8981\u6C42\uFF1A\u5BF9\u76F8\u5173\u533A\u5757\u4E0E\u5DE6\u53F3\u6587\u672C\u6CA1\u6709\u7A7A\u683C\u8981\u6C42\u3002\n\u8F6F\u7A7A\u683C\uFF1A\u53EA\u8981\u6C42\u6709\u8F6F\u7A7A\u683C\u3002\n\u4E25\u683C\u7A7A\u683C\uFF1A\u4E25\u683C\u6DFB\u52A0\u771F\u5B9E\u7A7A\u683C\u3002";
-    new import_obsidian5.Setting(detailSection.bodyEl).setName(locale7.settings.spaceStrategyInlineCode.name).setDesc(locale7.settings.spaceStrategyInlineCode.desc).addDropdown((dropdown) => {
+    new import_obsidian4.Setting(detailSection.bodyEl).setName(locale7.settings.spaceStrategyInlineCode.name).setDesc(locale7.settings.spaceStrategyInlineCode.desc).addDropdown((dropdown) => {
       dropdown.addOption(String(0 /* none */), locale7.dropdownOptions.noRequire);
       dropdown.addOption(String(1 /* soft */), locale7.dropdownOptions.softSpace);
       dropdown.addOption(String(2 /* strict */), locale7.dropdownOptions.strictSpace);
@@ -4836,7 +5011,7 @@ var EasyTypingSettingTab = class extends import_obsidian5.PluginSettingTab {
         await this.plugin.saveSettings();
       });
     });
-    new import_obsidian5.Setting(detailSection.bodyEl).setName(locale7.settings.spaceStrategyInlineFormula.name).setDesc(locale7.settings.spaceStrategyInlineFormula.desc).addDropdown((dropdown) => {
+    new import_obsidian4.Setting(detailSection.bodyEl).setName(locale7.settings.spaceStrategyInlineFormula.name).setDesc(locale7.settings.spaceStrategyInlineFormula.desc).addDropdown((dropdown) => {
       dropdown.addOption(String(0 /* none */), locale7.dropdownOptions.noRequire);
       dropdown.addOption(String(1 /* soft */), locale7.dropdownOptions.softSpace);
       dropdown.addOption(String(2 /* strict */), locale7.dropdownOptions.strictSpace);
@@ -4846,7 +5021,7 @@ var EasyTypingSettingTab = class extends import_obsidian5.PluginSettingTab {
         await this.plugin.saveSettings();
       });
     });
-    new import_obsidian5.Setting(detailSection.bodyEl).setName(locale7.settings.spaceStrategyLinkText.name).setDesc(locale7.settings.spaceStrategyLinkText.desc).addDropdown((dropdown) => {
+    new import_obsidian4.Setting(detailSection.bodyEl).setName(locale7.settings.spaceStrategyLinkText.name).setDesc(locale7.settings.spaceStrategyLinkText.desc).addDropdown((dropdown) => {
       dropdown.addOption("dummy", locale7.dropdownOptions.dummy);
       dropdown.addOption("smart", locale7.dropdownOptions.smart);
       dropdown.setValue(this.plugin.settings.InlineLinkSmartSpace ? "smart" : "dummy");
@@ -4864,22 +5039,26 @@ var EasyTypingSettingTab = class extends import_obsidian5.PluginSettingTab {
         await this.plugin.saveSettings();
       });
     });
-    new import_obsidian5.Setting(detailSection.bodyEl).setName(locale7.settings.softSpaceSymbols.leftName).setDesc(locale7.settings.softSpaceSymbols.leftDesc).addText((text) => {
+    new import_obsidian4.Setting(detailSection.bodyEl).setName(locale7.settings.softSpaceSymbols.leftName).setDesc(locale7.settings.softSpaceSymbols.leftDesc).addText((text) => {
       text.setValue(this.plugin.settings.SoftSpaceLeftSymbols).onChange(async (value) => {
         this.plugin.settings.SoftSpaceLeftSymbols = value;
         await this.plugin.saveSettings();
       });
     });
-    new import_obsidian5.Setting(detailSection.bodyEl).setName(locale7.settings.softSpaceSymbols.rightName).setDesc(locale7.settings.softSpaceSymbols.rightDesc).addText((text) => {
+    new import_obsidian4.Setting(detailSection.bodyEl).setName(locale7.settings.softSpaceSymbols.rightName).setDesc(locale7.settings.softSpaceSymbols.rightDesc).addText((text) => {
       text.setValue(this.plugin.settings.SoftSpaceRightSymbols).onChange(async (value) => {
         this.plugin.settings.SoftSpaceRightSymbols = value;
         await this.plugin.saveSettings();
       });
     });
-    const prefixSection = this.createSection(el, locale7.headers.prefixDictSection, locale7.settings.prefixDictionary.desc);
-    const prefixSetting = new import_obsidian5.Setting(prefixSection.bodyEl);
+    const prefixSection = this.createSection(
+      el,
+      locale7.headers.prefixDictSection,
+      locale7.settings.prefixDictionary.desc
+    );
+    const prefixSetting = new import_obsidian4.Setting(prefixSection.bodyEl);
     prefixSetting.settingEl.addClass("et-setting-full-width");
-    const prefixArea = new import_obsidian5.TextAreaComponent(prefixSetting.controlEl);
+    const prefixArea = new import_obsidian4.TextAreaComponent(prefixSetting.controlEl);
     prefixArea.inputEl.addClass("et-settings-textarea", "et-settings-textarea-compact");
     prefixArea.setValue(this.plugin.settings.PrefixDictionary).onChange(async (value) => {
       this.plugin.settings.PrefixDictionary = value;
@@ -4891,30 +5070,57 @@ var EasyTypingSettingTab = class extends import_obsidian5.PluginSettingTab {
       frag.appendText(locale7.headers.aboutRegexp.header);
       frag.createEl("a", { text: locale7.headers.aboutRegexp.text, href: "https://javascript.ruanyifeng.com/stdlib/regexp.html#" });
     }));
-    const regSwitchSetting = new import_obsidian5.Setting(regexSection.bodyEl).setName(locale7.settings.userDefinedRegexpSwitch.name).setDesc(locale7.settings.userDefinedRegexpSwitch.desc).addToggle((toggle) => {
+    const regSwitchSetting = new import_obsidian4.Setting(regexSection.bodyEl).setName(locale7.settings.userDefinedRegexpSwitch.name).setDesc(locale7.settings.userDefinedRegexpSwitch.desc).addToggle((toggle) => {
       toggle.setValue(this.plugin.settings.UserDefinedRegSwitch).onChange(async (value) => {
         this.plugin.settings.UserDefinedRegSwitch = value;
-        await this.plugin.saveSettings();
         syncRegexContentState();
+        await this.plugin.saveSettings();
       });
     });
-    const regContentAreaSetting = new import_obsidian5.Setting(regexSection.bodyEl);
+    const regContentAreaSetting = new import_obsidian4.Setting(regexSection.bodyEl);
     regContentAreaSetting.settingEl.addClass("et-setting-full-width");
     regContentAreaSetting.setName(locale7.settings.userDefinedRegexp.name).setDesc(locale7.settings.userDefinedRegexp.desc);
-    const regContentArea = new import_obsidian5.TextAreaComponent(regContentAreaSetting.controlEl);
+    const regContentArea = new import_obsidian4.TextAreaComponent(
+      regContentAreaSetting.controlEl
+    );
     regContentArea.inputEl.addClass("et-settings-textarea", "et-settings-textarea-tall");
+    const regexValidationEl = regContentAreaSetting.settingEl.createDiv({
+      cls: "setting-item-description mod-warning",
+      attr: { role: "status", "aria-live": "polite" }
+    });
+    const refreshRegexValidation = () => {
+      const { errors } = getCustomRegexConfig(this.plugin.settings.UserDefinedRegExp);
+      const regexEnabled = this.plugin.settings.UserDefinedRegSwitch && (this.plugin.settings.AutoFormat || this.plugin.settings.UserRulesRespectUserDefinedRegexBlocks);
+      const showErrors = regexEnabled && errors.length > 0;
+      regexValidationEl.empty();
+      regexValidationEl.hidden = !showErrors;
+      regContentArea.inputEl.setAttribute("aria-invalid", String(showErrors));
+      if (!showErrors) return;
+      regexValidationEl.createDiv({ text: locale7.settings.userDefinedRegexp.validationSummary });
+      for (const error of errors) {
+        const label = error.kind === "format" ? locale7.settings.userDefinedRegexp.invalidFormatLine : locale7.settings.userDefinedRegexp.invalidRegexLine;
+        const detail = error.kind === "regex" && error.message ? ` ${error.message}` : "";
+        regexValidationEl.createDiv({ text: (0, import_sprintf_js.sprintf)(label, error.line) + detail });
+      }
+    };
     regContentArea.setValue(this.plugin.settings.UserDefinedRegExp).onChange(async (value) => {
       this.plugin.settings.UserDefinedRegExp = value;
-      this.plugin.saveSettings();
+      refreshRegexValidation();
+      await this.plugin.saveSettings();
     });
-    new import_obsidian5.Setting(regexSection.bodyEl).setName(locale7.settings.userRulesRespectUserDefinedRegexBlocks.name).setDesc(locale7.settings.userRulesRespectUserDefinedRegexBlocks.desc).addToggle((toggle) => {
+    new import_obsidian4.Setting(regexSection.bodyEl).setName(locale7.settings.userRulesRespectUserDefinedRegexBlocks.name).setDesc(locale7.settings.userRulesRespectUserDefinedRegexBlocks.desc).addToggle((toggle) => {
       toggle.setValue(this.plugin.settings.UserRulesRespectUserDefinedRegexBlocks).onChange(async (value) => {
         this.plugin.settings.UserRulesRespectUserDefinedRegexBlocks = value;
+        refreshRegexValidation();
         await this.plugin.saveSettings();
       });
     });
-    const excludeSection = this.createSection(el, locale7.headers.excludeFoldersFiles, locale7.settings.excludeFoldersFiles.desc);
-    const excludeSetting = new import_obsidian5.Setting(excludeSection.bodyEl);
+    const excludeSection = this.createSection(
+      el,
+      locale7.headers.excludeFoldersFiles,
+      locale7.settings.excludeFoldersFiles.desc
+    );
+    const excludeSetting = new import_obsidian4.Setting(excludeSection.bodyEl);
     excludeSetting.settingEl.addClass("et-setting-full-width");
     excludeSetting.addTextArea((text) => {
       text.setValue(this.plugin.settings.ExcludeFiles);
@@ -4933,6 +5139,7 @@ var EasyTypingSettingTab = class extends import_obsidian5.PluginSettingTab {
     ];
     const syncRegexContentState = () => {
       this.setInteractiveDisabled(regContentAreaSetting.settingEl, !this.plugin.settings.AutoFormat || !this.plugin.settings.UserDefinedRegSwitch);
+      refreshRegexValidation();
     };
     const syncAutoFormatState = (enabled) => {
       this.setInteractiveDisabled(pasteSetting.settingEl, !enabled);
@@ -4943,6 +5150,9 @@ var EasyTypingSettingTab = class extends import_obsidian5.PluginSettingTab {
     };
     syncAutoFormatState(this.plugin.settings.AutoFormat);
   }
+  /**
+   * Get all available script categories: built-in + user-defined custom categories.
+   */
   getAllScriptCategories() {
     const builtin = [
       "chinese" /* Chinese */,
@@ -4956,6 +5166,7 @@ var EasyTypingSettingTab = class extends import_obsidian5.PluginSettingTab {
     const custom = (this.plugin.settings.customScriptCategories || []).map((c) => c.name);
     return [...builtin, ...custom];
   }
+  // ==================== Tab 3: 内置规则 ====================
   buildBuiltinRulesSection(el) {
     const locale7 = getLocale();
     const section = this.createSection(el, locale7.headers.builtinRulesSection, void 0, (actionsEl) => {
@@ -4965,7 +5176,7 @@ var EasyTypingSettingTab = class extends import_obsidian5.PluginSettingTab {
       });
       resetBtn.addEventListener("click", async () => {
         await this.plugin.ruleManager.resetAllBuiltinRules();
-        new import_obsidian5.Notice(locale7.toolTip.resetSuccess);
+        new import_obsidian4.Notice(locale7.toolTip.resetSuccess);
         this.display();
       });
     }, "et-builtin-rules-section");
@@ -4978,13 +5189,12 @@ var EasyTypingSettingTab = class extends import_obsidian5.PluginSettingTab {
       details.createEl("summary", { text: `${locale7.headers.deletedRulesSection} (${deletedIds.length})` });
       for (const id of deletedIds) {
         const defaultRule = DEFAULT_BUILTIN_RULES.find((r) => r.id === id);
-        if (!defaultRule)
-          continue;
+        if (!defaultRule) continue;
         const opts = RuleEngine.parseOptions(defaultRule.options);
         const typeLabel = this.getRuleTypeLabel(opts.type);
         const typeCls = this.getRuleTypeCls(opts.type);
         const preview = defaultRule.id && locale7.builtinRuleDescriptions[defaultRule.id] || defaultRule.description || `${RuleEngine.escapeText(defaultRule.trigger, opts.isRegex)} \u2192 ${typeof defaultRule.replacement === "string" ? defaultRule.replacement : "(fn)"}`;
-        new import_obsidian5.Setting(details).setName(createFragment((f) => {
+        new import_obsidian4.Setting(details).setName(createFragment((f) => {
           f.createSpan({ cls: `et-rule-type-tag ${typeCls}`, text: typeLabel });
           f.createSpan({ text: preview });
         })).addButton((button) => {
@@ -4996,6 +5206,7 @@ var EasyTypingSettingTab = class extends import_obsidian5.PluginSettingTab {
       }
     }
   }
+  // ==================== Tab 4: 自定义规则 ====================
   buildUserRulesSection(el) {
     const locale7 = getLocale();
     const section = this.createSection(el, locale7.headers.userRulesSection, void 0, (actionsEl) => {
@@ -5011,11 +5222,11 @@ var EasyTypingSettingTab = class extends import_obsidian5.PluginSettingTab {
       });
       const exportBtn = actionsEl.createEl("button", { cls: "clickable-icon et-section-icon-btn" });
       exportBtn.setAttribute("aria-label", locale7.toolTip.exportRules);
-      (0, import_obsidian5.setIcon)(exportBtn, "arrow-up-from-line");
+      (0, import_obsidian4.setIcon)(exportBtn, "arrow-up-from-line");
       exportBtn.addEventListener("click", () => {
         const rules = this.plugin.ruleManager.cachedUserRules;
         if (rules.length === 0) {
-          new import_obsidian5.Notice(locale7.toolTip.noRulesToExport);
+          new import_obsidian4.Notice(locale7.toolTip.noRulesToExport);
           return;
         }
         const json = JSON.stringify(rules, null, 2);
@@ -5031,7 +5242,7 @@ var EasyTypingSettingTab = class extends import_obsidian5.PluginSettingTab {
       });
       const importBtn = actionsEl.createEl("button", { cls: "clickable-icon et-section-icon-btn" });
       importBtn.setAttribute("aria-label", locale7.toolTip.importRules);
-      (0, import_obsidian5.setIcon)(importBtn, "arrow-down-to-line");
+      (0, import_obsidian4.setIcon)(importBtn, "arrow-down-to-line");
       importBtn.addEventListener("click", () => {
         const input = document.createElement("input");
         input.type = "file";
@@ -5040,26 +5251,25 @@ var EasyTypingSettingTab = class extends import_obsidian5.PluginSettingTab {
         input.addEventListener("change", async () => {
           var _a;
           const file = (_a = input.files) == null ? void 0 : _a[0];
-          if (!file)
-            return;
+          if (!file) return;
           try {
             const text = await file.text();
             let parsed;
             try {
               parsed = JSON.parse(text);
             } catch (e) {
-              new import_obsidian5.Notice(`[EasyTyping] ${locale7.toolTip.importInvalidJson}`);
+              new import_obsidian4.Notice(`[EasyTyping] ${locale7.toolTip.importInvalidJson}`);
               return;
             }
             if (!Array.isArray(parsed) || parsed.length === 0) {
-              new import_obsidian5.Notice(`[EasyTyping] ${locale7.toolTip.importNoRules}`);
+              new import_obsidian4.Notice(`[EasyTyping] ${locale7.toolTip.importNoRules}`);
               return;
             }
             const { imported, skipped } = await this.plugin.ruleManager.importUserRules(parsed);
             if (imported === 0 && skipped > 0) {
-              new import_obsidian5.Notice(`[EasyTyping] ${locale7.toolTip.importNoRules}`);
+              new import_obsidian4.Notice(`[EasyTyping] ${locale7.toolTip.importNoRules}`);
             } else {
-              new import_obsidian5.Notice(`[EasyTyping] ${(0, import_sprintf_js.sprintf)(locale7.toolTip.importSuccess, imported, skipped)}`);
+              new import_obsidian4.Notice(`[EasyTyping] ${(0, import_sprintf_js.sprintf)(locale7.toolTip.importSuccess, imported, skipped)}`);
             }
             this.display();
           } finally {
@@ -5091,7 +5301,7 @@ var EasyTypingSettingTab = class extends import_obsidian5.PluginSettingTab {
       const renderMatch = (text) => RuleEngine.escapeText(text, opts.isRegex);
       preview = `${renderMatch(rule.trigger)}${rule.trigger_right ? " \u2026 " + renderMatch(rule.trigger_right) : ""} \u2192 ${repl}`;
     }
-    const setting = new import_obsidian5.Setting(container).setClass("et-rule-item").setName(createFragment((f) => {
+    const setting = new import_obsidian4.Setting(container).setClass("et-rule-item").setName(createFragment((f) => {
       f.createSpan({ cls: `et-rule-type-tag ${typeCls}`, text: typeLabel });
       scopeBadges.forEach((badge) => {
         f.createSpan({ cls: `et-rule-scope-tag ${badge.cls}`, text: badge.text });
@@ -5146,7 +5356,7 @@ var EasyTypingSettingTab = class extends import_obsidian5.PluginSettingTab {
       const el = setting.settingEl;
       el.dataset.ruleIndex = String(ruleIndex);
       const handle = el.createDiv({ cls: "et-rule-drag-handle" });
-      (0, import_obsidian5.setIcon)(handle, "grip-vertical");
+      (0, import_obsidian4.setIcon)(handle, "grip-vertical");
       el.prepend(handle);
       handle.draggable = true;
       let cachedMidY = 0;
@@ -5159,15 +5369,16 @@ var EasyTypingSettingTab = class extends import_obsidian5.PluginSettingTab {
         var _a;
         this.dragSourceIndex = null;
         el.removeClass("et-rule-dragging");
-        (_a = el.parentElement) == null ? void 0 : _a.querySelectorAll(".et-rule-drag-over-top, .et-rule-drag-over-bottom").forEach((item) => item.removeClass("et-rule-drag-over-top", "et-rule-drag-over-bottom"));
+        (_a = el.parentElement) == null ? void 0 : _a.querySelectorAll(".et-rule-drag-over-top, .et-rule-drag-over-bottom").forEach(
+          (item) => item.removeClass("et-rule-drag-over-top", "et-rule-drag-over-bottom")
+        );
       });
       el.addEventListener("dragenter", () => {
         const rect = el.getBoundingClientRect();
         cachedMidY = rect.top + rect.height / 2;
       });
       el.addEventListener("dragover", (e) => {
-        if (this.dragSourceIndex === null)
-          return;
+        if (this.dragSourceIndex === null) return;
         e.preventDefault();
         e.dataTransfer.dropEffect = "move";
         const isTop = e.clientY < cachedMidY;
@@ -5184,8 +5395,7 @@ var EasyTypingSettingTab = class extends import_obsidian5.PluginSettingTab {
         e.preventDefault();
         el.removeClass("et-rule-drag-over-top", "et-rule-drag-over-bottom");
         const fromIndex = this.dragSourceIndex;
-        if (fromIndex === null)
-          return;
+        if (fromIndex === null) return;
         const currentIndex = parseInt(el.dataset.ruleIndex);
         const dropOnBottom = e.clientY >= cachedMidY;
         let toIndex;
@@ -5194,14 +5404,12 @@ var EasyTypingSettingTab = class extends import_obsidian5.PluginSettingTab {
         } else {
           toIndex = dropOnBottom ? currentIndex + 1 : currentIndex;
         }
-        if (fromIndex === toIndex)
-          return;
+        if (fromIndex === toIndex) return;
         await this.plugin.ruleManager.reorderUserRule(fromIndex, toIndex);
         const parent = el.parentElement;
         const ruleItems = Array.from(parent.querySelectorAll(".et-rule-item[data-rule-index]"));
         const sourceEl = ruleItems[fromIndex];
-        if (!sourceEl)
-          return;
+        if (!sourceEl) return;
         if (toIndex < fromIndex) {
           parent.insertBefore(sourceEl, ruleItems[toIndex]);
         } else {
@@ -5255,10 +5463,11 @@ var EasyTypingSettingTab = class extends import_obsidian5.PluginSettingTab {
         return "et-rule-type-selectkey";
     }
   }
+  // ==================== Tab 5: 其他设置 ====================
   buildOtherTab(el) {
     const locale7 = getLocale();
     const experimentalSection = this.createSection(el, locale7.headers.experimentalFeatures);
-    new import_obsidian5.Setting(experimentalSection.bodyEl).setName(locale7.settings.strictLineBreaks.name).setDesc(locale7.settings.strictLineBreaks.desc).addDropdown((dropdown) => {
+    new import_obsidian4.Setting(experimentalSection.bodyEl).setName(locale7.settings.strictLineBreaks.name).setDesc(locale7.settings.strictLineBreaks.desc).addDropdown((dropdown) => {
       dropdown.addOption("enter_twice" /* EnterTwice */, locale7.dropdownOptions.enterTwice);
       dropdown.addOption("two_space" /* TwoSpace */, locale7.dropdownOptions.twoSpace);
       dropdown.addOption("mix_mode" /* Mix */, locale7.dropdownOptions.mixMode);
@@ -5273,44 +5482,49 @@ var EasyTypingSettingTab = class extends import_obsidian5.PluginSettingTab {
         await this.plugin.saveSettings();
       });
     });
-    new import_obsidian5.Setting(experimentalSection.bodyEl).setName(locale7.settings.collapsePersistentEnter.name).setDesc(locale7.settings.collapsePersistentEnter.desc).addToggle((toggle) => {
+    new import_obsidian4.Setting(experimentalSection.bodyEl).setName(locale7.settings.collapsePersistentEnter.name).setDesc(locale7.settings.collapsePersistentEnter.desc).addToggle((toggle) => {
       toggle.setValue(this.plugin.settings.CollapsePersistentEnter).onChange(async (value) => {
         this.plugin.settings.CollapsePersistentEnter = value;
         await this.plugin.saveSettings();
       });
     });
-    new import_obsidian5.Setting(experimentalSection.bodyEl).setName(locale7.settings.fixMicrosoftIME.name).setDesc(locale7.settings.fixMicrosoftIME.desc).addToggle((toggle) => {
+    new import_obsidian4.Setting(experimentalSection.bodyEl).setName(locale7.settings.fixMicrosoftIME.name).setDesc(locale7.settings.fixMicrosoftIME.desc).addToggle((toggle) => {
       toggle.setValue(this.plugin.settings.TryFixMSIME).onChange(async (value) => {
         this.plugin.settings.TryFixMSIME = value;
         await this.plugin.saveSettings();
       });
     });
-    new import_obsidian5.Setting(experimentalSection.bodyEl).setName(locale7.settings.fixMacOSContextMenu.name).setDesc(locale7.settings.fixMacOSContextMenu.desc).addToggle((toggle) => {
+    new import_obsidian4.Setting(experimentalSection.bodyEl).setName(locale7.settings.fixMacOSContextMenu.name).setDesc(locale7.settings.fixMacOSContextMenu.desc).addToggle((toggle) => {
       toggle.setValue(this.plugin.settings.FixMacOSContextMenu).onChange(async (value) => {
         this.plugin.settings.FixMacOSContextMenu = value;
         await this.plugin.saveSettings();
       });
     });
     const miscSection = this.createSection(el);
-    new import_obsidian5.Setting(miscSection.bodyEl).setName(locale7.settings.rulesStoragePath.name).setDesc(locale7.settings.rulesStoragePath.desc).addText((text) => {
+    new import_obsidian4.Setting(miscSection.bodyEl).setName(locale7.settings.rulesStoragePath.name).setDesc(locale7.settings.rulesStoragePath.desc).addText((text) => {
       text.setPlaceholder(locale7.settings.rulesStoragePath.defaultOption).setValue(this.plugin.settings.rulesStoragePath);
-      new FolderSuggest(this.app, text.inputEl, locale7.settings.rulesStoragePath.defaultOption, async (path) => {
-        this.plugin.settings.rulesStoragePath = path;
-        await this.plugin.saveSettings();
-        await this.plugin.ruleManager.initRuleEngine();
-        this.display();
-      });
+      new FolderSuggest(
+        this.app,
+        text.inputEl,
+        locale7.settings.rulesStoragePath.defaultOption,
+        async (path) => {
+          this.plugin.settings.rulesStoragePath = path;
+          await this.plugin.saveSettings();
+          await this.plugin.ruleManager.initRuleEngine();
+          this.display();
+        }
+      );
     }).addButton((btn) => {
       btn.setButtonText(locale7.settings.rulesStoragePath.migrateButton).setTooltip(locale7.settings.rulesStoragePath.migrateDesc).onClick(async () => {
         const oldPath = this.plugin.ruleManager.previousStoragePath;
         const newPath = this.plugin.settings.rulesStoragePath;
         await this.plugin.ruleManager.migrateRulesFiles(oldPath, newPath);
         await this.plugin.ruleManager.initRuleEngine();
-        new import_obsidian5.Notice(locale7.settings.rulesStoragePath.migrateSuccess);
+        new import_obsidian4.Notice(locale7.settings.rulesStoragePath.migrateSuccess);
         this.display();
       });
     });
-    new import_obsidian5.Setting(miscSection.bodyEl).setName(locale7.settings.printDebugInfo.name).setDesc(locale7.settings.printDebugInfo.desc).addToggle((toggle) => {
+    new import_obsidian4.Setting(miscSection.bodyEl).setName(locale7.settings.printDebugInfo.name).setDesc(locale7.settings.printDebugInfo.desc).addToggle((toggle) => {
       toggle.setValue(this.plugin.settings.debug).onChange(async (value) => {
         this.plugin.settings.debug = value;
         setDebug(value);
@@ -5390,13 +5604,11 @@ function isInsideCurTabstop(view) {
   return false;
 }
 function consumeAndGotoNextTabstop(view) {
-  if (getTabstopGroupsFromView(view).length === 0)
-    return false;
+  if (getTabstopGroupsFromView(view).length === 0) return false;
   removeTabstop(view);
   const oldSel = view.state.selection;
   const nextGrp = getTabstopGroupsFromView(view)[0];
-  if (!nextGrp)
-    return false;
+  if (!nextGrp) return false;
   const shouldMoveToEndpoints = nextGrp.containsSelection(oldSel);
   nextGrp.select(view, shouldMoveToEndpoints);
   const newSel = view.state.selection;
@@ -5415,7 +5627,9 @@ var RuleManager = class {
     this.savePluginSettings = savePluginSettings;
     this.cachedBuiltinRules = [];
     this.cachedUserRules = [];
+    /** The storage path that was active when rules were last loaded. */
     this.previousStoragePath = "";
+    /** Timestamp of the last rule file write by this plugin instance. */
     this.lastSaveTime = 0;
     this.BUILTIN_RULES_FILE = "builtin-rules.json";
     this.USER_RULES_FILE = "user-rules.json";
@@ -5459,9 +5673,10 @@ var RuleManager = class {
     const currentRules = await this.loadRulesFile(this.BUILTIN_RULES_FILE);
     const existingIds = new Set(currentRules.map((r) => r.id).filter(Boolean));
     const deletedIds = new Set(this.settings.deletedBuiltinRuleIds);
-    const newRules = DEFAULT_BUILTIN_RULES.filter((r) => !existingIds.has(r.id) && !deletedIds.has(r.id));
-    if (newRules.length === 0)
-      return;
+    const newRules = DEFAULT_BUILTIN_RULES.filter(
+      (r) => !existingIds.has(r.id) && !deletedIds.has(r.id)
+    );
+    if (newRules.length === 0) return;
     await this.saveRulesFile(this.BUILTIN_RULES_FILE, [...currentRules, ...this.getLocalizedBuiltinRules(newRules)]);
   }
   async initRuleEngine() {
@@ -5494,8 +5709,7 @@ var RuleManager = class {
   }
   async restoreBuiltinRule(id) {
     const defaultRule = DEFAULT_BUILTIN_RULES.find((r) => r.id === id);
-    if (!defaultRule)
-      return;
+    if (!defaultRule) return;
     const localizedRule = this.getLocalizedBuiltinRules([defaultRule])[0];
     this.ruleEngine.addSimpleRule(localizedRule);
     this.cachedBuiltinRules.push(localizedRule);
@@ -5520,7 +5734,9 @@ var RuleManager = class {
   }
   async importUserRules(incoming) {
     var _a;
-    const existingSet = new Set(this.cachedUserRules.map((r) => this.getImportDedupKey(r)));
+    const existingSet = new Set(
+      this.cachedUserRules.map((r) => this.getImportDedupKey(r))
+    );
     let imported = 0;
     let skipped = 0;
     for (const rule of incoming) {
@@ -5548,8 +5764,7 @@ var RuleManager = class {
   }
   async updateUserRule(id, rule) {
     const idx = this.cachedUserRules.findIndex((r) => r.id === id);
-    if (idx === -1)
-      return;
+    if (idx === -1) return;
     rule.id = id;
     this.cachedUserRules[idx] = rule;
     await this.saveRulesFile(this.USER_RULES_FILE, this.cachedUserRules);
@@ -5563,8 +5778,7 @@ var RuleManager = class {
   }
   async updateBuiltinRule(id, rule) {
     const idx = this.cachedBuiltinRules.findIndex((r) => r.id === id);
-    if (idx === -1)
-      return;
+    if (idx === -1) return;
     rule.id = id;
     this.cachedBuiltinRules[idx] = rule;
     await this.saveRulesFile(this.BUILTIN_RULES_FILE, this.cachedBuiltinRules);
@@ -5575,19 +5789,15 @@ var RuleManager = class {
     const cache = isBuiltin ? this.cachedBuiltinRules : this.cachedUserRules;
     const file = isBuiltin ? this.BUILTIN_RULES_FILE : this.USER_RULES_FILE;
     const rule = cache.find((r) => r.id === id);
-    if (!rule)
-      return;
+    if (!rule) return;
     rule.enabled = enabled;
     await this.saveRulesFile(file, cache);
     this.ruleEngine.setEnabled(id, enabled);
   }
   async reorderUserRule(fromIndex, toIndex) {
-    if (fromIndex === toIndex)
-      return;
-    if (fromIndex < 0 || fromIndex >= this.cachedUserRules.length)
-      return;
-    if (toIndex < 0 || toIndex >= this.cachedUserRules.length)
-      return;
+    if (fromIndex === toIndex) return;
+    if (fromIndex < 0 || fromIndex >= this.cachedUserRules.length) return;
+    if (toIndex < 0 || toIndex >= this.cachedUserRules.length) return;
     const [rule] = this.cachedUserRules.splice(fromIndex, 1);
     this.cachedUserRules.splice(toIndex, 0, rule);
     await this.saveRulesFile(this.USER_RULES_FILE, this.cachedUserRules);
@@ -5597,13 +5807,10 @@ var RuleManager = class {
     const cache = isBuiltin ? this.cachedBuiltinRules : this.cachedUserRules;
     const file = isBuiltin ? this.BUILTIN_RULES_FILE : this.USER_RULES_FILE;
     const rule = cache.find((r) => r.id === id);
-    if (!rule)
-      return;
+    if (!rule) return;
     let opts = (_a = rule.options) != null ? _a : "";
-    if (tabMode && !opts.includes("T"))
-      opts += "T";
-    else if (!tabMode)
-      opts = opts.replace(/T/g, "");
+    if (tabMode && !opts.includes("T")) opts += "T";
+    else if (!tabMode) opts = opts.replace(/T/g, "");
     rule.options = opts || void 0;
     await this.saveRulesFile(file, cache);
     this.ruleEngine.updateRule(id, { triggerMode: tabMode ? "tab" /* Tab */ : "auto" /* Auto */ });
@@ -5611,8 +5818,7 @@ var RuleManager = class {
   async migrateRulesFiles(oldPath, newPath) {
     const oldBase = oldPath || this.manifest.dir;
     const newBase = newPath || this.manifest.dir;
-    if (oldBase === newBase)
-      return;
+    if (oldBase === newBase) return;
     if (newPath) {
       await this.app.vault.adapter.mkdir(newPath);
     }
@@ -5674,8 +5880,7 @@ function selectCodeBlockInPos(view, selection) {
         });
         return true;
       }
-      if (isCodeBlockSelected)
-        return false;
+      if (isCodeBlockSelected) return false;
       view.dispatch({
         selection: {
           anchor: code_line_start.from,
@@ -5694,7 +5899,7 @@ function getCodeBlocksInfos(state) {
   const doc = state.doc;
   (0, import_language2.syntaxTree)(state).iterate({
     enter(node) {
-      var _a;
+      var _a, _b;
       const nodeName = node.name;
       const nodeFrom = node.from;
       const nodeTo = node.to;
@@ -5704,7 +5909,8 @@ function getCodeBlocksInfos(state) {
         const fenceMatch = nodeText.match(/[`~]{3,}/);
         let start_pos = nodeFrom + ((_a = fenceMatch == null ? void 0 : fenceMatch.index) != null ? _a : 0);
         let indent = start_pos - state.doc.lineAt(start_pos).from;
-        let language = nodeText.trim().replace(/^[`~]{3,}/, "").trim();
+        const info = fenceMatch ? nodeText.slice(((_b = fenceMatch.index) != null ? _b : 0) + fenceMatch[0].length).trim() : "";
+        const language = info.split(/\s+/, 1)[0];
         curCodeBlockInfo = {
           start_pos,
           end_pos: -1,
@@ -5765,8 +5971,7 @@ function getQuoteInfoInPos(state, pos) {
       let line = state.doc.line(i);
       if (line.text.match(quote_regex)) {
         quote_end_line = i;
-      } else
-        break;
+      } else break;
     }
     for (let i = quote_start_line; i >= 1; i -= 1) {
       let line = state.doc.line(i);
@@ -5777,8 +5982,7 @@ function getQuoteInfoInPos(state, pos) {
         quote_start_line = i;
       } else if (match_quote) {
         quote_start_line = i;
-      } else
-        break;
+      } else break;
     }
     return {
       start_pos: state.doc.line(quote_start_line).from,
@@ -5794,17 +5998,15 @@ function getQuoteInfoInPos(state, pos) {
 function detectRuleScope(state, pos) {
   const tree = (0, import_language2.syntaxTree)(state);
   const node = tree.resolveInner(pos, -1);
-  const name = node.name;
-  if (name.contains("math")) {
-    return { scope: "formula" /* Formula */ };
-  }
-  if (name.contains("code") && !name.contains("link")) {
+  const nodeType = inlineSyntaxNodeType(node.name);
+  if (nodeType === "code") {
     const codeBlockInfo = getCodeBlockInfoInPos(state, pos);
     return {
       scope: "code" /* Code */,
       language: (codeBlockInfo == null ? void 0 : codeBlockInfo.language) || void 0
     };
   }
+  if (nodeType === "formula") return { scope: "formula" /* Formula */ };
   return { scope: "text" /* Text */ };
 }
 
@@ -5822,16 +6024,20 @@ function toggleCodeBlockComment(view) {
   const state = view.state;
   const selection = state.selection.main;
   const codeBlockInfo = getCodeBlockInfoInPos(state, selection.from);
-  if (!codeBlockInfo)
-    return false;
+  if (!codeBlockInfo) return false;
   const language = codeBlockInfo.language;
   const commentSymbol = getCommentSymbol(language.toLowerCase());
-  if (!commentSymbol)
-    return false;
+  if (!commentSymbol) return false;
   let changes = [];
   if (selection.from === selection.to) {
     const line = state.doc.lineAt(selection.from);
-    let change = toggleCodeBlockLineComment(line.from, line.to, state.doc.sliceString(line.from, line.to), commentSymbol, selection.from);
+    let change = toggleCodeBlockLineComment(
+      line.from,
+      line.to,
+      state.doc.sliceString(line.from, line.to),
+      commentSymbol,
+      selection.from
+    );
     if (change && change.selection) {
       changes.push(change);
       view.dispatch({
@@ -5877,8 +6083,7 @@ function toggleCodeBlockLineComment(from, to, text, commentSymbol, cursor_pos) {
       };
     }
   }
-  if (text.trim() == "")
-    return null;
+  if (text.trim() == "") return null;
   if (typeof commentSymbol === "string") {
     const trimmedText = text.trimStart();
     if (trimmedText.startsWith(commentSymbol)) {
@@ -5997,7 +6202,7 @@ function getCommentSymbol(language) {
 }
 
 // src/formatting_commands.ts
-var import_obsidian6 = require("obsidian");
+var import_obsidian5 = require("obsidian");
 var import_language3 = require("@codemirror/language");
 function isCurrentFileExclude(ctx) {
   if (ctx.CurActiveMarkdown == "") {
@@ -6010,10 +6215,8 @@ function isCurrentFileExclude(ctx) {
   }
   let excludePaths = ctx.settings.ExcludeFiles.split("\n");
   for (let epath of excludePaths) {
-    if (epath.charAt(0) == "/")
-      epath = epath.substring(1);
-    if (ctx.CurActiveMarkdown == epath)
-      return true;
+    if (epath.charAt(0) == "/") epath = epath.substring(1);
+    if (ctx.CurActiveMarkdown == epath) return true;
     let len = epath.length;
     if (ctx.CurActiveMarkdown.substring(0, len) == epath && (ctx.CurActiveMarkdown.charAt(len) == "/" || ctx.CurActiveMarkdown.charAt(len) == "\\" || epath.charAt(len - 1) == "/" || epath.charAt(len - 1) == "\\")) {
       return true;
@@ -6025,7 +6228,7 @@ function formatArticle(ctx, editor, view) {
   const editorView = editor.cm;
   const tree = (0, import_language3.ensureSyntaxTree)(editorView.state, editorView.state.doc.length);
   if (!tree) {
-    new import_obsidian6.Notice("EasyTyping: Syntax tree is not ready yet, please wait a moment and try again later!", 5e3);
+    new import_obsidian5.Notice("EasyTyping: Syntax tree is not ready yet, please wait a moment and try again later!", 5e3);
     return;
   }
   ctx.onFormatArticle = true;
@@ -6034,8 +6237,7 @@ function formatArticle(ctx, editor, view) {
   let cs = editor.getCursor();
   let ch = 0;
   for (let i = 0; i < lineCount; i++) {
-    if (i != 0)
-      new_article += "\n";
+    if (i != 0) new_article += "\n";
     if (i != cs.line) {
       new_article += preFormatOneLine(ctx, editor, i + 1)[0];
     } else {
@@ -6047,7 +6249,7 @@ function formatArticle(ctx, editor, view) {
   editor.setValue(new_article);
   editor.setCursor({ line: cs.line, ch });
   ctx.onFormatArticle = false;
-  new import_obsidian6.Notice("EasyTyping: Format Article Done!");
+  new import_obsidian5.Notice("EasyTyping: Format Article Done!");
 }
 function formatSelectionOrCurLine(ctx, editor, view) {
   if (!editor.somethingSelected() || editor.getSelection() === "") {
@@ -6067,8 +6269,7 @@ function formatSelectionOrCurLine(ctx, editor, view) {
   }
   let new_lines = "";
   for (let i = begin; i <= end; i++) {
-    if (i != begin)
-      new_lines += "\n";
+    if (i != begin) new_lines += "\n";
     new_lines += preFormatOneLine(ctx, editor, i + 1)[0];
   }
   editor.replaceRange(new_lines, { line: begin, ch: 0 }, { line: end, ch: editor.getLine(end).length });
@@ -6110,13 +6311,58 @@ function deleteBlankLines(ctx, editor) {
   const RE_QUOTE = /^\s*>/;
   const RE_BLOCKID = /\s\^[\w-]+\s*$/;
   const RE_HR = /^\s*(?:---+|\*\*\*+|___+)\s*$/;
+  const tree = (0, import_language3.ensureSyntaxTree)(state, doc.length);
+  if (!tree) {
+    new import_obsidian5.Notice("EasyTyping: Syntax tree is not ready yet, please wait a moment and try again later!", 5e3);
+    return;
+  }
+  const protectedBlankLines = /* @__PURE__ */ new Set();
+  const blockStarts = /* @__PURE__ */ new Set();
+  const indentedCodeLines = /* @__PURE__ */ new Set();
+  let fenceStart = null;
+  const protectBlanks = (fromLine, toLine) => {
+    for (let i = fromLine; i <= toLine; i++) {
+      if (RE_BLANK.test(doc.line(i).text)) protectedBlankLines.add(i);
+    }
+  };
+  tree.iterate({
+    enter(node) {
+      const tokens = node.name.split("_");
+      if (tokens.includes("HyperMD-codeblock-begin") || tokens.includes("hmd-codeblock-begin")) {
+        fenceStart = doc.lineAt(node.from).number;
+      } else if (tokens.includes("HyperMD-codeblock-end") || tokens.includes("hmd-codeblock-end")) {
+        if (fenceStart !== null) protectBlanks(fenceStart, doc.lineAt(node.to).number);
+        fenceStart = null;
+      }
+      if (tokens.includes("hmd-indented-code")) {
+        for (let i = doc.lineAt(node.from).number; i <= doc.lineAt(node.to).number; i++) {
+          indentedCodeLines.add(i);
+        }
+      }
+      if (tokens.includes("HyperMD-table-row-0")) blockStarts.add(doc.lineAt(node.from).number);
+    }
+  });
+  if (fenceStart !== null) protectBlanks(fenceStart, doc.lines);
+  let previousCodeLine = 0;
+  for (const lineNumber of Array.from(indentedCodeLines).sort((a, b) => a - b)) {
+    let firstBlank = lineNumber;
+    while (firstBlank > 1 && RE_BLANK.test(doc.line(firstBlank - 1).text)) firstBlank--;
+    if (previousCodeLine > 0 && firstBlank === previousCodeLine + 1) {
+      protectBlanks(firstBlank, lineNumber - 1);
+    } else {
+      blockStarts.add(lineNumber);
+    }
+    previousCodeLine = lineNumber;
+  }
+  for (const lineNumber of blockStarts) {
+    let firstBlank = lineNumber;
+    while (firstBlank > 1 && RE_BLANK.test(doc.line(firstBlank - 1).text)) firstBlank--;
+    if (firstBlank < lineNumber) protectedBlankLines.add(firstBlank);
+  }
   const getTrailingBlankType = (text) => {
-    if (RE_LIST.test(text))
-      return "list";
-    if (RE_QUOTE.test(text))
-      return "quote";
-    if (RE_BLOCKID.test(text))
-      return "blockid";
+    if (RE_LIST.test(text)) return "list";
+    if (RE_QUOTE.test(text)) return "quote";
+    if (RE_BLOCKID.test(text)) return "blockid";
     return null;
   };
   const needsTrailingBlank = (text) => getTrailingBlankType(text) !== null;
@@ -6189,13 +6435,15 @@ function deleteBlankLines(ctx, editor) {
       remain_next_blank_type = null;
     }
   }
+  const deletedLines = new Set(delete_index.filter((i) => !protectedBlankLines.has(i)));
+  if (deletedLines.size === 0) return;
   let newContent = "";
   for (let i = 1; i < line_num; i++) {
-    if (!delete_index.contains(i)) {
+    if (!deletedLines.has(i)) {
       newContent += doc.line(i).text + "\n";
     }
   }
-  if (!delete_index.contains(line_num)) {
+  if (!deletedLines.has(line_num)) {
     newContent += doc.line(line_num).text;
   }
   editor.setValue(newContent);
@@ -6203,12 +6451,11 @@ function deleteBlankLines(ctx, editor) {
 function switchAutoFormatting(ctx) {
   ctx.settings.AutoFormat = !ctx.settings.AutoFormat;
   let status = ctx.settings.AutoFormat ? "on" : "off";
-  new import_obsidian6.Notice("EasyTyping: Autoformat is " + status + "!");
+  new import_obsidian5.Notice("EasyTyping: Autoformat is " + status + "!");
 }
 function convert2CodeBlock(ctx, editor) {
   var _a;
-  if ((_a = ctx.settings) == null ? void 0 : _a.debug)
-    console.log("----- EasyTyping: insert code block-----");
+  if ((_a = ctx.settings) == null ? void 0 : _a.debug) console.log("----- EasyTyping: insert code block-----");
   if (editor.somethingSelected && editor.getSelection() != "") {
     let selected = editor.getSelection();
     let selectedRange = editor.listSelections()[0];
@@ -6248,7 +6495,7 @@ function convert2CodeBlock(ctx, editor) {
 
 // src/keyboard_handlers.ts
 var import_language4 = require("@codemirror/language");
-var import_obsidian7 = require("obsidian");
+var import_obsidian6 = require("obsidian");
 
 // src/tabstop.ts
 var import_state4 = require("@codemirror/state");
@@ -6425,18 +6672,15 @@ function tabTabstopJump(view) {
 function tabTriggerRule(ctx, view) {
   const sel = view.state.selection;
   if (sel.ranges.length === 1 && sel.main.from === sel.main.to) {
-    if (triggerCvtRule(ctx, view, sel.main.to, "tab"))
-      return true;
+    if (triggerCvtRule(ctx, view, sel.main.to, "tab")) return true;
   }
   return false;
 }
 function tabCodeBlockIndent(ctx, view) {
-  if (!ctx.settings.Tabout)
-    return false;
+  if (!ctx.settings.Tabout) return false;
   const state = view.state;
   const s = view.state.selection;
-  if (s.ranges.length > 1)
-    return false;
+  if (s.ranges.length > 1) return false;
   const pos = s.main.to;
   if (s.main.from == s.main.to && isCodeBlockInPos(state, pos)) {
     const default_indent = ctx.getDefaultIndentChar();
@@ -6453,28 +6697,29 @@ function tabCodeBlockIndent(ctx, view) {
   }
   return false;
 }
+function isInlineCodeFormatting(name) {
+  const tokens = name.split("_");
+  return tokens.includes("formatting-code") && tokens.includes("inline-code");
+}
 function tabInlineCodeEscape(ctx, view) {
-  if (!ctx.settings.Tabout)
-    return false;
-  if (!ctx.settings.BetterCodeEdit)
-    return false;
+  if (!ctx.settings.Tabout) return false;
+  if (!ctx.settings.BetterCodeEdit) return false;
   const state = view.state;
   const doc = state.doc;
   const tree = (0, import_language4.syntaxTree)(state);
   const s = view.state.selection;
-  if (s.ranges.length > 1)
-    return false;
+  if (s.ranges.length > 1) return false;
   const pos = s.main.to;
   const line = doc.lineAt(pos);
   if (pos - line.from != 0 && tree.resolve(pos - 1, 1).name.contains("inline-code")) {
-    if (tree.resolve(pos, 1).name.contains("formatting-code_inline-code")) {
+    if (isInlineCodeFormatting(tree.resolve(pos, 1).name)) {
       view.dispatch({
         selection: { anchor: pos + 1, head: pos + 1 }
       });
       return true;
     }
     for (let p = pos + 1; p < line.to && tree.resolve(p, 1).name.contains("inline-code"); p += 1) {
-      if (tree.resolve(p, 1).name.contains("formatting-code_inline-code")) {
+      if (isInlineCodeFormatting(tree.resolve(p, 1).name)) {
         view.dispatch({
           selection: { anchor: p, head: p }
         });
@@ -6491,13 +6736,11 @@ function tabInlineCodeEscape(ctx, view) {
   return false;
 }
 function tabPairStringTabout(ctx, view) {
-  if (!ctx.settings.Tabout)
-    return false;
+  if (!ctx.settings.Tabout) return false;
   const state = view.state;
   const doc = state.doc;
   const s = view.state.selection;
-  if (s.ranges.length > 1)
-    return false;
+  if (s.ranges.length > 1) return false;
   const pos = s.main.to;
   const line = doc.lineAt(pos);
   let selection = view.state.selection.asSingle().main;
@@ -6529,13 +6772,12 @@ function handleTabDown(ctx, view) {
 }
 function enterCollapsedHeading(ctx, view) {
   var _a;
-  if (!ctx.settings.CollapsePersistentEnter)
-    return false;
+  if (!ctx.settings.CollapsePersistentEnter) return false;
   const state = view.state;
   const doc = state.doc;
   const s = view.state.selection;
   const pos = s.main.to;
-  const editor = ctx.app.workspace.getActiveViewOfType(import_obsidian7.MarkdownView).editor;
+  const editor = ctx.app.workspace.getActiveViewOfType(import_obsidian6.MarkdownView).editor;
   let fold_offsets = editor.getFoldOffsets();
   let all_foldable_lines = editor.getAllFoldableLines();
   let folded_lines = [];
@@ -6572,8 +6814,7 @@ function enterCollapsedHeading(ctx, view) {
 }
 function enterCodeBlockIndent(ctx, view) {
   var _a;
-  if (!ctx.settings.BetterCodeEdit)
-    return false;
+  if (!ctx.settings.BetterCodeEdit) return false;
   const state = view.state;
   const doc = state.doc;
   const s = view.state.selection;
@@ -6592,11 +6833,9 @@ function enterCodeBlockIndent(ctx, view) {
   return false;
 }
 function enterStrictLineBreak(ctx, view) {
-  if (!ctx.settings.StrictModeEnter)
-    return false;
+  if (!ctx.settings.StrictModeEnter) return false;
   let strictLineBreaks = ctx.app.vault.config.strictLineBreaks || false;
-  if (!strictLineBreaks)
-    return false;
+  if (!strictLineBreaks) return false;
   const state = view.state;
   const doc = state.doc;
   const s = view.state.selection;
@@ -6604,22 +6843,17 @@ function enterStrictLineBreak(ctx, view) {
   const line = doc.lineAt(pos);
   const codeBlockInfo = getCodeBlockInfoInPos(state, pos);
   const lineType = getPosLineType2(state, pos);
-  if (/^\s*$/.test(line.text))
-    return false;
-  if (pos == line.from)
-    return false;
+  if (/^\s*$/.test(line.text)) return false;
+  if (pos == line.from) return false;
   if (lineType == "quote" /* quote */) {
     let reg_quote = /^(\s*)(>+ ?)/;
     let quote_match = line.text.match(reg_quote);
-    if (!quote_match)
-      return false;
+    if (!quote_match) return false;
     let quote_content = line.text.slice(quote_match[0].length);
-    if (quote_content.trim() == "")
-      return false;
+    if (quote_content.trim() == "") return false;
     else {
       let space_str2 = "  ";
-      if (quote_content.endsWith("  "))
-        space_str2 = "";
+      if (quote_content.endsWith("  ")) space_str2 = "";
       let inserted_str = space_str2 + "\n" + quote_match[0];
       if (ctx.settings.StrictLineMode == "enter_twice" /* EnterTwice */) {
         inserted_str = "\n" + quote_match[0] + "\n" + quote_match[0];
@@ -6633,11 +6867,9 @@ function enterStrictLineBreak(ctx, view) {
     }
   }
   let space_str = "  ";
-  if (line.text.endsWith("  "))
-    space_str = "";
+  if (line.text.endsWith("  ")) space_str = "";
   if (line.number < doc.lines && !/^\s*$/.test(doc.line(line.number + 1).text)) {
-    if (ctx.settings.StrictLineMode != "two_space" /* TwoSpace */)
-      return false;
+    if (ctx.settings.StrictLineMode != "two_space" /* TwoSpace */) return false;
   }
   if (ctx.settings.StrictLineMode == "two_space" /* TwoSpace */ && lineType == "text" /* text */) {
     let inserted_str = space_str + "\n";
@@ -6664,8 +6896,7 @@ function enterStrictLineBreak(ctx, view) {
 }
 function handleEnter(ctx, view) {
   const s = view.state.selection;
-  if (s.ranges.length > 1)
-    return false;
+  if (s.ranges.length > 1) return false;
   return enterCollapsedHeading(ctx, view) || enterCodeBlockIndent(ctx, view) || enterStrictLineBreak(ctx, view);
 }
 function backspaceEmptyQuote(view, state, doc, line, lineContent, quoteMatchEmpty) {
@@ -6762,8 +6993,7 @@ function handleBackspace(view) {
   const state = view.state;
   const doc = state.doc;
   const selection = state.selection.main;
-  if (selection.anchor != selection.head)
-    return false;
+  if (selection.anchor != selection.head) return false;
   const line = doc.lineAt(selection.from);
   const lineContent = line.text;
   const listMatchEmpty = lineContent.match(/^\s*([-*+]|\d+\.) $/);
@@ -6789,8 +7019,7 @@ function handleShiftEnter(ctx, view) {
   const state = view.state;
   const doc = state.doc;
   const selection = state.selection.main;
-  if (selection.anchor != selection.head)
-    return false;
+  if (selection.anchor != selection.head) return false;
   const line = doc.lineAt(selection.head);
   const lineContent = line.text;
   const taskListMatch = lineContent.match(/^(\s*)([-*+] \[.\])\s/);
@@ -6806,8 +7035,39 @@ function handleShiftEnter(ctx, view) {
   }
   return false;
 }
+function selectInlineCode(view) {
+  const state = view.state;
+  if (state.selection.ranges.length !== 1) return false;
+  const selection = state.selection.main;
+  const tree = (0, import_language4.syntaxTree)(state);
+  const isContent = (name) => name.split("_").includes("inline-code") && !isInlineCodeFormatting(name);
+  let content = tree.resolve(selection.from, 1);
+  if (!isContent(content.name)) content = tree.resolve(selection.from, -1);
+  if (!isContent(content.name)) return false;
+  let first = content;
+  let opening = first.prevSibling;
+  while (opening && opening.to === first.from && isContent(opening.name)) {
+    first = opening;
+    opening = first.prevSibling;
+  }
+  let last = content;
+  let closing = last.nextSibling;
+  while (closing && closing.from === last.to && isContent(closing.name)) {
+    last = closing;
+    closing = last.nextSibling;
+  }
+  if (!opening || !closing || !isInlineCodeFormatting(opening.name) || !isInlineCodeFormatting(closing.name) || opening.to !== first.from || closing.from !== last.to || state.doc.lineAt(opening.from).number !== state.doc.lineAt(closing.to).number) return false;
+  const delimiter = state.sliceDoc(opening.from, opening.to);
+  if (!/^`+$/.test(delimiter) || state.sliceDoc(closing.from, closing.to) !== delimiter) return false;
+  const from = opening.to;
+  const to = closing.from;
+  if (selection.from < from || selection.to > to || selection.from === from && selection.to === to) return false;
+  view.dispatch({ selection: { anchor: from, head: to }, userEvent: "EasyTyping.handleModA" });
+  return true;
+}
 function handleModA(ctx, view) {
   var _a;
+  if (ctx.settings.BetterCodeEdit && selectInlineCode(view)) return true;
   let selection = view.state.selection.main;
   let line = view.state.doc.lineAt(selection.anchor);
   let line_type = getPosLineType2(view.state, selection.anchor);
@@ -6891,8 +7151,7 @@ function handleModA(ctx, view) {
       for (let i = line.number + 1; i <= view.state.doc.lines; i++) {
         const nextLine = view.state.doc.line(i);
         const nextMatch = nextLine.text.match(/^(\s*)/);
-        if (!nextMatch || nextMatch[0].length <= cur_indent)
-          break;
+        if (!nextMatch || nextMatch[0].length <= cur_indent) break;
         endLine = i;
       }
       let list_block_selection = { anchor: line.from, head: view.state.doc.line(endLine).to };
@@ -6938,8 +7197,7 @@ function handleModA(ctx, view) {
       return false;
     }
   }
-  if (!ctx.settings.BetterCodeEdit)
-    return false;
+  if (!ctx.settings.BetterCodeEdit) return false;
   let mainSelection = view.state.selection.asSingle().main;
   return selectCodeBlockInPos(view, mainSelection);
 }
@@ -7040,8 +7298,7 @@ function getBlockLinesInPos(ctx, state, pos) {
 function selectBlockInCursor(ctx, view) {
   let selection = view.state.selection.main;
   let line = view.state.doc.lineAt(selection.head);
-  if (/^\s*$/.test(line.text))
-    return false;
+  if (/^\s*$/.test(line.text)) return false;
   let [block_start, block_end] = getBlockLinesInPos(ctx, view.state, selection.head);
   view.dispatch({
     selection: { anchor: view.state.doc.line(block_start).from, head: view.state.doc.line(block_end).to },
@@ -7052,261 +7309,300 @@ function selectBlockInCursor(ctx, view) {
 
 // src/cm_extensions.ts
 var import_state5 = require("@codemirror/state");
-var import_obsidian8 = require("obsidian");
+var import_obsidian7 = require("obsidian");
 var import_view4 = require("@codemirror/view");
 function createTransactionFilter(ctx) {
-  return import_state5.EditorState.transactionFilter.of((tr) => {
-    const changes = [];
-    if (!tr.docChanged)
-      return tr;
-    let selected = tr.startState.selection.asSingle().main.anchor != tr.startState.selection.asSingle().main.head;
-    let changeTypeStr = getTypeStrOfTransac(tr);
-    tr.changes.iterChanges((fromA, toA, fromB, toB, inserted) => {
-      var _a, _b, _c, _d;
-      let changedStr = tr.startState.sliceDoc(fromA, toA);
-      let changestr_ = changedStr.replace(/\s/g, "0");
-      let insertedStr = inserted.sliceString(0);
-      if ((_a = ctx.settings) == null ? void 0 : _a.debug) {
-        console.log("[TransactionFilter] type, fromA, toA, changed, fromB, toB, inserted");
-        console.log(changeTypeStr, fromA, toA, changedStr, fromB, toB, insertedStr);
-      }
-      if (getPosLineType(tr.startState, fromA) == "table" /* table */)
-        return tr;
-      if ((changeTypeStr == "input.type" || changeTypeStr == "input.type.compose") && fromA != toA && (fromB + 1 === toB || insertedStr == "\u2014\u2014" || insertedStr == "\u2026\u2026")) {
-        const selScope = detectRuleScope(tr.startState, fromA);
-        const selCtx = {
-          kind: "selectKey" /* SelectKey */,
-          docText: tr.startState.doc.toString(),
-          selection: { from: fromA, to: toA },
-          inserted: insertedStr,
-          changeType: changeTypeStr,
-          scopeHint: selScope.scope,
-          scopeLanguage: selScope.language,
-          key: insertedStr,
-          debug: (_b = ctx.settings) == null ? void 0 : _b.debug
-        };
-        const selResult = ctx.ruleEngine.process(selCtx);
-        if (selResult) {
-          const tabstopGroups = tabstopSpecsToTabstopGroups(selResult.tabstops);
-          if (tabstopGroups.length > 0) {
-            changes.push({
-              changes: {
-                from: selResult.matchRange.from,
-                to: selResult.matchRange.to,
-                insert: selResult.newText
-              },
-              selection: tabstopGroups[0].toEditorSelection(),
-              effects: [addTabstopsEffect.of(tabstopGroups)],
-              userEvent: "EasyTyping.change"
-            });
-          } else {
-            changes.push({
-              changes: {
-                from: selResult.matchRange.from,
-                to: selResult.matchRange.to,
-                insert: selResult.newText
-              },
-              selection: { anchor: selResult.cursor },
-              userEvent: "EasyTyping.change"
-            });
-          }
-          tr = tr.startState.update(...changes);
-          return tr;
+  return import_state5.EditorState.transactionFilter.of(
+    (tr) => {
+      const changes = [];
+      if (!tr.docChanged) return tr;
+      let selected = tr.startState.selection.asSingle().main.anchor != tr.startState.selection.asSingle().main.head;
+      let changeTypeStr = getTypeStrOfTransac(tr);
+      tr.changes.iterChanges((fromA, toA, fromB, toB, inserted) => {
+        var _a, _b, _c, _d;
+        let changedStr = tr.startState.sliceDoc(fromA, toA);
+        let changestr_ = changedStr.replace(/\s/g, "0");
+        let insertedStr = inserted.sliceString(0);
+        if ((_a = ctx.settings) == null ? void 0 : _a.debug) {
+          console.log(
+            "[TransactionFilter] type, fromA, toA, changed, fromB, toB, inserted"
+          );
+          console.log(
+            changeTypeStr,
+            fromA,
+            toA,
+            changedStr,
+            fromB,
+            toB,
+            insertedStr
+          );
         }
-      }
-      if (ctx.settings.BetterCodeEdit && changeTypeStr.contains("paste") && fromA == fromB && isCodeBlockInPos(tr.startState, fromA)) {
-        print("\u68C0\u6D4B\u5230\u5728\u4EE3\u7801\u5757\u4E2D\u7C98\u8D34");
-        let line = tr.startState.doc.lineAt(fromB).text;
-        let base_indent_num = (_c = getCodeBlockInfoInPos(tr.startState, fromA)) == null ? void 0 : _c.indent;
-        let base_indent = base_indent_num == 0 ? "" : " ".repeat(base_indent_num);
-        let inserted_lines = insertedStr.split("\n");
-        if (inserted_lines.length > 1) {
-          let min_indent_space = Infinity;
-          for (let line2 of inserted_lines) {
-            if (!/^\s*$/.test(line2)) {
-              let indent = line2.match(/^\s*/)[0].length;
-              min_indent_space = Math.min(min_indent_space, indent);
-            }
-          }
-          let adjusted_lines = inserted_lines.map((line2, index) => {
-            let trimmed_line = line2.substring(min_indent_space);
-            trimmed_line = trimmed_line.replace(/[\t]/g, ctx.getDefaultIndentChar());
-            if (index === 0) {
-              return trimmed_line;
+        if (getPosLineType(tr.startState, fromA) == "table" /* table */) return tr;
+        if ((changeTypeStr == "input.type" || changeTypeStr == "input.type.compose") && fromA != toA && (fromB + 1 === toB || insertedStr == "\u2014\u2014" || insertedStr == "\u2026\u2026")) {
+          const selScope = detectRuleScope(tr.startState, fromA);
+          const selCtx = {
+            kind: "selectKey" /* SelectKey */,
+            docText: tr.startState.doc.toString(),
+            selection: { from: fromA, to: toA },
+            inserted: insertedStr,
+            changeType: changeTypeStr,
+            scopeHint: selScope.scope,
+            scopeLanguage: selScope.language,
+            key: insertedStr,
+            debug: (_b = ctx.settings) == null ? void 0 : _b.debug
+          };
+          const selResult = ctx.ruleEngine.process(selCtx);
+          if (selResult) {
+            const tabstopGroups = tabstopSpecsToTabstopGroups(
+              selResult.tabstops
+            );
+            if (tabstopGroups.length > 0) {
+              changes.push({
+                changes: {
+                  from: selResult.matchRange.from,
+                  to: selResult.matchRange.to,
+                  insert: selResult.newText
+                },
+                selection: tabstopGroups[0].toEditorSelection(),
+                effects: [addTabstopsEffect.of(tabstopGroups)],
+                userEvent: "EasyTyping.change"
+              });
             } else {
-              return base_indent + trimmed_line;
+              changes.push({
+                changes: {
+                  from: selResult.matchRange.from,
+                  to: selResult.matchRange.to,
+                  insert: selResult.newText
+                },
+                selection: { anchor: selResult.cursor },
+                userEvent: "EasyTyping.change"
+              });
             }
-          });
-          let new_insertedStr = adjusted_lines.join("\n");
-          changes.push({
-            changes: { from: fromA, to: toA, insert: new_insertedStr },
-            selection: { anchor: fromA + new_insertedStr.length },
-            userEvent: "EasyTyping.change"
-          });
-          tr = tr.startState.update(...changes);
-          return tr;
+            tr = tr.startState.update(...changes);
+            return tr;
+          }
         }
-      }
-      if (ctx.settings.SmartPaste && changeTypeStr.contains("paste") && fromA == fromB && fromA == tr.startState.doc.lineAt(toA).to) {
-        const lineContent = tr.startState.doc.lineAt(toA).text;
-        const listMatch = lineContent.match(/^(\s*)([-*+] \[.\]|[-*+]|\d+\.)\s/);
-        const quoteMatch = lineContent.match(/^(\s*)(>+)(\s)?/);
-        if (listMatch || quoteMatch) {
-          let prefix = listMatch ? listMatch[1] + listMatch[2] + " " : quoteMatch[1] + quoteMatch[2] + " ";
-          let indent_num = listMatch ? listMatch[1].length : quoteMatch[1].length;
-          let indent_str = indent_num == 0 ? "" : " ".repeat(indent_num);
+        if (ctx.settings.BetterCodeEdit && changeTypeStr.contains("paste") && fromA == fromB && isCodeBlockInPos(tr.startState, fromA)) {
+          print("\u68C0\u6D4B\u5230\u5728\u4EE3\u7801\u5757\u4E2D\u7C98\u8D34");
+          let line = tr.startState.doc.lineAt(fromB).text;
+          let base_indent_num = (_c = getCodeBlockInfoInPos(
+            tr.startState,
+            fromA
+          )) == null ? void 0 : _c.indent;
+          let base_indent = base_indent_num == 0 ? "" : " ".repeat(base_indent_num);
           let inserted_lines = insertedStr.split("\n");
-          let min_indent_space = Infinity;
-          for (let line of inserted_lines) {
-            if (!/^\s*$/.test(line)) {
-              let indent = line.match(/^\s*/)[0].length;
-              min_indent_space = Math.min(min_indent_space, indent);
+          if (inserted_lines.length > 1) {
+            let min_indent_space = Infinity;
+            for (let line2 of inserted_lines) {
+              if (!/^\s*$/.test(line2)) {
+                let indent = line2.match(/^\s*/)[0].length;
+                min_indent_space = Math.min(min_indent_space, indent);
+              }
             }
+            let adjusted_lines = inserted_lines.map(
+              (line2, index) => {
+                let trimmed_line = line2.substring(min_indent_space);
+                trimmed_line = trimmed_line.replace(
+                  /[\t]/g,
+                  ctx.getDefaultIndentChar()
+                );
+                if (index === 0) {
+                  return trimmed_line;
+                } else {
+                  return base_indent + trimmed_line;
+                }
+              }
+            );
+            let new_insertedStr = adjusted_lines.join("\n");
+            changes.push({
+              changes: { from: fromA, to: toA, insert: new_insertedStr },
+              selection: { anchor: fromA + new_insertedStr.length },
+              userEvent: "EasyTyping.change"
+            });
+            tr = tr.startState.update(...changes);
+            return tr;
           }
-          let paste_list = true;
-          for (let line of inserted_lines) {
-            if (line.match(/^(\s*)([-*+] \[.\]|[-*+]|\d+\.)\s/) || /^\s*$/.test(line)) {
-              continue;
+        }
+        if (ctx.settings.SmartPaste && changeTypeStr.contains("paste") && fromA == fromB && fromA == tr.startState.doc.lineAt(toA).to) {
+          const lineContent = tr.startState.doc.lineAt(toA).text;
+          const listMatch = lineContent.match(
+            /^(\s*)([-*+] \[.\]|[-*+]|\d+\.)\s/
+          );
+          const quoteMatch = lineContent.match(/^(\s*)(>+)(\s)?/);
+          if (listMatch || quoteMatch) {
+            let prefix = listMatch ? listMatch[1] + listMatch[2] + " " : quoteMatch[1] + quoteMatch[2] + " ";
+            let indent_num = listMatch ? listMatch[1].length : quoteMatch[1].length;
+            let indent_str = indent_num == 0 ? "" : " ".repeat(indent_num);
+            let inserted_lines = insertedStr.split("\n");
+            let min_indent_space = Infinity;
+            for (let line of inserted_lines) {
+              if (!/^\s*$/.test(line)) {
+                let indent = line.match(/^\s*/)[0].length;
+                min_indent_space = Math.min(min_indent_space, indent);
+              }
+            }
+            let paste_list = true;
+            for (let line of inserted_lines) {
+              if (line.match(/^(\s*)([-*+] \[.\]|[-*+]|\d+\.)\s/) || /^\s*$/.test(line)) {
+                continue;
+              } else {
+                let indent = line.match(/^\s*/)[0].length;
+                if (indent < min_indent_space + 2) {
+                  paste_list = false;
+                  break;
+                }
+              }
+            }
+            let adjusted_lines = [];
+            if (paste_list && listMatch) {
+              adjusted_lines = inserted_lines.map(
+                (line, index) => {
+                  let trimmed_line = line.substring(min_indent_space);
+                  trimmed_line = trimmed_line.replace(
+                    /[\t]/g,
+                    ctx.getDefaultIndentChar()
+                  );
+                  if (index === 0) {
+                    trimmed_line = trimmed_line.replace(
+                      /^([-*+] \[.\]|[-*+]|\d+\.)\s/,
+                      ""
+                    );
+                    return trimmed_line;
+                  } else {
+                    return indent_str + trimmed_line;
+                  }
+                }
+              );
             } else {
-              let indent = line.match(/^\s*/)[0].length;
-              if (indent < min_indent_space + 2) {
-                paste_list = false;
-                break;
-              }
+              adjusted_lines = inserted_lines.map(
+                (line, index) => {
+                  let trimmed_line = line.substring(min_indent_space);
+                  trimmed_line = trimmed_line.replace(
+                    /[\t]/g,
+                    ctx.getDefaultIndentChar()
+                  );
+                  if (index === 0) {
+                    return trimmed_line;
+                  } else {
+                    return prefix + trimmed_line;
+                  }
+                }
+              );
+            }
+            let new_insertedStr = adjusted_lines.join("\n");
+            changes.push({
+              changes: { from: fromA, to: toA, insert: new_insertedStr },
+              selection: { anchor: fromA + new_insertedStr.length },
+              userEvent: "EasyTyping.change"
+            });
+            tr = tr.startState.update(...changes);
+            return tr;
+          }
+        }
+        if (selected) return tr;
+        if (ctx.settings.TryFixMSIME && changeTypeStr == "input.type.compose" && changedStr == "" && /^[\u4e00-\u9fa5]+$/.test(insertedStr)) {
+          print("MS-IME Compose detected:", insertedStr);
+          tr = tr.startState.update(...changes);
+          return tr;
+        }
+        let codeblockinfo = getCodeBlockInfoInPos(tr.startState, toA);
+        if (ctx.settings.BetterCodeEdit && changeTypeStr == "delete.backward" && !selected && codeblockinfo && toA > tr.startState.doc.lineAt(codeblockinfo.start_pos).to) {
+          let line_number = tr.startState.doc.lineAt(toA).number;
+          let cur_line = tr.startState.doc.lineAt(toA);
+          let list_code_indent = codeblockinfo.indent;
+          if (list_code_indent !== 0) {
+            print("list_code, indent: ", list_code_indent);
+            if (toA == cur_line.from + list_code_indent) {
+              changes.push({
+                changes: {
+                  from: tr.startState.doc.line(line_number - 1).to,
+                  to: toA,
+                  insert: ""
+                },
+                userEvent: "EasyTyping.change"
+              });
+              tr = tr.startState.update(...changes);
+              return tr;
+            }
+            if (fromA >= cur_line.from && fromA < cur_line.from + list_code_indent && toA > cur_line.from + list_code_indent) {
+              changes.push({
+                changes: {
+                  from: cur_line.from + list_code_indent,
+                  to: toA,
+                  insert: ""
+                },
+                userEvent: "EasyTyping.change"
+              });
+              tr = tr.startState.update(...changes);
+              return tr;
             }
           }
-          let adjusted_lines = [];
-          if (paste_list && listMatch) {
-            adjusted_lines = inserted_lines.map((line, index) => {
-              let trimmed_line = line.substring(min_indent_space);
-              trimmed_line = trimmed_line.replace(/[\t]/g, ctx.getDefaultIndentChar());
-              if (index === 0) {
-                trimmed_line = trimmed_line.replace(/^([-*+] \[.\]|[-*+]|\d+\.)\s/, "");
-                return trimmed_line;
-              } else {
-                return indent_str + trimmed_line;
-              }
-            });
-          } else {
-            adjusted_lines = inserted_lines.map((line, index) => {
-              let trimmed_line = line.substring(min_indent_space);
-              trimmed_line = trimmed_line.replace(/[\t]/g, ctx.getDefaultIndentChar());
-              if (index === 0) {
-                return trimmed_line;
-              } else {
-                return prefix + trimmed_line;
-              }
-            });
-          }
-          let new_insertedStr = adjusted_lines.join("\n");
-          changes.push({
-            changes: { from: fromA, to: toA, insert: new_insertedStr },
-            selection: { anchor: fromA + new_insertedStr.length },
-            userEvent: "EasyTyping.change"
-          });
-          tr = tr.startState.update(...changes);
-          return tr;
         }
-      }
-      if (selected)
-        return tr;
-      if (ctx.settings.TryFixMSIME && changeTypeStr == "input.type.compose" && changedStr == "" && /^[\u4e00-\u9fa5]+$/.test(insertedStr)) {
-        print("MS-IME Compose detected:", insertedStr);
-        tr = tr.startState.update(...changes);
-        return tr;
-      }
-      let codeblockinfo = getCodeBlockInfoInPos(tr.startState, toA);
-      if (ctx.settings.BetterCodeEdit && changeTypeStr == "delete.backward" && !selected && codeblockinfo && toA > tr.startState.doc.lineAt(codeblockinfo.start_pos).to) {
-        let line_number = tr.startState.doc.lineAt(toA).number;
-        let cur_line = tr.startState.doc.lineAt(toA);
-        let list_code_indent = codeblockinfo.indent;
-        if (list_code_indent !== 0) {
-          print("list_code, indent: ", list_code_indent);
-          if (toA == cur_line.from + list_code_indent) {
-            changes.push({
-              changes: {
-                from: tr.startState.doc.line(line_number - 1).to,
-                to: toA,
-                insert: ""
-              },
-              userEvent: "EasyTyping.change"
-            });
-            tr = tr.startState.update(...changes);
-            return tr;
-          }
-          if (fromA >= cur_line.from && fromA < cur_line.from + list_code_indent && toA > cur_line.from + list_code_indent) {
-            changes.push({
-              changes: {
-                from: cur_line.from + list_code_indent,
-                to: toA,
-                insert: ""
-              },
-              userEvent: "EasyTyping.change"
-            });
+        if (changeTypeStr === "delete.backward") {
+          const delScope = detectRuleScope(tr.startState, toA);
+          const delCtx = {
+            kind: "delete" /* Delete */,
+            docText: tr.startState.doc.toString(),
+            selection: { from: toA, to: toA },
+            inserted: "",
+            changeType: changeTypeStr,
+            scopeHint: delScope.scope,
+            scopeLanguage: delScope.language,
+            debug: (_d = ctx.settings) == null ? void 0 : _d.debug
+          };
+          const delResult = ctx.ruleEngine.process(delCtx);
+          if (delResult) {
+            const tabstopGroups = tabstopSpecsToTabstopGroups(
+              delResult.tabstops
+            );
+            if (tabstopGroups.length > 0) {
+              changes.push({
+                changes: {
+                  from: delResult.matchRange.from,
+                  to: delResult.matchRange.to,
+                  insert: delResult.newText
+                },
+                selection: tabstopGroups[0].toEditorSelection(),
+                effects: [addTabstopsEffect.of(tabstopGroups)],
+                userEvent: "EasyTyping.change"
+              });
+            } else {
+              changes.push({
+                changes: {
+                  from: delResult.matchRange.from,
+                  to: delResult.matchRange.to,
+                  insert: delResult.newText
+                },
+                selection: { anchor: delResult.cursor },
+                userEvent: "EasyTyping.change"
+              });
+            }
             tr = tr.startState.update(...changes);
             return tr;
           }
         }
-      }
-      if (changeTypeStr === "delete.backward") {
-        const delScope = detectRuleScope(tr.startState, toA);
-        const delCtx = {
-          kind: "delete" /* Delete */,
-          docText: tr.startState.doc.toString(),
-          selection: { from: toA, to: toA },
-          inserted: "",
-          changeType: changeTypeStr,
-          scopeHint: delScope.scope,
-          scopeLanguage: delScope.language,
-          debug: (_d = ctx.settings) == null ? void 0 : _d.debug
-        };
-        const delResult = ctx.ruleEngine.process(delCtx);
-        if (delResult) {
-          const tabstopGroups = tabstopSpecsToTabstopGroups(delResult.tabstops);
-          if (tabstopGroups.length > 0) {
-            changes.push({
-              changes: {
-                from: delResult.matchRange.from,
-                to: delResult.matchRange.to,
-                insert: delResult.newText
-              },
-              selection: tabstopGroups[0].toEditorSelection(),
-              effects: [addTabstopsEffect.of(tabstopGroups)],
-              userEvent: "EasyTyping.change"
-            });
-          } else {
-            changes.push({
-              changes: {
-                from: delResult.matchRange.from,
-                to: delResult.matchRange.to,
-                insert: delResult.newText
-              },
-              selection: { anchor: delResult.cursor },
-              userEvent: "EasyTyping.change"
-            });
-          }
-          tr = tr.startState.update(...changes);
-          return tr;
-        }
-      }
-    });
-    return tr;
-  });
+      });
+      return tr;
+    }
+  );
 }
 function tryProcessInput(ctx, update, changeFrom, cursorPos, changeType = "input.type") {
   const lineType = getPosLineType(update.view.state, cursorPos);
-  if (lineType === "table" /* table */)
-    return false;
+  if (lineType === "table" /* table */) return false;
   if (!changeType.includes("paste") && changeType !== "unknown" && !ctx.pasteDetected && triggerCvtRule(ctx, update.view, cursorPos, changeType))
     return true;
-  if (!ctx.settings.AutoFormat || isCurrentFileExclude(ctx))
-    return false;
-  if (lineType !== "text" /* text */)
-    return false;
+  if (!ctx.settings.AutoFormat || isCurrentFileExclude(ctx)) return false;
+  if (lineType !== "text" /* text */) return false;
   if (changeType.includes("paste") || changeType === "unknown" || ctx.pasteDetected)
     return false;
   const insertedStr = update.view.state.doc.sliceString(changeFrom, cursorPos);
-  const changes = ctx.Formater.formatLineOfDoc(update.state, ctx.settings, changeFrom, cursorPos, insertedStr);
+  const changes = ctx.Formater.formatLineOfDoc(
+    update.state,
+    ctx.settings,
+    changeFrom,
+    cursorPos,
+    insertedStr
+  );
   if (changes) {
     const allSpecs = changes[0];
     if (allSpecs.length > 0) {
@@ -7320,11 +7616,22 @@ function tryProcessInput(ctx, update, changeFrom, cursorPos, changeType = "input
   }
   return false;
 }
+function getComposeState(ctx, view) {
+  let state = ctx.composeStates.get(view);
+  if (!state) {
+    state = {
+      compose_need_handle: false,
+      compose_begin_pos: 0,
+      compose_end_pos: 0
+    };
+    ctx.composeStates.set(view, state);
+  }
+  return state;
+}
 function createViewUpdatePlugin(ctx) {
   return import_view4.EditorView.updateListener.of((update) => {
     var _a;
-    if (ctx.onFormatArticle)
-      return;
+    if (ctx.onFormatArticle) return;
     if (hasTabstops(update.view)) {
       const cursor_changed = update.transactions.some((tr2) => tr2.selection);
       if ((update.docChanged || cursor_changed) && !update.view.composing && !isInsideCurTabstop(update.view)) {
@@ -7334,32 +7641,35 @@ function createViewUpdatePlugin(ctx) {
         removeAllTabstops(update.view);
       }
     }
-    const inTable = getPosLineType(update.view.state, update.view.state.selection.asSingle().main.anchor) === "table" /* table */;
-    if (inTable)
-      return;
+    const inTable = getPosLineType(
+      update.view.state,
+      update.view.state.selection.asSingle().main.anchor
+    ) === "table" /* table */;
+    if (inTable) return;
     if (update.view.composing) {
       if (update.docChanged) {
         let tr2 = update.transactions[0];
         tr2.changes.iterChanges((fromA2) => {
-          if (!ctx.compose_need_handle) {
-            ctx.compose_need_handle = true;
-            ctx.compose_begin_pos = fromA2;
+          const composeState2 = getComposeState(ctx, update.view);
+          if (!composeState2.compose_need_handle) {
+            composeState2.compose_need_handle = true;
+            composeState2.compose_begin_pos = fromA2;
           }
-          ctx.compose_end_pos = update.view.state.selection.asSingle().main.anchor;
+          composeState2.compose_end_pos = update.view.state.selection.asSingle().main.anchor;
         });
       }
       return;
     }
-    if (ctx.compose_need_handle) {
-      ctx.compose_need_handle = false;
+    const composeState = ctx.composeStates.get(update.view);
+    if (composeState && composeState.compose_need_handle) {
+      composeState.compose_need_handle = false;
       const cursor2 = update.view.state.selection.asSingle().main;
-      if (cursor2.head === cursor2.anchor && cursor2.anchor > ctx.compose_begin_pos) {
-        if (tryProcessInput(ctx, update, ctx.compose_begin_pos, cursor2.anchor))
+      if (cursor2.head === cursor2.anchor && cursor2.anchor > composeState.compose_begin_pos) {
+        if (tryProcessInput(ctx, update, composeState.compose_begin_pos, cursor2.anchor))
           return;
       }
     }
-    if (!update.docChanged)
-      return;
+    if (!update.docChanged) return;
     const tr = update.transactions[0];
     const changeType = getTypeStrOfTransac(tr);
     let fromA = 0, toA = 0, fromB = 0, toB = 0, insertedStr = "", changedStr = "";
@@ -7372,11 +7682,12 @@ function createViewUpdatePlugin(ctx) {
       changedStr = tr.startState.doc.sliceString(_fromA, _toA);
     });
     if ((_a = ctx.settings) == null ? void 0 : _a.debug) {
-      console.log("[ViewUpdate] type, fromA, toA, changed, fromB, toB, inserted");
+      console.log(
+        "[ViewUpdate] type, fromA, toA, changed, fromB, toB, inserted"
+      );
       console.log(changeType, fromA, toA, changedStr, fromB, toB, insertedStr);
     }
-    if (getPosLineType(update.view.state, fromB) === "table" /* table */)
-      return;
+    if (getPosLineType(update.view.state, fromB) === "table" /* table */) return;
     if (changeType.includes("EasyTyping") || changeType === "undo" || changeType === "redo")
       return;
     const cursor = update.view.state.selection.asSingle().main;
@@ -7388,14 +7699,19 @@ function createViewUpdatePlugin(ctx) {
     const isPaste = changeType.contains("paste") || ctx.pasteDetected;
     const isFormattedPaste = isPaste && !ctx.plainPasteInProgress;
     const isPlainPaste = isPaste && ctx.plainPasteInProgress;
-    if (isPlainPaste)
-      ctx.plainPasteInProgress = false;
+    if (isPlainPaste) ctx.plainPasteInProgress = false;
     const isExcludeFile = isCurrentFileExclude(ctx);
-    if (ctx.settings.AutoFormat && ctx.settings.AutoFormatPaste && !isExcludeFile && isFormattedPaste && !import_obsidian8.Platform.isIosApp) {
+    if (ctx.settings.AutoFormat && ctx.settings.AutoFormatPaste && !isExcludeFile && isFormattedPaste && !import_obsidian7.Platform.isIosApp) {
       let updateLineStart = update.state.doc.lineAt(fromB).number;
       let updateLineEnd = update.state.doc.lineAt(toB).number;
       if (updateLineStart === updateLineEnd && getPosLineType(update.view.state, toB) === "text" /* text */) {
-        let changes = ctx.Formater.formatLineOfDoc(update.state, { ...ctx.settings, AutoCapital: false }, fromB, toB, insertedStr);
+        let changes = ctx.Formater.formatLineOfDoc(
+          update.state,
+          { ...ctx.settings, AutoCapital: false },
+          fromB,
+          toB,
+          insertedStr
+        );
         if (changes) {
           update.view.dispatch(...changes[0]);
           return;
@@ -7406,7 +7722,13 @@ function createViewUpdatePlugin(ctx) {
         let update_start = fromB;
         for (let i = updateLineStart; i <= updateLineEnd; i++) {
           let real_inserted = inserted_array[i - updateLineStart];
-          let changes = ctx.Formater.formatLineOfDoc(update.state, { ...ctx.settings, AutoCapital: false }, update_start, update_start + real_inserted.length, real_inserted);
+          let changes = ctx.Formater.formatLineOfDoc(
+            update.state,
+            { ...ctx.settings, AutoCapital: false },
+            update_start,
+            update_start + real_inserted.length,
+            real_inserted
+          );
           if (changes) {
             all_changes.push(...changes[0]);
           }
@@ -7422,7 +7744,7 @@ function createViewUpdatePlugin(ctx) {
 }
 
 // src/main.ts
-var EasyTypingPlugin = class extends import_obsidian9.Plugin {
+var EasyTypingPlugin = class extends import_obsidian8.Plugin {
   constructor() {
     super(...arguments);
     this.pasteTimerId = null;
@@ -7435,12 +7757,11 @@ var EasyTypingPlugin = class extends import_obsidian9.Plugin {
     };
     this.getEditor = () => {
       let editor = null;
-      let markdownView = this.app.workspace.getActiveViewOfType(import_obsidian9.MarkdownView);
+      let markdownView = this.app.workspace.getActiveViewOfType(import_obsidian8.MarkdownView);
       if (markdownView) {
         editor = markdownView.editor;
       }
-      if (editor === null)
-        console.log("can't get editor");
+      if (editor === null) console.log("can't get editor");
       return editor;
     };
   }
@@ -7449,6 +7770,13 @@ var EasyTypingPlugin = class extends import_obsidian9.Plugin {
   }
   async onload() {
     await this.loadSettings();
+    if (this.settings.UserDefinedRegSwitch) {
+      const errors = getCustomRegexConfig(this.settings.UserDefinedRegExp).errors;
+      if (errors.length) {
+        const lines = errors.slice(0, 5).map((error) => error.line).join(", ") + (errors.length > 5 ? ", \u2026" : "");
+        new import_obsidian8.Notice(`EasyTyping: ${getLocale().settings.userDefinedRegexp.startupWarning.replace("{lines}", lines)}`, 8e3);
+      }
+    }
     this.ruleManager = new RuleManager(this.app, this.manifest, this.settings, () => this.saveSettings());
     await this.ruleManager.initRuleEngine();
     let TaboutPairStrs = [
@@ -7477,7 +7805,7 @@ var EasyTypingPlugin = class extends import_obsidian9.Plugin {
     ];
     this.TaboutPairStrs = TaboutPairStrs.map((s) => string2pairstring(s));
     this.CurActiveMarkdown = "";
-    this.compose_need_handle = false;
+    this.composeStates = /* @__PURE__ */ new WeakMap();
     this.Formater = new LineFormater();
     this.onFormatArticle = false;
     this.plainPasteInProgress = false;
@@ -7522,8 +7850,7 @@ var EasyTypingPlugin = class extends import_obsidian9.Plugin {
       {
         key: "Backspace",
         run: (v) => {
-          if (!this.settings.BetterBackspace)
-            return false;
+          if (!this.settings.BetterBackspace) return false;
           return handleBackspace(v);
         }
       },
@@ -7618,14 +7945,13 @@ var EasyTypingPlugin = class extends import_obsidian9.Plugin {
         if (file != null && this.CurActiveMarkdown != file.path) {
           this.CurActiveMarkdown = file.path;
           if ((_a = this.settings) == null ? void 0 : _a.debug)
-            new import_obsidian9.Notice("new md-file open: " + file.path);
+            new import_obsidian8.Notice("new md-file open: " + file.path);
         }
       }
     }));
-    if (import_obsidian9.Platform.isMacOS && this.settings.FixMacOSContextMenu) {
+    if (import_obsidian8.Platform.isMacOS && this.settings.FixMacOSContextMenu) {
       this.registerEvent(this.app.workspace.on("editor-menu", (menu, editor, view) => {
-        if (editor.listSelections().length != 1)
-          return;
+        if (editor.listSelections().length != 1) return;
         let selection = editor.listSelections()[0];
         let selected = editor.getSelection();
         if (selected == "\n") {
@@ -7636,21 +7962,16 @@ var EasyTypingPlugin = class extends import_obsidian9.Plugin {
     console.log("Easy Typing Plugin loaded.");
   }
   onunload() {
-    if (this.pasteTimerId)
-      clearTimeout(this.pasteTimerId);
-    if (this.configReloadTimerId)
-      clearTimeout(this.configReloadTimerId);
+    if (this.pasteTimerId) clearTimeout(this.pasteTimerId);
+    if (this.configReloadTimerId) clearTimeout(this.configReloadTimerId);
     console.log("Easy Typing Plugin unloaded.");
   }
   onConfigFileChange(path) {
-    if (Date.now() - this.ruleManager.lastSaveTime < 2e3)
-      return;
+    if (Date.now() - this.ruleManager.lastSaveTime < 2e3) return;
     const builtinRulesPath = this.ruleManager.pluginPath("builtin-rules.json");
     const userRulesPath = this.ruleManager.pluginPath("user-rules.json");
-    if (path !== builtinRulesPath && path !== userRulesPath)
-      return;
-    if (this.configReloadTimerId)
-      clearTimeout(this.configReloadTimerId);
+    if (path !== builtinRulesPath && path !== userRulesPath) return;
+    if (this.configReloadTimerId) clearTimeout(this.configReloadTimerId);
     this.configReloadTimerId = setTimeout(async () => {
       this.configReloadTimerId = null;
       try {
@@ -7665,10 +7986,8 @@ var EasyTypingPlugin = class extends import_obsidian9.Plugin {
   }
   markPaste(plain) {
     this.pasteDetected = true;
-    if (plain)
-      this.plainPasteInProgress = true;
-    if (this.pasteTimerId)
-      clearTimeout(this.pasteTimerId);
+    if (plain) this.plainPasteInProgress = true;
+    if (this.pasteTimerId) clearTimeout(this.pasteTimerId);
     this.pasteTimerId = setTimeout(() => {
       this.pasteDetected = false;
       this.plainPasteInProgress = false;
@@ -7682,6 +8001,10 @@ var EasyTypingPlugin = class extends import_obsidian9.Plugin {
     try {
       const userData = await this.loadData();
       this.settings = Object.assign({}, DEFAULT_SETTINGS, userData || {});
+      this.settings.UserDefinedRegExp = migrateLegacyDefaultRegexConfig(
+        this.settings.UserDefinedRegExp,
+        (userData == null ? void 0 : userData.UserPartSpace) !== false
+      );
     } catch (error) {
       console.error("EasyTyping: Failed to load settings, using defaults:", error);
       this.settings = Object.assign({}, DEFAULT_SETTINGS);

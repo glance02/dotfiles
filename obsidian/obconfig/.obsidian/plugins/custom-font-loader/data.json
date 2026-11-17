@@ -1,0 +1,15 @@
+{
+  "font_folder": ".obsidian/fonts/",
+  "interface_font": [
+    ".obsidian/fonts/STFANGSO.TTF"
+  ],
+  "text_font": [
+    ".obsidian/fonts/STFANGSO.TTF"
+  ],
+  "monospace_font": [
+    ".obsidian/fonts/JetBrainsMono-Regular.ttf"
+  ],
+  "extra_fonts": [],
+  "emoji_support": true,
+  "force_mode": false
+}

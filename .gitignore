@@ -32,3 +32,7 @@ rime-config/rime-ice
 
 # Obsidian remotely-save contains private connection and sync configuration.
 obsidian/obconfig/.obsidian/plugins/remotely-save/data.json
+
+# Obsidian current workspace state.
+obsidian/obconfig/.obsidian/workspace.json
+obsidian/obconfig/.obsidian/workspace-mobile.json

@@ -46,7 +46,7 @@ vim.g.neovide_cursor_antialiasing = true
 -- "torpedo"
 -- "pixiedust"
 -- "sonicboom"
-vim.g.neovide_cursor_vfx_mode = "railgun"
+vim.g.neovide_cursor_vfx_mode = "pixiedust"
 vim.g.neovide_cursor_vfx_particle_lifetime = 0.35
 vim.g.neovide_cursor_vfx_particle_density = 0.7
 vim.g.neovide_cursor_vfx_particle_speed = 10.0

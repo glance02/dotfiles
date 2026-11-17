@@ -91,6 +91,28 @@
       ],
       "env": [],
       "enabled": true
+    },
+    "bob-acp": {
+      "id": "bob-acp",
+      "displayName": "IBM Bob",
+      "apiKeySecretId": "",
+      "command": "bob",
+      "args": [
+        "acp"
+      ],
+      "env": [],
+      "enabled": true
+    },
+    "antigravity-cli": {
+      "id": "antigravity-cli",
+      "displayName": "Antigravity CLI",
+      "apiKeySecretId": "",
+      "command": "agy",
+      "args": [
+        "acp"
+      ],
+      "env": [],
+      "enabled": true
     }
   },
   "customAgents": [],
@@ -133,6 +155,14 @@
     "fontSize": 19
   },
   "savedSessions": [
+    {
+      "sessionId": "01a1ea86-16de-7de0-a610-705e574bdace",
+      "agentId": "codex-acp",
+      "cwd": "D:\\0作业\\文学\\novel",
+      "title": "看代码的等宽字体你推荐什么字体？",
+      "createdAt": "2026-11-17T17:21:19.204Z",
+      "updatedAt": "2026-11-17T17:25:34.824Z"
+    },
     {
       "sessionId": "01a1bb50-3a34-7cb2-9c27-7245901e9f7e",
       "agentId": "codex-acp",
@@ -213,7 +243,7 @@
     "y": 350
   },
   "floatingButtonPosition": {
-    "x": 976,
+    "x": 975,
     "y": 752
   }
 }

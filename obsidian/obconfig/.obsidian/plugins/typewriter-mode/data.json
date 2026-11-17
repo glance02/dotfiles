@@ -1,6 +1,6 @@
 {
   "general": {
-    "version": "1.5.0",
+    "version": "1.6.1",
     "isAnnounceUpdatesEnabled": true,
     "isPluginActivated": true,
     "isOnlyActivateAfterFirstInteractionEnabled": false,
@@ -23,7 +23,7 @@
     "maxCharsPerLine": 64
   },
   "dimming": {
-    "isDimUnfocusedEnabled": false,
+    "isDimUnfocusedEnabled": true,
     "isDimUnfocusedOnlyInWritingFocusModeEnabled": false,
     "isDimHighlightListParentEnabled": false,
     "isDimTableAsOneEnabled": true,
