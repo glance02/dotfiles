@@ -1,0 +1,358 @@
+# 灰蓝十八键 · 按用户提供的键盘截图定制。
+# 适用同文 Trime 3.3.13；字体与九宫格背景须一并复制。
+# 所有合并键发送现有 Xime 官方小鹤十八键方案使用的小写代表码。
+# 仓库同步说明和主题预览：others/themes/soft_blue_18/
+
+config_version: "1.0"
+name: 灰蓝十八键
+author: Codex
+
+style:
+  color_scheme: soft_blue_18_light
+  auto_caps: false
+  keyboards: [default, letter, number, symbols]
+  keyboard_height: 260
+  keyboard_height_land: 240
+  keyboard_padding: 4
+  keyboard_padding_bottom: 4
+  keyboard_padding_land: 16
+  keyboard_padding_land_bottom: 4
+  key_height: 65
+  key_width: 12.5
+  horizontal_gap: 5
+  vertical_gap: 8
+  round_corner: 14
+  key_font: [SoftBlue18.ttf]
+  key_text_size: 16
+  key_long_text_size: 16
+  symbol_font: []
+  symbol_text_size: 9
+  candidate_text_size: 21
+  candidate_view_height: 52
+  candidate_padding: 12
+  candidate_spacing: 0
+  comment_text_size: 10
+  comment_height: 12
+  comment_position: right
+  label_text_size: 12
+  preview_font: [SoftBlue18.ttf]
+  preview_text_size: 34
+  preview_height: 60
+  preview_offset: -14
+  shadow_radius: 0
+  background_folder: soft_blue_18
+  reset_ascii_mode_on_focus_change: false
+  enter_label_mode: 0
+
+preedit:
+  horizontal_padding: 12
+  top_start_radius: 12
+  top_end_radius: 12
+  foreground:
+    font_size: 16
+
+window:
+  corner_radius: 12
+  insets: {vertical: 6, horizontal: 10}
+  item_padding: {vertical: 4, horizontal: 6}
+  foreground:
+    label_font_size: 12
+    text_font_size: 20
+    comment_font_size: 12
+
+fallback_colors:
+  candidate_text_color: text_color
+
+preset_color_schemes:
+  soft_blue_18_light:
+    name: 灰蓝 · 日间
+    author: Codex
+    back_color: "#E6EAF3"
+    root_background: "#E6EAF3"
+    candidate_background: "#E6EAF3"
+    keyboard_back_color: panel_light.9.png
+    text_color: "#30343B"
+    candidate_text_color: "#30343B"
+    comment_text_color: "#8C929F"
+    label_color: "#8C929F"
+    border_color: "#DDE1ED"
+    candidate_separator_color: "#00FFFFFF"
+    hilited_text_color: "#1260FF"
+    hilited_back_color: "#DDE6FA"
+    hilited_candidate_text_color: "#1260FF"
+    hilited_candidate_back_color: "#DDE6FA"
+    hilited_comment_text_color: "#64769A"
+    hilited_label_color: "#1260FF"
+    key_back_color: key_light.9.png
+    key_text_color: "#30343B"
+    key_symbol_color: "#979CA6"
+    hilited_key_back_color: key_light_pressed.9.png
+    hilited_key_text_color: "#1260FF"
+    hilited_key_symbol_color: "#64769A"
+    off_key_back_color: key_function.9.png
+    off_key_text_color: "#30343B"
+    on_key_back_color: key_blue.9.png
+    on_key_text_color: "#FFFFFF"
+    function_back: key_function.9.png
+    function_pressed: key_function_pressed.9.png
+    return_back: key_blue.9.png
+    return_pressed: key_blue_pressed.9.png
+    return_text: "#FFFFFF"
+    toolbar_accent: "#1260FF"
+    preview_back_color: "#F8F8FA"
+    preview_text_color: "#1260FF"
+    text_back_color: "#F8F8FA"
+    long_text_back_color: "#F8F8FA"
+    shadow_color: "#00000000"
+  soft_blue_18_dark:
+    name: 灰蓝 · 夜间
+    author: Codex
+    back_color: "#272E3B"
+    root_background: "#272E3B"
+    candidate_background: "#272E3B"
+    keyboard_back_color: panel_dark.9.png
+    text_color: "#EDF1FA"
+    candidate_text_color: "#EDF1FA"
+    comment_text_color: "#A3ADBF"
+    label_color: "#A3ADBF"
+    border_color: "#202632"
+    candidate_separator_color: "#00FFFFFF"
+    hilited_text_color: "#9DBDFF"
+    hilited_back_color: "#3A4864"
+    hilited_candidate_text_color: "#9DBDFF"
+    hilited_candidate_back_color: "#3A4864"
+    hilited_comment_text_color: "#BECFF0"
+    hilited_label_color: "#9DBDFF"
+    key_back_color: key_dark.9.png
+    key_text_color: "#EDF1FA"
+    key_symbol_color: "#A3ADBF"
+    hilited_key_back_color: key_dark_pressed.9.png
+    hilited_key_text_color: "#9DBDFF"
+    hilited_key_symbol_color: "#BECFF0"
+    off_key_back_color: key_function_dark.9.png
+    off_key_text_color: "#EDF1FA"
+    on_key_back_color: key_blue_dark.9.png
+    on_key_text_color: "#14233E"
+    function_back: key_function_dark.9.png
+    function_pressed: key_function_dark_pressed.9.png
+    return_back: key_blue_dark.9.png
+    return_pressed: key_blue_dark_pressed.9.png
+    return_text: "#14233E"
+    toolbar_accent: "#80ABFF"
+    preview_back_color: "#424B5E"
+    preview_text_color: "#EDF1FA"
+    text_back_color: "#2F3542"
+    long_text_back_color: "#2F3542"
+    shadow_color: "#00000000"
+
+# 图标来自随主题提供的字体，不依赖不同 Android 版本的 Emoji 外观。
+tool_bar:
+  button_font: [SoftBlue18.ttf]
+  button_spacing: 18
+  primary_button:
+    foreground: {style: "\uE000", normal: return_text, font_size: 23}
+    background: {normal: toolbar_accent, corner_radius: 10}
+    action: SB_settings
+    long_press_action: SB_schemas
+  buttons:
+    - foreground: {style: "\uE001", normal: key_text_color, font_size: 25}
+      action: SB_theme
+    - foreground: {style: "\uE002", normal: key_text_color, font_size: 25}
+      action: SB_schemas
+    - foreground: {style: "\uE003", normal: key_text_color, font_size: 25}
+      action: SB_clipboard
+    - foreground: {style: "\uE004", normal: key_text_color, font_size: 25}
+      action: SB_color
+    - foreground: {style: "\uE005", normal: key_text_color, font_size: 25}
+      action: SB_undo
+    - foreground: {style: "\uE006", normal: key_text_color, font_size: 23}
+      action: SB_hide
+
+preset_keys:
+  SB_settings: {label: 设置, send: SETTINGS}
+  SB_theme: {label: 主题, send: SETTINGS, option: theme}
+  SB_schemas: {label: 方案, send: MENU}
+  SB_clipboard: {label: 剪贴板, send: FUNCTION, command: clipboard_window, option: "0"}
+  SB_color: {label: 配色, send: SETTINGS, option: color}
+  SB_undo: {label: 撤销, send: Control+z}
+  SB_hide: {label: 收起, send: BACK}
+  SB_symbols: {label: "\uE007", send: Eisu_toggle, select: symbols}
+  SB_number: {label: "123", send: Eisu_toggle, select: number}
+  SB_default: {label: 返回, send: Eisu_toggle, select: .default}
+  SB_mode: {label: 中/英, toggle: ascii_mode, send: SWITCH_CHARSET, states: [中/英, EN/中]}
+  SB_backspace: {label: "\uE00A", send: BackSpace, repeatable: true, functional: true}
+  SB_return: {label: "\uE009", send: Return, functional: true}
+  SB_space: {label: "\uE008", send: space, functional: false, slide_cursor: true}
+  SB_voice: {label: 语音, send: VOICE_ASSIST}
+  SB_shift: {label: "\uE00B", send: Shift_L, shift_lock: ascii_long, functional: true}
+  SB_select_all: {label: 全选, send: Control+a}
+  SB_copy: {label: 复制, send: Control+c}
+  SB_paste: {label: 粘贴, send: Control+v}
+  SB_home: {label: 段首, send: Control+Home}
+  SB_end: {label: 段尾, send: Control+End}
+  SB_cut: {label: 剪切, send: Control+x}
+  SB_hash: {label: "#", commit: "#"}
+  SB_colon: {label: ":", commit: ":"}
+  SB_semicolon: {label: ";", commit: ";"}
+  SB_slash: {label: /, commit: /}
+  SB_hyphen: {label: "-", commit: "-"}
+  SB_underscore: {label: _, commit: _}
+  SB_exclamation: {label: "!", commit: "!"}
+  SB_question: {label: "?", commit: "?"}
+  SB_tilde: {label: "~", commit: "~"}
+  SB_at: {label: "@", commit: "@"}
+  SB_apostrophe: {label: "'", send: apostrophe}
+
+preset_keyboards:
+  # 与 schema_id 同名，选用十八键方案时自动绑定。
+  double_pinyin_flypy_18:
+    import_preset: default
+  default:
+    name: 小鹤十八键
+    ascii_mode: 0
+    ascii_keyboard: letter
+    reset_ascii_mode: true
+    lock: true
+    width: 12.5
+    height: 65
+    key_text_offset_y: 3
+    key_symbol_offset_x: 12
+    key_symbol_offset_y: 36
+    key_hint_offset_x: 8
+    key_hint_offset_y: -39
+    keys:
+      - {click: q, label: Q, width: 12.5, long_click: SB_hash}
+      - {click: w, label: W E, width: 16.5, long_click: SB_colon}
+      - {click: r, label: R T, width: 16.5, long_click: SB_semicolon}
+      - {click: y, label: Y, width: 12.5, long_click: SB_apostrophe}
+      - {click: u, label: U, width: 12.5, long_click: SB_slash}
+      - {click: i, label: I O, width: 17, long_click: SB_hyphen}
+      - {click: p, label: P, width: 12.5, long_click: SB_underscore}
+      - {width: 6.5}
+      - {click: a, label: A, long_click: SB_exclamation}
+      - {click: s, label: S D, width: 16.5, long_click: "["}
+      - {click: f, label: F G, width: 16.5, long_click: "]"}
+      - {click: h, label: H, long_click: "="}
+      - {click: j, label: J K, width: 16.5, long_click: SB_tilde}
+      - {click: l, label: L, long_click: SB_question}
+      - {width: 6.5}
+      - {click: SB_apostrophe, label: "—'—", width: 15, key_text_size: 14, key_back_color: function_back, hilited_key_back_color: function_pressed}
+      - {click: z, label: Z, width: 12.5, hint: 全选, swipe_up: SB_select_all, long_click: SB_at}
+      - {click: x, label: X C, width: 16, hint: 复制, label_symbol: " ", swipe_up: SB_copy, long_click: SB_cut}
+      - {click: v, label: V, width: 12.5, hint: 粘贴, label_symbol: " ", swipe_up: SB_paste, long_click: SB_clipboard}
+      - {click: b, label: B N, width: 16, hint: 段首, label_symbol: " ", swipe_up: SB_home, long_click: Home}
+      - {click: m, label: M, width: 12.5, hint: 段尾, label_symbol: " ", swipe_up: SB_end, long_click: End}
+      - {click: SB_backspace, width: 15.5, key_text_size: 30, key_back_color: function_back, hilited_key_back_color: function_pressed}
+      - {click: SB_symbols, width: 15, key_text_size: 27, key_back_color: function_back, hilited_key_back_color: function_pressed}
+      - {click: SB_number, width: 11, key_text_size: 19, key_back_color: function_back, hilited_key_back_color: function_pressed}
+      - {click: ",", width: 10, long_click: SB_exclamation}
+      - {click: SB_space, width: 28, key_text_size: 39, hint: "space · voice", symbol_text_size: 5, label_symbol: " ", key_hint_offset_x: 26, key_hint_offset_y: -39, long_click: SB_voice, swipe_left: Left, swipe_right: Right}
+      - {click: ".", width: 10, long_click: SB_question}
+      - {click: SB_mode, width: 11, key_text_size: 12, key_back_color: function_back, hilited_key_back_color: function_pressed}
+      - {click: SB_return, width: 15, key_text_size: 31, key_back_color: return_back, hilited_key_back_color: return_pressed, key_text_color: return_text, hilited_key_text_color: return_text}
+  letter:
+    name: 英文全键盘
+    ascii_mode: 1
+    reset_ascii_mode: true
+    width: 10
+    height: 65
+    label_transform: uppercase
+    keys:
+      - {click: q, long_click: "1"}
+      - {click: w, long_click: "2"}
+      - {click: e, long_click: "3"}
+      - {click: r, long_click: "4"}
+      - {click: t, long_click: "5"}
+      - {click: y, long_click: "6"}
+      - {click: u, long_click: "7"}
+      - {click: i, long_click: "8"}
+      - {click: o, long_click: "9"}
+      - {click: p, long_click: "0"}
+      - {width: 5}
+      - {click: a}
+      - {click: s}
+      - {click: d}
+      - {click: f}
+      - {click: g}
+      - {click: h}
+      - {click: j}
+      - {click: k}
+      - {click: l}
+      - {width: 5}
+      - {click: SB_shift, width: 15, key_back_color: function_back, hilited_key_back_color: function_pressed}
+      - {click: z, swipe_up: SB_select_all}
+      - {click: x, swipe_up: SB_cut}
+      - {click: c, swipe_up: SB_copy}
+      - {click: v, swipe_up: SB_paste}
+      - {click: b}
+      - {click: n}
+      - {click: m}
+      - {click: SB_backspace, width: 15, key_text_size: 28, key_back_color: function_back, hilited_key_back_color: function_pressed}
+      - {click: SB_symbols, width: 15, key_text_size: 27, key_back_color: function_back, hilited_key_back_color: function_pressed}
+      - {click: SB_number, width: 11, key_text_size: 19, key_back_color: function_back, hilited_key_back_color: function_pressed}
+      - {click: ",", width: 10}
+      - {click: SB_space, width: 28, key_text_size: 39, long_click: SB_voice, swipe_left: Left, swipe_right: Right}
+      - {click: ".", width: 10}
+      - {click: SB_mode, width: 11, key_text_size: 12, key_back_color: function_back, hilited_key_back_color: function_pressed}
+      - {click: SB_return, width: 15, key_text_size: 31, key_back_color: return_back, hilited_key_back_color: return_pressed, key_text_color: return_text, hilited_key_text_color: return_text}
+  number:
+    name: 数字
+    ascii_mode: 0
+    width: 20
+    height: 65
+    keys:
+      - {click: "+"}
+      - {click: "1"}
+      - {click: "2"}
+      - {click: "3"}
+      - {click: SB_backspace, key_text_size: 28, key_back_color: function_back, hilited_key_back_color: function_pressed}
+      - {click: "-"}
+      - {click: "4"}
+      - {click: "5"}
+      - {click: "6"}
+      - {click: SB_copy, key_text_size: 13, key_back_color: function_back, hilited_key_back_color: function_pressed}
+      - {click: "*"}
+      - {click: "7"}
+      - {click: "8"}
+      - {click: "9"}
+      - {click: SB_paste, key_text_size: 13, key_back_color: function_back, hilited_key_back_color: function_pressed}
+      - {click: SB_symbols, key_text_size: 27, key_back_color: function_back, hilited_key_back_color: function_pressed}
+      - {click: "."}
+      - {click: "0"}
+      - {click: SB_default, key_text_size: 13, key_back_color: function_back, hilited_key_back_color: function_pressed}
+      - {click: SB_return, key_text_size: 31, key_back_color: return_back, hilited_key_back_color: return_pressed, key_text_color: return_text, hilited_key_text_color: return_text}
+  symbols:
+    name: 常用符号
+    ascii_mode: 0
+    width: 12.5
+    height: 65
+    keys:
+      - {click: "！"}
+      - {click: "？"}
+      - {click: "，"}
+      - {click: "。"}
+      - {click: "、"}
+      - {click: "："}
+      - {click: "；"}
+      - {click: SB_backspace, key_text_size: 28, key_back_color: function_back, hilited_key_back_color: function_pressed}
+      - {click: "（"}
+      - {click: "）"}
+      - {click: "【"}
+      - {click: "】"}
+      - {click: "《"}
+      - {click: "》"}
+      - {click: "“"}
+      - {click: "”"}
+      - {click: SB_at}
+      - {click: SB_hash}
+      - {click: "$"}
+      - {click: "%"}
+      - {click: "&"}
+      - {click: SB_underscore}
+      - {click: SB_slash}
+      - {click: "\\"}
+      - {click: SB_number, width: 15, key_text_size: 19, key_back_color: function_back, hilited_key_back_color: function_pressed}
+      - {click: SB_default, width: 15, key_text_size: 13, key_back_color: function_back, hilited_key_back_color: function_pressed}
+      - {click: SB_space, width: 40, key_text_size: 39}
+      - {click: SB_clipboard, width: 15, key_text_size: 12, key_back_color: function_back, hilited_key_back_color: function_pressed}
+      - {click: SB_return, width: 15, key_text_size: 31, key_back_color: return_back, hilited_key_back_color: return_pressed, key_text_color: return_text, hilited_key_text_color: return_text}
