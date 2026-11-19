@@ -1,5 +1,42 @@
-# Xime keyboard override for 雾凇拼音·小鹤双拼18键
-# 如果你已经有 xime.custom.yaml，请把下面的 keyboard.qwerty_18 段合并进去，不要直接覆盖原文件。
+# Xime 小鹤十八键：采用官方方案库的四行布局和功能键手势。
+# https://github.com/ximeiorg/rime-wbpy-full/blob/main/xime.custom.yaml
+# 字母键沿用 App 内置定义，功能键在本段补齐，兼容旧版合并键布局。
 keyboard:
   qwerty_18:
-    schemas: [double_pinyin_flypy_18]
+    schemas: [double_pinyin_flypy_18, double_pinyin_flypy_18jian]
+    button_layout: standard
+    layout:
+      row_align: stretch
+      rows:
+        - [q, [w, e], [r, t], y, u, [i, o], p]
+        - [a, [s, d], [f, g], h, [j, k], l]
+        - [shift, z, [x, c], v, [b, n], m, delete]
+        - [mode_change, comma, space, earth, enter]
+    keys:
+      shift:
+        width: 1
+        tap: { action: command, value: shift_single }
+        double_tap: { action: command, value: shift_caps }
+      delete:
+        width: 1
+        tap: { action: delete }
+        long_press: { values: [{ action: delete, label: 删除 }] }
+        swipe_up: { action: clear_all, label: 上滑清空 }
+        swipe_down: { action: undo_clear, label: 下滑撤回 }
+        swipe_left: { action: command, value: clear_composition }
+        swipe_right: { action: command, value: clear_composition }
+      mode_change:
+        width: 1.2
+        tap: { action: command, value: mode_change, bubble: false }
+        long_press:
+          display: bubble
+          values:
+            - { label: number, action: command, value: mode_change_number }
+            - { label: common_symbol, action: command, value: mode_change_common_symbol }
+      space:
+        width: 3
+        tap: { action: space }
+        long_press: { label: 语音, action: voice, bubble: false }
+      enter:
+        width: 1.2
+        tap: { action: enter, bubble: false }
