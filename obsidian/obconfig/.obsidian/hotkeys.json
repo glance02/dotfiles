@@ -95,5 +95,22 @@
       ],
       "key": "R"
     }
+  ],
+  "word-smith:toggle-zen": [
+    {
+      "modifiers": [
+        "Alt"
+      ],
+      "key": "P"
+    }
+  ],
+  "markdown:toggle-preview": [],
+  "word-smith:quick-file-explorer": [
+    {
+      "modifiers": [
+        "Mod"
+      ],
+      "key": "E"
+    }
   ]
 }

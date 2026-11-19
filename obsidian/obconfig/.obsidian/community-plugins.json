@@ -1,11 +1,10 @@
 [
   "remotely-save",
-  "typewriter-mode",
   "custom-font-loader",
-  "paragraph-break",
   "agent-client",
   "obsidian-git",
   "word-count-calendar",
   "easy-typing-obsidian",
-  "cursor-smith"
+  "cursor-smith",
+  "word-smith"
 ]
